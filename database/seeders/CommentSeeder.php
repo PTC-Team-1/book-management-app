@@ -35,7 +35,7 @@ class CommentSeeder extends Seeder
                 'rating' => 1,
             ],
             [
-                'email' => null,
+                'email' => 'sato@example.com',
                 'book_title' => '羅生門',
                 'content' => '人間の心理について深く考えさせられました。',
                 'rating' => 2,
