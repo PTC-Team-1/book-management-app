@@ -1,4 +1,3 @@
-
 @extends('layouts.general')
 
 @section('title', 'トップページ')

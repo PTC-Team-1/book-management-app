@@ -8,6 +8,7 @@ use App\Http\Controllers\BookSearchController;
 use App\Http\Controllers\CommentCreateController;
 use App\Http\Controllers\CommentDeleteController;
 use App\Http\Controllers\CommentEditController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\RentalController;
 use App\Http\Controllers\UserCreateController;
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 // 一般社員・総務部社員共通
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', [IndexController::class, 'index']);
+    Route::get('/', [HomeController::class, 'index'])->name('home');
     // 書籍検索
     Route::get('/books/search', [BookSearchController::class, 'search']);
     // 書籍詳細
