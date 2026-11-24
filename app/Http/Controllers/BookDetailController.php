@@ -25,6 +25,6 @@ class BookDetailController extends Controller
             'hasRentalRequst' => $hasRentalRequst
         ];
 
-        return view('book-detail', $data);
+        return view('books.detail', $data);
     }
 }

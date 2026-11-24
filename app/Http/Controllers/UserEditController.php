@@ -12,7 +12,7 @@ class UserEditController extends Controller
     public function edit(Request $request)
     {
         if ($request->isMethod('get')) {
-            return view('user-edit');
+            return view('users.edit');
         }
 
         $userId = $request->input('id');
@@ -20,7 +20,7 @@ class UserEditController extends Controller
         $data = [
             'user' => $userData
         ];
-        return view('user-edit', $data);
+        return view('users.edit', $data);
     }
 
     public function update(Request $request)
@@ -43,6 +43,6 @@ class UserEditController extends Controller
             'user' => $validatedData,
         ];
 
-        return view('user-update', $data);
+        return view('users.update', $data);
     }
 }

@@ -10,7 +10,7 @@ class BookEditController extends Controller
     public function edit(Request $request)
     {
         if ($request->isMethod('get')) {
-            return view('book-edit');
+            return view('books.edit');
         }
 
         $bookId = $request->input('id');
@@ -18,7 +18,7 @@ class BookEditController extends Controller
         $data = [
             'book' => $bookData
         ];
-        return view('book-edit', $data);
+        return view('books.edit', $data);
     }
 
     public function update(Request $request)
@@ -49,6 +49,6 @@ class BookEditController extends Controller
             'book' => $validatedData,
         ];
 
-        return view('book-update', $data);
+        return view('books.update', $data);
     }
 }

@@ -9,7 +9,7 @@ class UserCreateController extends Controller
 {
     public function create()
     {
-        return view('user-create');
+        return view('users.create');
     }
 
     public function store(Request $request)
@@ -33,6 +33,6 @@ class UserCreateController extends Controller
             'user' => $validatedData,
         ];
 
-        return view('user-store', $data);
+        return view('users.store', $data);
     }
 }

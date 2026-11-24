@@ -10,7 +10,7 @@ class BookDeleteController extends Controller
     public function erase(Request $request) {
         
         if ($request->isMethod('get')) {
-            return view('book-erase');
+            return view('books.erase');
         }
 
         $bookId = $request->input('id');
@@ -18,7 +18,7 @@ class BookDeleteController extends Controller
         $data = [
             'book' => $bookData
         ];
-        return view('book-erase', $data);
+        return view('books.erase', $data);
     }
 
     public function delete(Request $request) {
@@ -32,6 +32,6 @@ class BookDeleteController extends Controller
             'book' => $book
         ];
 
-        return view('book-delete', $data);
+        return view('books.delete', $data);
     }
 }

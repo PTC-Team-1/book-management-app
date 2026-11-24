@@ -11,7 +11,7 @@ class BookCreateController extends Controller
 {
     public function create()
     {
-        return view('book-create');
+        return view('books.create');
     }
 
     public function store(Request $request)
@@ -42,6 +42,6 @@ class BookCreateController extends Controller
             'book' => $validatedData,
         ];
 
-        return view('book-store', $data);
+        return view('books.store', $data);
     }
 }

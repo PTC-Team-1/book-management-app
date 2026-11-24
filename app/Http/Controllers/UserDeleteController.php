@@ -10,7 +10,7 @@ class UserDeleteController extends Controller
     public function erase(Request $request) {
         
         if ($request->isMethod('get')) {
-            return view('user-erase');
+            return view('users.erase');
         }
 
         $userId = $request->input('id');
@@ -18,7 +18,7 @@ class UserDeleteController extends Controller
         $data = [
             'user' => $userData
         ];
-        return view('user-erase', $data);
+        return view('users.erase', $data);
     }
 
     public function delete(Request $request) {
@@ -32,6 +32,6 @@ class UserDeleteController extends Controller
             'user' => $user
         ];
 
-        return view('user-delete', $data);
+        return view('users.delete', $data);
     }
 }

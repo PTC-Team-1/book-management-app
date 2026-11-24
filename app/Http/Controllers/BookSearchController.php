@@ -18,6 +18,6 @@ class BookSearchController extends Controller
             'keyword' => $title
         ];
 
-        return view('book-search', $data);
+        return view('books.search', $data);
     }
 }

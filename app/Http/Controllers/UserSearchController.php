@@ -10,7 +10,7 @@ class UserSearchController extends Controller
     public function search(Request $request)
     {
         if ($request->isMethod('get')) {
-            return view('user-search');
+            return view('users.search');
         }
 
         $query = User::query();
@@ -24,6 +24,6 @@ class UserSearchController extends Controller
             'users' => $users
         ];
 
-        return view('user-search', $data);
+        return view('users.search', $data);
     }
 }

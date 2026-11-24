@@ -16,7 +16,7 @@ class RentalController extends Controller
             'rentalRequests' => $rentalRequests
         ];
 
-        return view('rental-request-show', $data);
+        return view('rental-requests.show', $data);
     }
 
     public function approve(Request $request)
@@ -62,6 +62,6 @@ class RentalController extends Controller
             'book' => $book
         ];
 
-        return view('rental-request-complete', $data);
+        return view('rental-requests.complete', $data);
     }
 }
