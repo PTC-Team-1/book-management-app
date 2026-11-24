@@ -21,7 +21,7 @@ class BookDetailController extends Controller
 
         $data = [
             'book' => $book,
-            'comments' => $book->comments()->with('user')->get(),
+            'comments' => $book->comments()->with('user')->latest()->get(),
             'hasRentalRequst' => $hasRentalRequst
         ];
 
