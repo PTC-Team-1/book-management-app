@@ -194,6 +194,9 @@
                             {{ $comment->rating }} / 5
                         </small>
                     </div>
+                    <div class="text-secondary small mb-3">
+                        投稿日時：{{ $comment->created_at->format('Y/m/d') }}
+                    </div>
 
                     <!-- コメント内容 -->
                     <p class="mb-0 text-break">
