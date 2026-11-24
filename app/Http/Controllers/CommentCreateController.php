@@ -15,7 +15,7 @@ class CommentCreateController extends Controller
             'book_id' => $book->id
         ];
 
-        return view('comment-create', $data);
+        return view('comments.create', $data);
     }
 
     public function store(Request $request, Book $book)
@@ -39,6 +39,6 @@ class CommentCreateController extends Controller
             'book' => $book,
         ];
 
-        return view('comment-store', $data);
+        return view('comments.store', $data);
     }
 }

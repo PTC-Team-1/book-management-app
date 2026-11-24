@@ -16,7 +16,7 @@ class CommentEditController extends Controller
             'book_id' => $request->query('book_id'),
         ];
 
-        return view('comment-edit', $data);
+        return view('comments.edit', $data);
     }
 
     public function update(Request $request)
@@ -40,6 +40,6 @@ class CommentEditController extends Controller
             'comment' => $validatedData,
         ];
 
-        return view('comment-update', $data);
+        return view('comments.update', $data);
     }
 }

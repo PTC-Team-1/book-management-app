@@ -18,7 +18,7 @@ class CommentDeleteController extends Controller
             'book_id' => $bookId,
             'user_id' => $userId
         ];
-        return view('comment-erase', $data);
+        return view('comments.erase', $data);
     }
 
     public function delete(Request $request) {
@@ -32,6 +32,6 @@ class CommentDeleteController extends Controller
             'comment' => $comment
         ];
 
-        return view('comment-delete', $data);
+        return view('comments.delete', $data);
     }
 }
