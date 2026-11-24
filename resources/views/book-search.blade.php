@@ -76,7 +76,7 @@
                         </div>
 
                         <div class="card-footer bg-white border-0 p-3">
-                            <a href="/books/{{ $book['id'] }}"
+                            <a href="{{ route('books.detail', ['book' => $book->id]) }}"
                                class="btn btn-outline-primary btn-sm w-100">
                                 詳細を見る
                             </a>
@@ -96,11 +96,4 @@
         </div>
 
     @endif
-
-    <div class="mt-4">
-        <a href="/" class="btn btn-outline-secondary">
-            トップページへ戻る
-        </a>
-    </div>
-
 @endsection

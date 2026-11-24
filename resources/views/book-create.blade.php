@@ -17,7 +17,7 @@
     <div class="card border-0 shadow-sm">
         <div class="card-body p-4">
 
-            <form action="/admin/books/store" method="POST">
+            <form action="{{ route('admin.books.store') }}" method="POST">
                 @csrf
 
                 <div class="row g-4">
@@ -35,6 +35,7 @@
                             placeholder="書籍名を入力してください"
                             value="{{ old('title') }}"
                             required
+                            autofocus
                         >
                     </div>
 
@@ -134,7 +135,7 @@
                 <!-- ボタン -->
                 <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
 
-                    <a href="/admin/users"
+                    <a href="{{ route('admin.users.index') }}"
                        class="btn btn-outline-secondary">
                         キャンセル
                     </a>

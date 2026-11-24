@@ -84,12 +84,12 @@
             <!-- 削除ボタン -->
             <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
 
-                <a href="/admin/books/{{ $book_id }}"
+                <a href="{{ route('books.detail', ['book' => $comment->book_id]) }}"
                    class="btn btn-outline-secondary">
                     キャンセル
                 </a>
 
-                <form action="/books/comments/delete" method="POST">
+                <form action="{{ route('books.comments.destroy') }}" method="POST">
                     @csrf
 
                     <input

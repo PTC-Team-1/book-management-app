@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class UserEditController extends Controller
 {
@@ -26,7 +28,7 @@ class UserEditController extends Controller
         $validatedData = $request->validate([
             'id' => ['required', 'exists:users,id'],
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'email' => ['required', 'email'],
             'role' => ['required', 'in:general,admin'],
         ]);
 

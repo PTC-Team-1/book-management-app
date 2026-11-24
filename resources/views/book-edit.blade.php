@@ -27,7 +27,7 @@
 
             <div class="card-body p-4">
 
-                <form action="/admin/books/update" method="POST">
+                <form action="{{ route('admin.books.update') }}" method="POST">
                     @csrf
 
                     <input type="hidden" name="id" value="{{ $book->id }}">
@@ -190,7 +190,7 @@
                     <!-- ボタン -->
                     <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
 
-                        <a href="/admin/books/edit"
+                        <a href="{{ route('admin.books.edit') }}"
                            class="btn btn-outline-secondary">
                             キャンセル
                         </a>
@@ -221,7 +221,7 @@
                     編集したい書籍のIDを入力してください。
                 </p>
 
-                <form action="/admin/books/edit" method="POST">
+                <form action="{{ route('admin.books.edit') }}" method="POST">
                     @csrf
 
                     <div class="mb-4">
@@ -248,13 +248,7 @@
                         @enderror
                     </div>
 
-                    <div class="d-flex justify-content-end gap-2">
-
-                        <a href="/admin/users"
-                           class="btn btn-outline-secondary">
-                            キャンセル
-                        </a>
-
+                    <div class="d-flex justify-content-end ">
                         <button type="submit" class="btn btn-primary">
                             書籍を検索する
                         </button>

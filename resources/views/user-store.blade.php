@@ -77,7 +77,7 @@
 
             <!-- 戻るボタン -->
             <div class="d-flex justify-content-end mt-4 pt-3 border-top">
-                <a href="/admin/users/create" class="btn btn-primary">
+                <a href="{{ route('admin.users.create') }}" class="btn btn-primary">
                     社員登録ページへ戻る
                 </a>
             </div>

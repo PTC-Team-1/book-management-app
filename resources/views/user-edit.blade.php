@@ -1,4 +1,3 @@
-
 @extends('layouts.admin')
 @section('title', '社員データ編集ページ')
 
@@ -17,7 +16,7 @@
             </div>
 
             <div class="card-body p-4">
-                <form action="/admin/users/update" method="POST">
+                <form action="{{ route('admin.users.update') }}" method="POST">
                     @csrf
                     <input type="hidden" name="id" value="{{ $user->id }}">
 
@@ -52,10 +51,12 @@
                     </div>
 
                     <div class="d-flex justify-content-end gap-2 pt-3 border-top">
-                        <a href="/admin/users/edit" class="btn btn-outline-secondary">
+                        <a href="{{ route('admin.users.edit') }}" class="btn btn-outline-secondary">
                             キャンセル
                         </a>
-                        <input type="submit" class="btn btn-primary" value="社員情報更新">
+                        <button type="submit" class="btn btn-primary">
+                            社員情報更新
+                        </button>
                     </div>
                 </form>
             </div>
@@ -73,7 +74,7 @@
                     編集する社員のIDを入力してください。
                 </p>
 
-                <form action="/admin/users/edit" method="POST">
+                <form action="{{ route('admin.users.edit.search') }}" method="POST">
                     @csrf
                     <div class="mb-4">
                         <label for="id" class="form-label fw-semibold">社員ID</label>

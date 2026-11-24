@@ -8,7 +8,7 @@
     <nav aria-label="breadcrumb" class="mb-4">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="/" class="text-decoration-none">トップページ</a>
+                <a href="{{ route('home') }}" class="text-decoration-none">トップページ</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
                 書籍詳細
@@ -145,7 +145,7 @@
                     {{ $comments->count() }} 件
                 </span>
 
-                <a href="/books/comments/create?book_id={{ $book['id'] }}"
+                <a href="{{ route('books.comments.create', ['book' => $book->id]) }}"
                    class="btn btn-primary">
                     コメントを追加
                 </a>

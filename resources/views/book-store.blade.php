@@ -1,4 +1,3 @@
-
 @extends('layouts.admin')
 
 @section('title', '書籍登録完了')
@@ -127,7 +126,7 @@
 
             <!-- 戻るボタン -->
             <div class="d-flex justify-content-end mt-4 pt-3 border-top">
-                <a href="/admin/books/create" class="btn btn-primary">
+                <a href="{{ route('admin.books.create') }}" class="btn btn-primary">
                     書籍登録ページへ戻る
                 </a>
             </div>

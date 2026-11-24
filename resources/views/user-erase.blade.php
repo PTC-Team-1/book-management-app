@@ -51,19 +51,20 @@
 
                 <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
 
-                    <a href="/admin/users/erase" class="btn btn-outline-secondary">
+                    <a href="{{ route('admin.users.delete.confirm') }}" class="btn btn-outline-secondary">
                         キャンセル
                     </a>
 
-                    <form action="/admin/users/delete" method="POST">
+                    <form action="{{ route('admin.users.destroy') }}" method="POST">
                         @csrf
                         <input type="hidden" name="id" value="{{ $user['id'] }}">
 
-                        <input
+                        <button
                             type="submit"
                             class="btn btn-danger"
-                            value="社員データを削除"
                         >
+                        社員データを削除
+                    </button>
                     </form>
 
                 </div>
@@ -84,7 +85,7 @@
                     削除したい社員のIDを入力してください。
                 </p>
 
-                <form action="/admin/users/erase" method="POST">
+                <form action="{{ route('admin.users.delete.search') }}" method="POST">
                     @csrf
                     <div class="mb-4">
                         <label for="id" class="form-label fw-semibold">
@@ -104,11 +105,12 @@
                     </div>
 
                     <div class="d-flex justify-content-end">
-                        <input
+                        <button
                             type="submit"
                             class="btn btn-primary"
-                            value="社員情報検索"
                         >
+                        社員情報検索
+                        </button>
                     </div>
 
                 </form>

@@ -25,7 +25,7 @@
 
         <div class="card-body p-4">
 
-            <form action="/books/comments/update" method="POST">
+            <form action="{{ route('books.comments.update') }}" method="POST">
                 @csrf
 
                 <input type="hidden" name="id" value="{{ $comment->id }}">
@@ -122,8 +122,7 @@
 
                 <!-- ボタン -->
                 <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
-
-                    <a href="/books/{{ $book_id }}"
+                    <a href="{{ route('books.detail', ['book' => $book_id]) }}"
                        class="btn btn-outline-secondary">
                         キャンセル
                     </a>

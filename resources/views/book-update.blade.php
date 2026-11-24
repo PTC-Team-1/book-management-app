@@ -92,7 +92,7 @@
 
             <!-- 戻るボタン -->
             <div class="d-flex justify-content-end mt-4 pt-3 border-top">
-                <a href="/admin/books/edit" class="btn btn-primary">
+                <a href="{{ route('admin.books.edit') }}" class="btn btn-primary">
                     書籍検索ページへ戻る
                 </a>
             </div>

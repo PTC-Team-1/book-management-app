@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\RentalStatus;
 use App\Models\Book;
 use Illuminate\Http\Request;
+
 
 class BookCreateController extends Controller
 {
@@ -32,6 +34,7 @@ class BookCreateController extends Controller
         $book->published_date = $validatedData['published_date'];
         $book->description = $validatedData['description'];
         $book->thumbnail = $validatedData['thumbnail'];
+        $book->rental_status_id = RentalStatus::AVAILABLE;
 
         $book->save();
 

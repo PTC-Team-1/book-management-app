@@ -17,22 +17,8 @@
     <div class="card border-0 shadow-sm">
         <div class="card-body p-4">
 
-            <form action="/books/comments/store" method="POST">
+            <form action="{{ route('books.comments.store', ['book' => $book_id]) }}" method="POST">
                 @csrf
-
-                <!-- 書籍ID・ユーザーID -->
-                <input
-                    type="hidden"
-                    name="book_id"
-                    value="{{ $bookId }}"
-                >
-
-                <input
-                    type="hidden"
-                    name="user_id"
-                    value="4"
-                >
-
                 <div class="row g-4">
 
                     <!-- 星評価 -->
@@ -98,7 +84,7 @@
                 <!-- ボタン -->
                 <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
 
-                    <a href="/admin/books/{{ $bookId }}"
+                    <a href="/books/{{ $book_id }}"
                        class="btn btn-outline-secondary">
                         キャンセル
                     </a>

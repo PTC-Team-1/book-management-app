@@ -35,9 +35,9 @@ Route::middleware(['auth'])->group(function () {
         ->name('books.detail');
 
     // コメント作成
-    Route::get('/books/comments/create', [CommentCreateController::class, 'create'])
+    Route::get('/books/{book}/comments/create', [CommentCreateController::class, 'create'])
         ->name('books.comments.create');
-    Route::post('/books/comments/store', [CommentCreateController::class, 'store'])
+    Route::post('/books/{book}/comments/store', [CommentCreateController::class, 'store'])
         ->name('books.comments.store');
 
     // コメント編集

@@ -22,7 +22,7 @@
 
         <div class="card-body p-4">
 
-            <form action="/admin/users/store" method="POST">
+            <form action="{{ route('admin.users.store') }}" method="POST">
                 @csrf
 
                 <div class="row g-4">
@@ -42,6 +42,7 @@
                             value="{{ old('name') }}"
                             placeholder="社員名を入力してください"
                             required
+                            autofocus
                         >
 
                         @error('name')
@@ -147,11 +148,6 @@
 
                 <!-- ボタン -->
                 <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
-
-                    <a href="/admin/users" class="btn btn-outline-secondary">
-                        キャンセル
-                    </a>
-
                     <button type="submit" class="btn btn-primary">
                         社員を登録する
                     </button>

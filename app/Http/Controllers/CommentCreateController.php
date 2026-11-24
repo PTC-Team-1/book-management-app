@@ -2,42 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommentCreateController extends Controller
 {
-    public function create(Request $request)
+    public function create(Book $book)
     {
-        $bookId = $request->validate([
-            'book_id' => 'required|exists:books,id',
-        ])['book_id'];
-
         $data = [
-            'bookId' => $bookId
+            'book_id' => $book->id
         ];
+
         return view('comment-create', $data);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, Book $book)
     {
         $validatedData = $request->validate([
             'content' => 'required | string | min:1 | max:1000',
-            'user_id' => 'required | exists:users,id',
-            'book_id' => 'required | exists:books,id',
             'rating' => 'required | integer | between:1,5',
         ]);
 
+        $user = Auth::user();
+
         $comment = new Comment();
         $comment->content = $validatedData['content'];
-        $comment->user_id = $validatedData['user_id'];
-        $comment->book_id = $validatedData['book_id'];
+        $comment->user_id = $user->id;
+        $comment->book_id = $book->id;
 
         $comment->save();
 
         $data = [
             'comment' => $validatedData,
-            'book_id' => $validatedData['book_id']
+            'book' => $book,
         ];
 
         return view('comment-store', $data);

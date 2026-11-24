@@ -8,10 +8,10 @@
     <nav aria-label="breadcrumb" class="mb-4">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="/" class="text-decoration-none">トップページ</a>
+                <a href="{{ route('home') }}" class="text-decoration-none">トップページ</a>
             </li>
             <li class="breadcrumb-item">
-                <a href="/books/{{ $book['id'] }}" class="text-decoration-none">書籍詳細</a>
+                <a href="{{ route('books.detail', $book->id) }}" class="text-decoration-none">書籍詳細</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
                 貸出申請完了
@@ -112,11 +112,8 @@
 
     <!-- アクションボタン -->
     <div class="d-flex flex-wrap gap-3">
-        <a href="/books/{{ $book['id'] }}" class="btn btn-primary">
+        <a href="{{ route('books.detail', ['book' => $book->id]) }}" class="btn btn-primary">
             書籍詳細へ戻る
-        </a>
-        <a href="/" class="btn btn-outline-secondary">
-            トップページへ戻る
         </a>
     </div>
 

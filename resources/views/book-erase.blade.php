@@ -1,4 +1,3 @@
-
 @extends('layouts.admin')
 
 @section('title', '書籍削除')
@@ -106,12 +105,12 @@
                 <!-- 削除ボタン -->
                 <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
 
-                    <a href="/admin/books/erase"
+                    <a href="{{ route('admin.books.delete.search') }}"
                        class="btn btn-outline-secondary">
                         キャンセル
                     </a>
 
-                    <form action="/admin/books/delete" method="POST">
+                    <form action="{{ route('admin.books.destroy') }}" method="POST">
                         @csrf
                         <input
                             type="hidden"
@@ -144,7 +143,7 @@
                     削除したい書籍のIDを入力してください。
                 </p>
 
-                <form action="/admin/books/erase" method="POST">
+                <form action="{{ route('admin.books.delete.search') }}" method="POST">
                     @csrf
 
                     <div class="mb-4">
@@ -166,12 +165,6 @@
                     </div>
 
                     <div class="d-flex justify-content-end gap-2">
-
-                        <a href="/admin/users"
-                           class="btn btn-outline-secondary">
-                            キャンセル
-                        </a>
-
                         <button type="submit" class="btn btn-primary">
                             書籍を検索する
                         </button>

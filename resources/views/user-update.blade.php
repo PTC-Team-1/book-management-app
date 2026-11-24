@@ -1,4 +1,3 @@
-
 @extends('layouts.admin')
 
 @section('title', '社員データ編集結果')
@@ -47,7 +46,7 @@
             </div>
 
             <div class="d-flex justify-content-end mt-4 pt-3 border-top">
-                <a href="/admin/users/edit" class="btn btn-primary">
+                <a href="{{ route('admin.users.edit') }}" class="btn btn-primary">
                     社員検索ページへ戻る
                 </a>
             </div>

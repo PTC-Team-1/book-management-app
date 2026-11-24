@@ -1,4 +1,4 @@
-@extends('layouts.general')
+@extends('layouts.admin')
 
 @section('title', '貸出申請一覧')
 
@@ -8,7 +8,7 @@
     <nav aria-label="breadcrumb" class="mb-4">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="/" class="text-decoration-none">トップページ</a>
+                <a href="{{ route('home') }}" class="text-decoration-none">トップページ</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
                 貸出申請一覧
@@ -64,9 +64,11 @@
                                 <tr>
                                     <td>
                                         <div class="fw-semibold">
-                                            {{ optional($rentalRequest->book)->title ?? '書籍情報なし' }}
+                                            <a href="{{ route('books.detail', ['book' => $rentalRequest->book->id]) }}">
+                                                {{ optional($rentalRequest->book)->title }}
+                                            </a>
                                         </div>
-                                        @if (optional($rentalRequest->book)->author)
+                                        @if ($rentalRequest->book?->author)
                                             <small class="text-secondary">
                                                 {{ $rentalRequest->book->author }}
                                             </small>
@@ -74,51 +76,28 @@
                                     </td>
 
                                     <td>
-                                        {{ optional($rentalRequest->user)->name ?? 'ユーザー情報なし' }}
+                                        {{ $rentalRequest->user->name}}
                                     </td>
 
                                     <td>
-                                        @if ($rentalRequest->book?->isAvailable())
-                                            <span class="badge bg-success">
-                                                {{ optional($rentalRequest->book->rentalStatus)->name ?? '貸出可能' }}
-                                            </span>
-                                        @elseif ($rentalRequest->book?->rentalStatus)
-                                            <span class="badge bg-secondary">
-                                                {{ $rentalRequest->book->rentalStatus->name }}
-                                            </span>
-                                        @else
-                                            <span class="badge bg-secondary">
-                                                未設定
-                                            </span>
-                                        @endif
+                                        <span class="badge bg-success">
+                                            {{ $rentalRequest->book->rentalStatus->name }}
+                                        </span>
                                     </td>
 
                                     <td>
-                                        {{ optional($rentalRequest->created_at)->format('Y/m/d H:i') ?? '未登録' }}
+                                        {{ $rentalRequest->created_at->format('Y/m/d H:i') }}
                                     </td>
 
                                     <td>
                                         <div class="d-flex align-items-center flex-wrap gap-2">
-                                            @if ($rentalRequest->book?->isAvailable())
-                                                <form action="/admin/books/rentals/approve" method="post" class="d-inline">
-                                                    @csrf
-                                                    <input type="hidden" name="rental_request_id" value="{{ $rentalRequest->id }}">
-                                                    <button type="submit" class="btn btn-primary btn-sm">
-                                                        許可する
-                                                    </button>
-                                                </form>
-                                            @else
-                                                <span class="badge bg-secondary">
-                                                    貸出中 / 処理済
-                                                </span>
-                                            @endif
-
-                                            @if ($rentalRequest->book)
-                                                <a href="/books/{{ $rentalRequest->book->id }}"
-                                                   class="btn btn-outline-primary btn-sm">
-                                                    書籍詳細
-                                                </a>
-                                            @endif
+                                            <form action="{{ route('admin.books.rentals.approve') }}" method="post" class="d-inline">
+                                                @csrf
+                                                <input type="hidden" name="rental_request_id" value="{{ $rentalRequest->id }}">
+                                                <button type="submit" class="btn btn-primary btn-sm">
+                                                    許可する
+                                                </button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>
@@ -142,7 +121,7 @@
 
     <!-- トップページへ戻る -->
     <div class="mt-5">
-        <a href="/" class="btn btn-outline-secondary">
+        <a href="{{ route('home') }}" class="btn btn-outline-secondary">
             トップページへ戻る
         </a>
     </div>

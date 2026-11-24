@@ -14,7 +14,6 @@
     </div>
 
     @if (!isset($users))
-
         <!-- 社員検索フォーム -->
         <div class="card border-0 shadow-sm">
 
@@ -24,7 +23,7 @@
 
             <div class="card-body p-4">
 
-                <form action="/admin/users/search" method="POST">
+                <form action="{{ route('admin.users.search.submit') }}" method="POST">
                     @csrf
 
                     <div class="mb-4">
@@ -39,6 +38,7 @@
                             name="name"
                             placeholder="社員名を入力してください"
                             value="{{ old('name') }}"
+                            autofocus
                         >
 
                         @error('name')
@@ -50,12 +50,6 @@
 
                     <!-- ボタン -->
                     <div class="d-flex justify-content-end gap-2 pt-3 border-top">
-
-                        <a href="/admin/users/search"
-                           class="btn btn-outline-secondary">
-                            クリア
-                        </a>
-
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-search me-1"></i>
                             社員を検索する
@@ -96,7 +90,6 @@
                 </div>
 
                 @if ($users->isNotEmpty())
-
                     <!-- 社員一覧テーブル -->
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover align-middle mb-0">
@@ -123,7 +116,6 @@
                     </div>
 
                 @else
-
                     <!-- 検索結果なし -->
                     <div class="text-center py-5">
 
@@ -145,7 +137,7 @@
 
                 <!-- 再検索ボタン -->
                 <div class="d-flex justify-content-end mt-4 pt-3 border-top">
-                    <a href="/admin/users/search"
+                    <a href="{{ route('admin.users.search') }}"
                        class="btn btn-outline-secondary">
                         再検索する
                     </a>
