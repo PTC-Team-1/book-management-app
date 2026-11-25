@@ -24,8 +24,7 @@ class CommentEditController extends Controller
         $validatedData = $request->validate([
             'id' => ['required', 'exists:comments,id'],
             'content' => ['required', 'string', 'min:1', 'max:1000'],
-            // 認証機能を付けたらコメントを外す
-            // 'user_id' => ['required', 'exists:users,id'],
+            'user_id' => ['required', 'exists:users,id'],
             'book_id' => ['required', 'exists:books,id'],
             'rating' => ['required', 'integer', 'between:1,5'],
         ]);
