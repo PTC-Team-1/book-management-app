@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notice;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NoticeController extends Controller
 {
@@ -15,25 +17,13 @@ class NoticeController extends Controller
         ]);
     }
 
-    public function create()
-    {
-        return view('notices.create');
-    }
-
-    public function store(Request $req)
-    {
-        $notice = new Notice();
-
-        $notice->title = $req->title;
-        $notice->body = $req->body;
-
-        $notice->save();
-
-        return redirect(route('notices.index'));
-    }
-
     public function show(Notice $notice)
     {
+        $notice = Notice::where('user_id', Auth::id())->findOrFail($notice->id);
+        if ($notice->user_id === Auth::id() && is_null($notice->read_at)) {
+            $notice->read_at = now();
+            $notice->save();
+        }
         return view('notices.show', [
             'notice' => $notice
         ]);

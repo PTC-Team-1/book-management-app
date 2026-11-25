@@ -69,10 +69,6 @@ Route::middleware(['auth'])->group(function () {
         ->name('admin.')
         ->group(function () {
             // お知らせ関係
-            Route::get('/books/notices/create', [NoticeController::class, 'create'])
-                ->name('notices.create');;
-            Route::post('/books/notices', [NoticeController::class, 'store'])
-                ->name('notices.store');;
             Route::get('/books/notices/{notice}/edit', [NoticeController::class, 'edit'])
                 ->name('notices.edit');;
             Route::post('/books/notices/{notice}', [NoticeController::class, 'update'])

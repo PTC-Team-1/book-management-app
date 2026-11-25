@@ -104,10 +104,6 @@
                    class="nav-link text-secondary">
                     社員検索
                 </a>
-                <a href="{{ route('admin.notices.create') }}"
-                   class="nav-link text-secondary">
-                    お知らせ登録
-                </a>
             </nav>
         </div>
 
