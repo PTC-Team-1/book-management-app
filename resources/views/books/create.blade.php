@@ -4,19 +4,69 @@
 @section('title', '書籍登録')
 
 @section('content')
+    @php
+        $showSingleTab = session('active_tab') === 'single'
+            || (old('title') !== null && old('books') === null);
+    @endphp
 
     <!-- ページタイトル -->
     <div class="mb-4">
         <h1 class="fw-bold mb-2">書籍登録</h1>
         <p class="text-secondary mb-0">
-            新しい書籍の情報を入力してください。
+            1冊ずつの登録、またはISBNの連続読み取りによる一括登録ができます。
         </p>
     </div>
+
+    <ul class="nav nav-tabs mb-4" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button
+                class="nav-link {{ $showSingleTab ? '' : 'active' }}"
+                id="batch-mode-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#batch-mode-pane"
+                type="button"
+                role="tab"
+                aria-controls="batch-mode-pane"
+                aria-selected="{{ $showSingleTab ? 'false' : 'true' }}"
+            >
+                ISBN連続登録
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button
+                class="nav-link {{ $showSingleTab ? 'active' : '' }}"
+                id="single-mode-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#single-mode-pane"
+                type="button"
+                role="tab"
+                aria-controls="single-mode-pane"
+                aria-selected="{{ $showSingleTab ? 'true' : 'false' }}"
+            >
+                書籍登録
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div
+            class="tab-pane fade {{ $showSingleTab ? '' : 'show active' }}"
+            id="batch-mode-pane"
+            role="tabpanel"
+            aria-labelledby="batch-mode-tab"
+        >
+            @include('partials.book-batch-form')
+        </div>
+        <div
+            class="tab-pane fade {{ $showSingleTab ? 'show active' : '' }}"
+            id="single-mode-pane"
+            role="tabpanel"
+            aria-labelledby="single-mode-tab"
+        >
 
     <!-- 登録フォーム -->
     <div class="card border-0 shadow-sm">
         <div class="card-body p-4">
-
             <form action="{{ route('admin.books.store') }}" method="POST">
                 @csrf
 
@@ -145,9 +195,7 @@
                     </button>
 
                 </div>
-
             </form>
-
         </div>
     </div>
 
