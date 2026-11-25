@@ -10,6 +10,7 @@ use App\Http\Controllers\CommentCreateController;
 use App\Http\Controllers\CommentDeleteController;
 use App\Http\Controllers\CommentEditController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\RentalController;
 use App\Http\Controllers\UserCreateController;
 use App\Http\Controllers\UserDeleteController;
@@ -25,6 +26,12 @@ Route::middleware(['auth'])->group(function () {
     // ホーム
     Route::get('/', [HomeController::class, 'index'])
         ->name('home');
+
+    // お知らせ表示・閲覧
+    Route::get('/books/notices', [NoticeController::class, 'index'])
+        ->name('notices.index');
+    Route::get('books/notices/{notice}', [NoticeController::class, 'show'])
+        ->name('notices.detail');
 
     // 書籍検索
     Route::get('/books/search', [BookSearchController::class, 'search'])
@@ -61,6 +68,17 @@ Route::middleware(['auth'])->group(function () {
         ->prefix('admin')
         ->name('admin.')
         ->group(function () {
+            // お知らせ関係
+            Route::get('/books/notices/create', [NoticeController::class, 'create'])
+                ->name('notices.create');;
+            Route::post('/books/notices', [NoticeController::class, 'store'])
+                ->name('notices.store');;
+            Route::get('/books/notices/{notice}/edit', [NoticeController::class, 'edit'])
+                ->name('notices.edit');;
+            Route::post('/books/notices/{notice}', [NoticeController::class, 'update'])
+                ->name('notices.update');;
+            Route::post('/books/notices/{notice}/erase', [NoticeController::class, 'erase'])
+                ->name('notices.delete');;
 
             // 書籍関係
 
