@@ -58,11 +58,7 @@
                     @enderror
                 </div>
 
-                <div class="d-flex flex-column-reverse flex-sm-row justify-content-between align-items-sm-center gap-3 pt-3 border-top">
-                    <a href="/books/notices" class="btn btn-outline-secondary btn-sm">
-                        一覧に戻る
-                    </a>
-
+                <div class="d-flex flex-column-reverse flex-sm-row justify-content-end align-items-sm-center gap-3 pt-3 border-top">
                     <button type="submit" class="btn btn-primary">
                         登録
                     </button>

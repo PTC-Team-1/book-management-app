@@ -60,7 +60,7 @@
                         <!-- 詳細ボタン -->
                         <div class="card-footer bg-white border-0 p-3">
 
-                            <a href="/books/notices/{{ $notice->id }}"
+                            <a href="{{ route('notices.detail', ['notice' => $notice->id]) }}"
                                class="btn btn-outline-primary btn-sm w-100">
                                 詳細を見る
                             </a>

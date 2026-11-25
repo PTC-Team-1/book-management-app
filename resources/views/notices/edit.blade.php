@@ -59,7 +59,8 @@
                 </div>
 
                 <div class="d-flex flex-column-reverse flex-sm-row justify-content-between align-items-sm-center gap-3 pt-3 border-top">
-                    <a href="/books/notices/{{ $notice->id }}" class="btn btn-outline-secondary btn-sm">
+                    <a href="{{ route('notices.detail', ['notice' => $notice->id]) }}" 
+                        class="btn btn-outline-secondary btn-sm">
                         キャンセル
                     </a>
 

@@ -39,7 +39,7 @@
 
             <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
 
-                <a href="/books/notices" class="btn btn-outline-secondary btn-sm">
+                <a href="{{ route('notices.index') }}" class="btn btn-outline-secondary btn-sm">
                     一覧に戻る
                 </a>
 
@@ -53,7 +53,6 @@
                         <form action="{{ route('admin.notices.delete', ['notice' => $notice->id]) }}"
                               method="POST"
                               class="d-inline m-0"
-                              onsubmit="return confirm('このお知らせを削除しますか？');">
                             @csrf
                             <button type="submit" class="btn btn-outline-danger btn-sm">
                                 削除

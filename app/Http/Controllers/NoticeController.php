@@ -29,44 +29,37 @@ class NoticeController extends Controller
 
         $notice->save();
 
-        return redirect('/books/notices');
+        return redirect(route('notices.index'));
     }
 
-    public function show($id)
+    public function show(Notice $notice)
     {
-        $notice = Notice::find($id);
-
         return view('notices.show', [
             'notice' => $notice
         ]);
     }
 
-    public function edit($id)
+    public function edit(Notice $notice)
     {
-        $notice = Notice::find($id);
         return view('notices.edit', [
             'notice' => $notice
         ]);
     }
 
-    public function update(Request $req, $id)
+    public function update(Request $req, Notice $notice)
     {
-        $notice = Notice::find($id);
-
         $notice->title = $req->title;
         $notice->body = $req->body;
 
         $notice->save();
 
-        return redirect('/books/notices');
+        return redirect(route('notices.index'));
     }
 
-    public function erase($id)
+    public function erase(Notice $notice)
     {
-        $notice = Notice::find($id);
-
         $notice->delete();
 
-        return redirect('/books/notices');
+        return redirect(route('notices.index'));
     }
 }
