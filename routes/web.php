@@ -3,12 +3,11 @@
 
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\admin\BookController as AdminBookController;
+use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\AdminBookRequestController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\BookController;
-use App\Http\Controllers\BookCreateController;
-use App\Http\Controllers\BookDeleteController;
-use App\Http\Controllers\BookEditController;
+
 use App\Http\Controllers\BookRequestController;
 use App\Http\Controllers\BookRequestLikeController;
 use App\Http\Controllers\CommentCreateController;
@@ -17,11 +16,6 @@ use App\Http\Controllers\CommentEditController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\RentalController;
-use App\Http\Controllers\UserCreateController;
-use App\Http\Controllers\UserDeleteController;
-use App\Http\Controllers\UserEditController;
-use App\Http\Controllers\UserListController;
-use App\Http\Controllers\UserSearchController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -126,35 +120,35 @@ Route::middleware(['auth'])->group(function () {
             // 社員関係
 
             // 社員一覧
-            Route::get('/users', [UserListController::class, 'index'])
+            Route::get('/users', [UserController::class, 'index'])
                 ->name('users.index');
 
             // 社員登録
-            Route::get('/users/create', [UserCreateController::class, 'create'])
+            Route::get('/users/create', [UserController::class, 'create'])
                 ->name('users.create');
-            Route::post('/users/store', [UserCreateController::class, 'store'])
+            Route::post('/users/store', [UserController::class, 'store'])
                 ->name('users.store');
 
             // 社員編集
-            Route::get('/users/edit', [UserEditController::class, 'edit'])
+            Route::get('/users/edit', [UserController::class, 'edit'])
                 ->name('users.edit');
-            Route::post('/users/edit', [UserEditController::class, 'edit'])
+            Route::post('/users/edit', [UserController::class, 'edit'])
                 ->name('users.edit.search');
-            Route::post('/users/update', [UserEditController::class, 'update'])
+            Route::post('/users/update', [UserController::class, 'update'])
                 ->name('users.update');
 
             // 社員削除
-            Route::get('/users/erase', [UserDeleteController::class, 'erase'])
+            Route::get('/users/erase', [UserController::class, 'erase'])
                 ->name('users.delete.confirm');
-            Route::post('/users/erase', [UserDeleteController::class, 'erase'])
+            Route::post('/users/erase', [UserController::class, 'erase'])
                 ->name('users.delete.search');
-            Route::post('/users/delete', [UserDeleteController::class, 'delete'])
+            Route::post('/users/delete', [UserController::class, 'delete'])
                 ->name('users.destroy');
 
             // 社員検索
-            Route::get('/users/search', [UserSearchController::class, 'search'])
+            Route::get('/users/search', [UserController::class, 'search'])
                 ->name('users.search');
-            Route::post('/users/search', [UserSearchController::class, 'search'])
+            Route::post('/users/search', [UserController::class, 'search'])
                 ->name('users.search.submit');
 
             // 貸出申請一覧
