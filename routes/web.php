@@ -4,13 +4,12 @@
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\AdminBookRequestController;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\BookCreateController;
 use App\Http\Controllers\BookDeleteController;
-use App\Http\Controllers\BookDetailController;
 use App\Http\Controllers\BookEditController;
 use App\Http\Controllers\BookRequestController;
 use App\Http\Controllers\BookRequestLikeController;
-use App\Http\Controllers\BookSearchController;
 use App\Http\Controllers\CommentCreateController;
 use App\Http\Controllers\CommentDeleteController;
 use App\Http\Controllers\CommentEditController;
@@ -50,11 +49,11 @@ Route::middleware(['auth'])->group(function () {
         ->name('book-requests.likes.toggle');
 
     // 書籍検索
-    Route::get('/books/search', [BookSearchController::class, 'search'])
+    Route::get('/books/search', [BookController::class, 'search'])
         ->name('books.search');
 
     // 書籍詳細
-    Route::get('/books/{book}', [BookDetailController::class, 'show'])
+    Route::get('/books/{book}', [BookController::class, 'show'])
         ->name('books.detail');
 
     // コメント作成
