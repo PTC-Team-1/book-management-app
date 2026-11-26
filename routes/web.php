@@ -7,15 +7,13 @@ use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\AdminBookRequestController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\BookController;
-
 use App\Http\Controllers\BookRequestController;
 use App\Http\Controllers\BookRequestLikeController;
-use App\Http\Controllers\CommentCreateController;
-use App\Http\Controllers\CommentDeleteController;
-use App\Http\Controllers\CommentEditController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\RentalController;
+
 use Illuminate\Support\Facades\Route;
 
 
@@ -52,21 +50,21 @@ Route::middleware(['auth'])->group(function () {
         ->name('books.detail');
 
     // コメント作成
-    Route::get('/books/{book}/comments/create', [CommentCreateController::class, 'create'])
+    Route::get('/books/{book}/comments/create', [CommentController::class, 'create'])
         ->name('books.comments.create');
-    Route::post('/books/{book}/comments/store', [CommentCreateController::class, 'store'])
+    Route::post('/books/{book}/comments/store', [CommentController::class, 'store'])
         ->name('books.comments.store');
 
     // コメント編集
-    Route::get('/books/comments/edit', [CommentEditController::class, 'edit'])
+    Route::get('/books/comments/edit', [CommentController::class, 'edit'])
         ->name('books.comments.edit');
-    Route::post('/books/comments/update', [CommentEditController::class, 'update'])
+    Route::post('/books/comments/update', [CommentController::class, 'update'])
         ->name('books.comments.update');
 
     // コメント削除
-    Route::get('/books/comments/erase', [CommentDeleteController::class, 'erase'])
+    Route::get('/books/comments/erase', [CommentController::class, 'erase'])
         ->name('books.comments.delete.confirm');
-    Route::post('/books/comments/delete', [CommentDeleteController::class, 'delete'])
+    Route::post('/books/comments/delete', [CommentController::class, 'delete'])
         ->name('books.comments.destroy');
 
     // 貸出予約
