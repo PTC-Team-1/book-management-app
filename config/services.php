@@ -35,7 +35,7 @@ return [
         ],
     ],
     'openbd' => [
-        'base_url' => env('OPENBD_BASE_URL', 'https://api.openbd.jp/v1'),
+        'base_url' => env('OPENBD_BASE_URL', 'https://api.openbd.jp/v1/get'),
         'proxy' => env('OPENBD_PROXY'),
         'timeout' => (int) env('OPENBD_TIMEOUT', 15),
     ],
