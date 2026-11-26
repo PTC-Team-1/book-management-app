@@ -7,38 +7,51 @@
 
     <title>@yield('title') | 管理者ページ</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <!-- Bootstrap 5 CSS -->
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
         rel="stylesheet"
     >
+    <link href="{{ asset('css/site.css') }}" rel="stylesheet">
 </head>
 
 <body class="bg-light text-dark min-vh-100 d-flex flex-column">
 
     <!-- ヘッダー -->
-    <header class="bg-white border-bottom shadow-sm">
+    <header class="app-header border-0 shadow-sm">
 
         <!-- ロゴ・一般ページへのリンク・ログアウト -->
-        <div class="container">
-            <div class="d-flex justify-content-between align-items-center py-3">
+        <div class="container py-2">
+            <div class="header-main-row d-flex justify-content-between align-items-center py-3">
 
                 <a href="/admin/books/create"
-                   class="navbar-brand fw-bold fs-4 text-dark mb-0">
-                    書籍管理システム
-                    <span class="badge bg-primary ms-1">ADMIN</span>
+                   class="navbar-brand d-flex align-items-center gap-3 text-white mb-0">
+                    <img src="/images/syrms-emblem-hex.png"
+                         alt=""
+                         class="brand-mark">
+                    <span class="brand-title ps-3">
+                        <img src="/images/syrms-wordmark.png"
+                             alt="SYRMS CORPORATION"
+                             class="brand-wordmark">
+                        <span class="brand-section">書籍管理システム</span>
+                    </span>
+                    <span class="badge bg-info text-dark">ADMIN</span>
                 </a>
 
-                <div class="d-flex align-items-center gap-3">
+                <div class="d-flex align-items-center gap-2">
 
                     <!-- ログインユーザー名 -->
-                    <span class="text-secondary small">
+                    <span class="admin-user-name text-white small">
                         {{ Auth::user()->name }} さん
                     </span>
 
                     <!-- 一般ページへのリンク -->
                     <a href="/"
-                       class="btn btn-outline-secondary btn-sm">
+                       class="btn btn-light btn-sm fw-semibold text-primary border-0 header-action header-page-action">
                         一般ページへ
                     </a>
 
@@ -46,7 +59,7 @@
                     <form action="/logout" method="POST">
                         @csrf
                         <button type="submit"
-                                class="btn btn-outline-danger btn-sm">
+                                class="btn btn-outline-light btn-sm header-action">
                             ログアウト
                         </button>
                     </form>
@@ -57,54 +70,51 @@
         </div>
 
         <!-- ナビゲーション -->
-        <div class="container pb-2">
-            <nav class="nav nav-pills flex-wrap gap-1">
+        <div class="header-nav">
+            <div class="container py-2">
+                <nav class="admin-navigation nav nav-pills gap-1">
 
-                <a href="/admin/books/create"
-                   class="nav-link text-secondary">
-                    書籍登録
-                </a>
+                    <a href="/admin/books/create"
+                       class="nav-link">
+                        書籍登録
+                    </a>
 
-                <a href="/admin/books/edit"
-                   class="nav-link text-secondary">
-                    書籍編集
-                </a>
+                    <a href="/admin/books/edit"
+                       class="nav-link">
+                        書籍編集
+                    </a>
 
-                <a href="/admin/books/erase"
-                   class="nav-link text-secondary">
-                    書籍削除
-                </a>
+                    <a href="/admin/books/erase"
+                       class="nav-link">
+                        書籍削除
+                    </a>
 
-                <a href="/admin/books/rentals/request"
-                   class="nav-link text-secondary">
-                    書籍申請一覧
-                </a>
+                    <a href="/admin/users/create"
+                       class="nav-link">
+                        社員データ登録
+                    </a>
 
-                <a href="/admin/users/create"
-                   class="nav-link text-secondary">
-                    社員データ登録
-                </a>
+                    <a href="/admin/users/edit"
+                       class="nav-link">
+                        社員データ編集
+                    </a>
 
-                <a href="/admin/users/edit"
-                   class="nav-link text-secondary">
-                    社員データ編集
-                </a>
+                    <a href="/admin/users/erase"
+                       class="nav-link">
+                        社員データ削除
+                    </a>
 
-                <a href="/admin/users/erase"
-                   class="nav-link text-secondary">
-                    社員データ削除
-                </a>
+                    <a href="/admin/users"
+                       class="nav-link">
+                        社員一覧
+                    </a>
 
-                <a href="/admin/users"
-                   class="nav-link text-secondary">
-                    社員一覧
-                </a>
-
-                <a href="/admin/users/search"
-                   class="nav-link text-secondary">
-                    社員検索
-                </a>
-            </nav>
+                    <a href="/admin/users/search"
+                       class="nav-link">
+                        社員検索
+                    </a>
+                </nav>
+            </div>
         </div>
 
     </header>
@@ -115,10 +125,16 @@
     </main>
 
     <!-- フッター -->
-    <footer class="bg-white border-top py-3 mt-auto">
-        <div class="container text-center">
-            <small class="text-secondary">
-                &copy; {{ date('Y') }} 書籍管理システム
+    <footer class="app-footer mt-auto">
+        <div class="container py-3 d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
+            <div class="d-flex flex-wrap justify-content-center align-items-center gap-2">
+                <img src="/images/syrms-wordmark-dark.png"
+                     alt="SYRMS CORPORATION"
+                     class="footer-wordmark-image">
+                <span class="footer-product">書籍管理システム</span>
+            </div>
+            <small class="footer-copyright">
+                &copy; {{ date('Y') }} SYRMS Corporation
             </small>
         </div>
     </footer>
