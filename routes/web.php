@@ -2,6 +2,7 @@
 <?php
 
 use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\admin\BookController as AdminBookController;
 use App\Http\Controllers\AdminBookRequestController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\BookController;
@@ -93,33 +94,32 @@ Route::middleware(['auth'])->group(function () {
             // 書籍関係
 
             // 書籍追加
-            Route::get('/books/create', [BookCreateController::class, 'create'])
+            Route::get('/books/create', [AdminBookController::class, 'create'])
                 ->name('books.create');
-
             // ISBN用の書籍追加
-            Route::post('/books/batch-store', [BookCreateController::class, 'storeBatch'])
+            Route::post('/books/batch-store', [AdminBookController::class, 'storeBatch'])
                 ->name('books.batch-store');
             //ISBNを使用してAPIからデータの取得
-            Route::get('/books/isbn-lookup', [BookCreateController::class, 'lookupIsbn'])
+            Route::get('/books/isbn-lookup', [AdminBookController::class, 'lookupIsbn'])
                 ->name('books.isbn-lookup');
 
-            Route::post('/books/store', [BookCreateController::class, 'store'])
+            Route::post('/books/store', [AdminBookController::class, 'store'])
                 ->name('books.store');
 
             // 書籍編集
-            Route::get('/books/edit', [BookEditController::class, 'edit'])
+            Route::get('/books/edit', [AdminBookController::class, 'edit'])
                 ->name('books.edit');
-            Route::post('/books/edit', [BookEditController::class, 'edit'])
+            Route::post('/books/edit', [AdminBookController::class, 'edit'])
                 ->name('books.edit.search');
-            Route::post('/books/update', [BookEditController::class, 'update'])
+            Route::post('/books/update', [AdminBookController::class, 'update'])
                 ->name('books.update');
 
             // 書籍削除
-            Route::get('/books/erase', [BookDeleteController::class, 'erase'])
+            Route::get('/books/erase', [AdminBookController::class, 'erase'])
                 ->name('books.delete.confirm');
-            Route::post('/books/erase', [BookDeleteController::class, 'erase'])
+            Route::post('/books/erase', [AdminBookController::class, 'erase'])
                 ->name('books.delete.search');
-            Route::post('/books/delete', [BookDeleteController::class, 'delete'])
+            Route::post('/books/delete', [AdminBookController::class, 'delete'])
                 ->name('books.destroy');
 
 
