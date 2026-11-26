@@ -85,11 +85,11 @@ Route::middleware(['auth'])->group(function () {
         ->group(function () {
             // お知らせ関係
             Route::get('/books/notices/{notice}/edit', [NoticeController::class, 'edit'])
-                ->name('notices.edit');;
+                ->name('notices.edit');
             Route::post('/books/notices/{notice}', [NoticeController::class, 'update'])
-                ->name('notices.update');;
+                ->name('notices.update');
             Route::post('/books/notices/{notice}/erase', [NoticeController::class, 'erase'])
-                ->name('notices.delete');;
+                ->name('notices.delete');
 
             // 書籍関係
 
