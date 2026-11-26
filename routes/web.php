@@ -2,6 +2,7 @@
 <?php
 
 use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\BookCreateController;
 use App\Http\Controllers\BookDeleteController;
 use App\Http\Controllers\BookDetailController;
@@ -33,6 +34,10 @@ Route::middleware(['auth'])->group(function () {
         ->name('notices.index');
     Route::get('books/notices/{notice}', [NoticeController::class, 'show'])
         ->name('notices.detail');
+
+    // 全体のお知らせ詳細
+    Route::get('/announcements/{announcement}', [AnnouncementController::class, 'show'])
+        ->name('announcements.show');
 
     // 書籍検索
     Route::get('/books/search', [BookSearchController::class, 'search'])
@@ -155,5 +160,13 @@ Route::middleware(['auth'])->group(function () {
             // 管理者の操作ログ一覧
             Route::get('/activity-logs', [ActivityLogController::class, 'index'])
                 ->name('activity-logs.index');
+
+            // 全体のお知らせ
+            Route::get('/announcements', [AnnouncementController::class, 'index'])
+                ->name('announcements.index'); // 2026年11月26日追加: 管理者のお知らせ一覧
+            Route::post('/announcements', [AnnouncementController::class, 'store'])
+                ->name('announcements.store'); // 2026年11月26日追加: 管理者がお知らせを新規登録
+            Route::delete('/announcements/{announcement}', [AnnouncementController::class, 'destroy'])
+                ->name('announcements.destroy'); // 2026年11月26日追加: 管理者がお知らせを削除
         });
 });

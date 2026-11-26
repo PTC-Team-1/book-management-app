@@ -3,6 +3,42 @@
 @section('title', 'トップページ')
 
 @section('content')
+<section class="news-panel mb-5" aria-labelledby="news-title">
+        <div class="news-heading">
+            <span class="news-eyebrow">LIBRARY UPDATE</span>
+            <h2 class="news-title" id="news-title">NEWS</h2>
+            <p class="news-description">お知らせ</p>
+        </div>
+
+        <div class="news-list">
+            @forelse ($news as $item)
+                <div class="news-item">
+                    <time class="news-date" datetime="{{ $item['created_at']->copy()->setTimezone('Asia/Tokyo')->toDateString() }}">
+                        {{ $item['created_at']->copy()->setTimezone('Asia/Tokyo')->format('Y.m.d') }}
+                    </time>
+                    @if ($item['type'] === 'announcement')
+                        <div class="news-item-content">
+                            <span class="badge bg-info text-dark mb-1">お知らせ</span>
+                            <h3 class="news-item-title mb-1">
+                                <a href="{{ route('announcements.show', $item['id']) }}" class="news-item-title">
+                                    {{ $item['title'] }}
+                                </a>
+                            </h3>
+                        </div>
+                    @else
+                        <div class="news-item-content d-flex flex-wrap align-items-center gap-2">
+                            <span class="badge bg-danger">新着</span>
+                            <a href="/books/{{ $item['id'] }}" class="news-item-title">
+                                「{{ $item['title'] }}」が追加されました
+                            </a>
+                        </div>
+                    @endif
+                </div>
+            @empty
+                <p class="news-empty mb-0">現在お知らせはありません。</p>
+            @endforelse
+        </div>
+    </section>
 
     <!-- ページタイトル -->
     <div class="mb-4">
