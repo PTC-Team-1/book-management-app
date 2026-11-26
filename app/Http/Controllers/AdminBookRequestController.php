@@ -33,8 +33,13 @@ class AdminBookRequestController extends Controller
         $bookRequest->admin_note = $validatedData['admin_note'] ?? null;
         $bookRequest->save();
 
+        if ($bookRequest->isPurchased()) {
+            return redirect()
+                ->route('admin.books.create');
+        }
+
         return redirect()
-            ->route('book-requests.index')
+            ->route('admin.book-requests.index')
             ->with('status', 'リクエストの対応状況を更新しました。');
     }
 }

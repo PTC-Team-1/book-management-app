@@ -10,11 +10,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable(['title', 'author', 'isbn', 'reason'])]
 class BookRequest extends Model
 {
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_REVIEWING = 'reviewing';
+    public const STATUS_PURCHASED = 'purchased';
+    public const STATUS_DECLINED = 'declined';
+
     public const STATUSES = [
-        'pending' => '未確認',
-        'reviewing' => '検討中',
-        'purchased' => '購入済み',
-        'declined' => '見送り',
+        self::STATUS_PENDING => '未確認',
+        self::STATUS_REVIEWING => '検討中',
+        self::STATUS_PURCHASED => '購入済み',
+        self::STATUS_DECLINED => '見送り',
     ];
 
     public function user(): BelongsTo
@@ -25,5 +30,10 @@ class BookRequest extends Model
     public function likes(): HasMany
     {
         return $this->hasMany(BookRequestLike::class);
+    }
+
+    public function isPurchased(): bool
+    {
+        return $this->status === self::STATUS_PURCHASED;
     }
 }
