@@ -13,6 +13,10 @@ class ActivityLog extends Model
 
     public const ACTION_DELETED = 'deleted';
 
+    public const ACTION_APPROVED = 'approved';
+    
+    public const ACTION_RETURNED = 'returned';
+
     public const SUBJECT_BOOK = 'book';
 
     public const SUBJECT_USER = 'user';

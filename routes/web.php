@@ -166,6 +166,10 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/books/rentals/approve', [RentalController::class, 'approve'])
                 ->name('books.rentals.approve');
 
+            // 書籍返却
+            // Route::post('/books/rentals/return', [RentalController::class, 'return'])
+            //     ->name('books.rentals.return');
+
             // 管理者の操作ログ一覧
             Route::get('/activity-logs', [ActivityLogController::class, 'index'])
                 ->name('activity-logs.index');
