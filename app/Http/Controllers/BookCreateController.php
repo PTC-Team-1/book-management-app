@@ -104,10 +104,8 @@ class BookCreateController extends Controller
         return response()->json($bookInfo);
     }
 
-    public function storeBatch(
-        Request $request,
-        // ActivityLogger $activityLogger
-    ): RedirectResponse {
+    public function storeBatch(Request $request, ActivityLogger $activityLogger): RedirectResponse
+    {
         $books = $request->input('books');
         if (is_array($books)) {
             foreach ($books as $index => $book) {
@@ -151,7 +149,7 @@ class BookCreateController extends Controller
         }
 
         // 2026年11月25日追加: 一括登録と各書籍の操作履歴を同じトランザクションで保存する。
-        DB::transaction(function () use ($validatedData, $request): void {
+        DB::transaction(function () use ($validatedData, $request, $activityLogger): void {
             foreach ($validatedData['books'] as $bookData) {
                 $book = new Book;
                 $book->title = $bookData['title'];
@@ -164,12 +162,12 @@ class BookCreateController extends Controller
                 $book->rental_status_id = RentalStatus::AVAILABLE;
                 $book->save();
 
-                // $activityLogger->record(
-                //     $request->user(),
-                //     ActivityLog::ACTION_CREATED,
-                //     ActivityLog::SUBJECT_BOOK,
-                //     $book->id,
-                // );
+                $activityLogger->record(
+                    $request->user(),
+                    ActivityLog::ACTION_CREATED,
+                    ActivityLog::SUBJECT_BOOK,
+                    $book->id,
+                );
             }
         });
 
