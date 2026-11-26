@@ -15,7 +15,22 @@
             1冊ずつの登録、またはISBNの連続読み取りによる一括登録ができます。
         </p>
     </div>
+    @if (session('status'))
+        <div class="alert alert-success" role="status">
+            {{ session('status') }}
+        </div>
+    @endif
 
+    @if ($errors->any())
+        <div class="alert alert-danger" role="alert">
+            <p class="fw-semibold mb-1">入力内容を確認してください。</p>
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <ul class="nav nav-tabs mb-4" role="tablist">
         <li class="nav-item" role="presentation">
             <button
