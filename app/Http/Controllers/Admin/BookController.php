@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Constants\Category as ConstantsCategory;
 use App\Constants\RentalStatus;
+use App\Http\Controllers\Controller;
 use App\Models\ActivityLog;
 use App\Models\Book;
 use App\Models\Category;

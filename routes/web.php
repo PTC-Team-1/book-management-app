@@ -2,8 +2,8 @@
 <?php
 
 use App\Http\Controllers\ActivityLogController;
-use App\Http\Controllers\admin\BookController as AdminBookController;
-use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\Admin\BookController as AdminBookController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AdminBookRequestController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\BookController;
