@@ -137,6 +137,7 @@ class BookCreateController extends Controller
             'books.*.published_date' => ['nullable', 'date'],
             'books.*.description' => ['nullable', 'string'],
             'books.*.thumbnail' => ['nullable', 'url', 'max:255'],
+            'category_id' => 'nullable | integer',
         ], [
             'books.required' => '登録する書籍を読み取ってください。',
             'books.min' => '登録する書籍を読み取ってください。',
@@ -170,6 +171,8 @@ class BookCreateController extends Controller
                 $book->description = $bookData['description'] ?? null;
                 $book->thumbnail = $bookData['thumbnail'] ?? null;
                 $book->rental_status_id = RentalStatus::AVAILABLE;
+                $book->category_id = $validatedData['category_id'] ?? ConstantsCategory::DEFAULT_VALUE;
+
                 $book->save();
 
                 $activityLogger->record(
