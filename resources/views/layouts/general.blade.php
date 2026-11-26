@@ -86,14 +86,13 @@
         <!-- ナビゲーション -->
         <div class="header-nav">
             <div class="container py-2">
-                <div class="d-flex w-100 flex-column flex-md-row justify-content-md-between align-items-md-center gap-2">
+                <div class="d-flex w-100 flex-column flex-md-row justify-content-md-end align-items-md-center gap-2">
 
                     <nav class="nav nav-underline">
-                        <a href="/"
-                           class="nav-link active text-white"
-                           aria-current="page">
-                            トップページ
-                        </a>
+                         <a href="{{ route('book-requests.index') }}"
+                   class="btn btn-outline-light btn-sm fw-semibold text-nowrap header-action">
+                    書籍リクエスト
+                </a>
                     </nav>
 
                     <!-- 書籍編集用検索バー -->

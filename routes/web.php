@@ -2,11 +2,14 @@
 <?php
 
 use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\AdminBookRequestController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\BookCreateController;
 use App\Http\Controllers\BookDeleteController;
 use App\Http\Controllers\BookDetailController;
 use App\Http\Controllers\BookEditController;
+use App\Http\Controllers\BookRequestController;
+use App\Http\Controllers\BookRequestLikeController;
 use App\Http\Controllers\BookSearchController;
 use App\Http\Controllers\CommentCreateController;
 use App\Http\Controllers\CommentDeleteController;
@@ -38,6 +41,13 @@ Route::middleware(['auth'])->group(function () {
     // 全体のお知らせ詳細
     Route::get('/announcements/{announcement}', [AnnouncementController::class, 'show'])
         ->name('announcements.show');
+
+    Route::get('/book-requests', [BookRequestController::class, 'index'])
+        ->name('book-requests.index');
+    Route::post('/book-requests', [BookRequestController::class, 'store'])
+        ->name('book-requests.store');
+    Route::post('/book-requests/{bookRequest}/likes', [BookRequestLikeController::class, 'toggle'])
+        ->name('book-requests.likes.toggle');
 
     // 書籍検索
     Route::get('/books/search', [BookSearchController::class, 'search'])
@@ -168,5 +178,11 @@ Route::middleware(['auth'])->group(function () {
                 ->name('announcements.store'); // 2026年11月26日追加: 管理者がお知らせを新規登録
             Route::delete('/announcements/{announcement}', [AnnouncementController::class, 'destroy'])
                 ->name('announcements.destroy'); // 2026年11月26日追加: 管理者がお知らせを削除
+
+            // 書籍リクエスト
+            Route::get('/book-requests', [AdminBookRequestController::class, 'index'])
+                ->name('book-requests.index'); // 2026年11月25日追加: 管理者がリクエスト一覧を表示
+            Route::patch('/book-requests/{bookRequest}', [AdminBookRequestController::class, 'update'])
+                ->name('book-requests.update'); // 2026年11月25日追加: 管理者が状況とコメントを更新
         });
 });

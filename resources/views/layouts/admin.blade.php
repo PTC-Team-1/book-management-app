@@ -88,6 +88,11 @@
                        class="nav-link">
                         書籍貸出申請
                     </a>
+                    
+                    <a href="{{ route('admin.book-requests.index') }}"
+                       class="nav-link">
+                        書籍リクエスト管理
+                    </a>
 
                     <a href="/admin/users/create"
                        class="nav-link">
