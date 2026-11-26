@@ -66,21 +66,23 @@
 
                         <!-- サムネイル -->
                         <div class="bg-white text-center p-3">
+                            <div class="d-flex justify-content-center align-items-center"
+                                style="height: 200px;">
 
-                            @if (!empty($book['thumbnail']))
-                                <img
-                                    src="{{ $book['thumbnail'] }}"
-                                    alt="{{ $book['title'] }}"
-                                    class="img-fluid"
-                                    style="height: 200px; object-fit: contain;"
-                                >
-                            @else
-                                <div class="d-flex justify-content-center align-items-center bg-light text-secondary"
-                                     style="height: 200px;">
-                                    サムネイルなし
-                                </div>
-                            @endif
+                                @if (!empty($book->cover_image_path))
+                                    <img
+                                        src="{{ asset('storage/' . $book->cover_image_path) }}"
+                                        alt="{{ $book->title }}"
+                                        class="img-fluid"
+                                        style="max-height: 100%; max-width: 100%; object-fit: contain;"
+                                    >
+                                @else
+                                    <span class="text-secondary">
+                                        サムネイルなし
+                                    </span>
+                                @endif
 
+                            </div>
                         </div>
 
                         <!-- 書籍情報 -->

@@ -81,7 +81,7 @@
     <!-- 登録フォーム -->
     <div class="card border-0 shadow-sm">
         <div class="card-body p-4">
-            <form action="{{ route('admin.books.store') }}" method="POST">
+            <form action="{{ route('admin.books.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="row g-4">
@@ -196,19 +196,20 @@
 
                     <!-- 書籍画像 -->
                     <div class="col-12">
-                        <label for="thumbnail" class="form-label fw-semibold">
-                            書籍画像URL
+                        <label for="cover_image" class="form-label fw-semibold">
+                            書籍画像
                         </label>
+
                         <input
-                            type="url"
+                            type="file"
                             class="form-control"
-                            id="thumbnail"
-                            name="thumbnail"
-                            placeholder="https://example.com/image.jpg"
-                            value="{{ old('thumbnail') }}"
+                            id="cover_image"
+                            name="cover_image"
+                            accept="image/jpeg,image/png,image/webp"
                         >
+
                         <div class="form-text">
-                            書籍画像のURLを入力してください。
+                            JPEG、PNG、WebP形式の画像をアップロードできます。
                         </div>
                     </div>
 

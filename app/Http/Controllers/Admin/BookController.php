@@ -17,6 +17,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
@@ -40,7 +41,7 @@ class BookController extends Controller
             'published_date' => 'nullable | date',
             'isbn' => 'nullable | string',
             'description' => 'nullable | string',
-            'thumbnail' => 'nullable | string',
+            'cover_image' => 'nullable | image | max:2048',
             'category_id' => 'nullable | integer',
         ]);
 
@@ -51,9 +52,14 @@ class BookController extends Controller
         $book->isbn = $validatedData['isbn'];
         $book->published_date = $validatedData['published_date'];
         $book->description = $validatedData['description'];
-        $book->thumbnail = $validatedData['thumbnail'];
         $book->rental_status_id = RentalStatus::AVAILABLE;
         $book->category_id = $validatedData['category_id'] ?? ConstantsCategory::DEFAULT_VALUE;
+
+        if ($request->hasFile('cover_image')) {
+            $path = $request->file('cover_image')->store('books', 'public');
+
+            $book->cover_image_path = $path;
+        }
 
         $book->save();
 
@@ -219,7 +225,7 @@ class BookController extends Controller
             'published_date' => 'nullable | date',
             'isbn' => 'nullable | string',
             'description' => 'nullable | string',
-            'thumbnail' => 'nullable | string',
+            'cover_image' => 'nullable | image | max:2048',
             'category_id' => 'nullable | integer',
         ]);
 
@@ -230,8 +236,15 @@ class BookController extends Controller
         $book->isbn = $validatedData['isbn'];
         $book->published_date = $validatedData['published_date'];
         $book->description = $validatedData['description'];
-        $book->thumbnail = $validatedData['thumbnail'];
         $book->category_id = $validatedData['category_id'] ?? ConstantsCategory::DEFAULT_VALUE;
+        if ($request->hasFile('cover_image')) {
+            if ($book->cover_image_path) {
+                Storage::disk('public')->delete($book->cover_image_path);
+            }
+
+            $book->cover_image_path = $request->file('cover_image')
+                ->store('books', 'public');
+        }
 
         $book->save();
 

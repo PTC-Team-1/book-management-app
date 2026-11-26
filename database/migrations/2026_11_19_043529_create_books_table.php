@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('isbn', 20)->nullable();
             $table->date('published_date')->nullable();
             $table->text('description')->nullable();
-            $table->string('thumbnail')->nullable();
+            $table->string('cover_image_path')->nullable();
             $table->foreignId('rental_status_id')->constrained('rental_statuses');
             $table->foreignId('category_id')->constrained('categories')->restrictOnDelete();
             $table->timestamps();

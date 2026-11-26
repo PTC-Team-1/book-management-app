@@ -26,7 +26,7 @@
 
             <div class="card-body p-4">
 
-                <form action="{{ route('admin.books.update') }}" method="POST">
+                <form action="{{ route('admin.books.update') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <input type="hidden" name="id" value="{{ $book->id }}">
@@ -173,14 +173,14 @@
 
                         <!-- 書籍画像 -->
                         <div class="col-12">
-                            <label for="thumbnail" class="form-label fw-semibold">
-                                書籍画像URL
+                            <label for="cover_image" class="form-label fw-semibold">
+                                書籍画像
                             </label>
 
-                            @if ($book->thumbnail)
+                            @if ($book->cover_image_path)
                                 <div class="mb-3">
                                     <img
-                                        src="{{ $book->thumbnail }}"
+                                        src="{{ asset('storage/' . $book->cover_image_path) }}"
                                         alt="{{ $book->title }}"
                                         class="book-edit-thumbnail img-thumbnail"
                                     >
@@ -188,19 +188,19 @@
                             @endif
 
                             <input
-                                type="url"
+                                type="file"
                                 class="form-control"
-                                id="thumbnail"
-                                name="thumbnail"
-                                placeholder="https://example.com/image.jpg"
-                                value="{{ old('thumbnail', $book->thumbnail) }}"
+                                id="cover_image"
+                                name="cover_image"
+                                accept="image/jpeg,image/png,image/webp"
                             >
 
                             <div class="form-text">
-                                画像ファイルのURLを入力してください。例：http://127.0.0.1:8000/images/2_.jpg
+                                JPEG、PNG、WebP形式の画像をアップロードできます。
+                                未選択の場合は現在の画像を維持します。
                             </div>
 
-                            @error('thumbnail')
+                            @error('cover_image')
                                 <div class="text-danger small mt-1">
                                     {{ $message }}
                                 </div>
