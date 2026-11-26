@@ -91,7 +91,10 @@
                             </h2>
 
                             <dl class="row mb-0 small">
-
+                                <dt class="col-4 text-secondary">カテゴリ</dt>
+                                <dd class="col-8">
+                                    {{ $book->category->name }}
+                                </dd>
                                 <dt class="col-4 text-secondary">著者</dt>
                                 <dd class="col-8">
                                     {{ $book['author'] ?? '未登録' }}

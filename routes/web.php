@@ -79,7 +79,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/books/rental/request', [RentalController::class, 'request'])
         ->name('books.rentals.request');
 
-
     Route::middleware(['admin'])
         ->prefix('admin')
         ->name('admin.')

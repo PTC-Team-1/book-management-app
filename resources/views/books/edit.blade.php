@@ -1,4 +1,3 @@
-
 @extends('layouts.admin')
 
 @section('title', '書籍編集')
@@ -130,6 +129,29 @@
                             @enderror
                         </div>
 
+                        <!-- カテゴリ -->
+                        <div class="col-12 col-md-6">
+                            <label for="category_id" class="form-label fw-semibold">
+                                カテゴリ
+                            </label>
+                            <select class="form-select" id="category_id" name="category_id">
+                                <option value="">カテゴリを選択してください</option>
+                                @foreach ($categories as $category)
+                                    <option
+                                        value="{{ $category->id }}"
+                                        @selected((string) old('category_id', $book->category_id) === (string) $category->id)
+                                    >
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('category_id')
+                                <div class="text-danger small mt-1">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+
                         <!-- 説明文 -->
                         <div class="col-12">
                             <label for="description" class="form-label fw-semibold">
@@ -190,7 +212,6 @@
                     <!-- ボタン -->
                     <div class="d-flex justify-content-between gap-2 mt-4 pt-3 border-top">
 
-                        {{-- 2026年11月26日追加: 編集中の書籍を引き継いで削除確認画面へ進む。 --}}
                         <button
                             type="submit"
                             class="btn btn-outline-danger"

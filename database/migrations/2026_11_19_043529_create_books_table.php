@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('thumbnail')->nullable();
             $table->foreignId('rental_status_id')->constrained('rental_statuses');
+            $table->foreignId('category_id')->constrained('categories')->restrictOnDelete();
             $table->timestamps();
         });
     }

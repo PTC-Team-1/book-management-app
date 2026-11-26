@@ -16,6 +16,12 @@ class BookSeeder extends Seeder
             throw new RuntimeException('rental_statuses に code="available" のレコードが見つかりません。先に RentalStatusSeeder を実行してください。');
         }
 
+        $categoryIds = DB::table('categories')->pluck('id', 'name');
+
+        if (!isset($categoryIds['小説'])) {
+            throw new RuntimeException('categories に name="小説" のレコードが見つかりません。先に CategorySeeder を実行してください。');
+        }
+
         $books = [
             [
                 'title' => '吾輩は猫である',
@@ -26,6 +32,7 @@ class BookSeeder extends Seeder
                 'description' => '猫の視点から人間社会を描いた夏目漱石の代表作。',
                 'thumbnail' => null,
                 'status_code' => 'available',
+                'category_name' => '小説',
             ],
             [
                 'title' => 'こころ',
@@ -36,6 +43,7 @@ class BookSeeder extends Seeder
                 'description' => '人間の孤独や罪悪感を描いた小説。',
                 'thumbnail' => null,
                 'status_code' => 'available',
+                'category_name' => '小説',
             ],
             [
                 'title' => '人間失格',
@@ -46,6 +54,7 @@ class BookSeeder extends Seeder
                 'description' => '主人公の人生を通して人間の内面を描いた作品。',
                 'thumbnail' => null,
                 'status_code' => 'available',
+                'category_name' => '小説',
             ],
             [
                 'title' => '走れメロス',
@@ -56,6 +65,7 @@ class BookSeeder extends Seeder
                 'description' => '友情と信頼をテーマにした短編小説。',
                 'thumbnail' => null,
                 'status_code' => 'available',
+                'category_name' => '小説',
             ],
             [
                 'title' => '羅生門',
@@ -66,6 +76,7 @@ class BookSeeder extends Seeder
                 'description' => '極限状態に置かれた人間の心理を描いた短編小説。',
                 'thumbnail' => null,
                 'status_code' => 'available',
+                'category_name' => '小説',
             ],
         ];
 
@@ -75,12 +86,16 @@ class BookSeeder extends Seeder
             $statusCode = $book['status_code'] ?? 'available';
             $rentalStatusId = $statusIds[$statusCode] ?? $statusIds['available'];
 
-            unset($book['status_code']);
+            $categoryName = $book['category_name'] ?? '小説';
+            $categoryId = $categoryIds[$categoryName] ?? $categoryIds['小説'];
+
+            unset($book['status_code'], $book['category_name']);
 
             DB::table('books')->updateOrInsert(
                 ['title' => $book['title']],
                 array_merge($book, [
                     'rental_status_id' => $rentalStatusId,
+                    'category_id' => $categoryId,
                     'updated_at' => $now,
                     'created_at' => $now,
                 ])

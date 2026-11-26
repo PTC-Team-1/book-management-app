@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\Category as ConstantsCategory;
 use App\Constants\RentalStatus;
 use App\Models\ActivityLog;
 use App\Models\Book;
+use App\Models\Category;
 use App\Services\ActivityLogger;
 use App\Services\OpenBdLookupService;
 use Illuminate\Http\Client\ConnectionException;
@@ -19,7 +21,13 @@ class BookCreateController extends Controller
 {
     public function create()
     {
-        return view('books.create');
+        $categories = Category::all();
+
+        $data = [
+            'categories' => $categories
+        ];
+
+        return view('books.create', $data);
     }
 
     public function store(Request $request, ActivityLogger $activityLogger)
@@ -32,6 +40,7 @@ class BookCreateController extends Controller
             'isbn' => 'nullable | string',
             'description' => 'nullable | string',
             'thumbnail' => 'nullable | string',
+            'category_id' => 'nullable | integer',
         ]);
 
         $book = new Book();
@@ -43,6 +52,7 @@ class BookCreateController extends Controller
         $book->description = $validatedData['description'];
         $book->thumbnail = $validatedData['thumbnail'];
         $book->rental_status_id = RentalStatus::AVAILABLE;
+        $book->category_id = $validatedData['category_id'] ?? ConstantsCategory::DEFAULT_VALUE;
 
         $book->save();
 

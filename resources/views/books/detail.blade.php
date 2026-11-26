@@ -75,7 +75,7 @@
                                 </span>
                             @endif
                         </div>
-                        
+
                         @if ($book->isAvailable() && $hasRentalRequst == false)
                             <form action="/books/rental/request" method="post">
                                 @csrf
@@ -94,6 +94,11 @@
 
                     <table class="table table-bordered align-middle mb-4">
                         <tbody>
+                            <tr>
+                                <th class="table-light" style="width: 30%;">カテゴリ</th>
+                                <td>{{ optional($book->category)->name ?? '未設定' }}</td>
+                            </tr>
+
                             <tr>
                                 <th class="table-light" style="width: 30%;">著者</th>
                                 <td>{{ $book['author'] ?? '未登録' }}</td>
@@ -163,7 +168,7 @@
                         <div class="fw-semibold">
                             {{ $comment->user->name}}
                         </div>
-                        
+
                         @if (Auth::user()->id === $comment->user->id || Auth::user()->role === 'admin')
                             <div class="d-flex gap-2">
                                 <a href="/books/comments/edit?comment_id={{ $comment->id }}&book_id={{ $book['id'] }}&user_id={{ $comment->user->id }}"

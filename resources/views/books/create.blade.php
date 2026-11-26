@@ -1,4 +1,3 @@
-
 @extends('layouts.admin')
 
 @section('title', '書籍登録')
@@ -160,6 +159,24 @@
                             rows="5"
                             placeholder="書籍の説明を入力してください"
                         >{{ old('description') }}</textarea>
+                    </div>
+
+                    <!-- カテゴリ -->
+                    <div class="col-12 col-md-6">
+                        <label for="category_id" class="form-label fw-semibold">
+                            カテゴリ
+                        </label>
+                        <select class="form-select" id="category_id" name="category_id">
+                            <option value="">カテゴリを選択してください</option>
+                            @foreach($categories as $category)
+                                <option
+                                    value="{{ $category->id }}"
+                                    @selected((string) old('category_id') === (string) $category->id)
+                                >
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <!-- 書籍画像 -->

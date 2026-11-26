@@ -6,6 +6,8 @@ use App\Models\ActivityLog;
 use App\Models\Book;
 use App\Services\ActivityLogger;
 use Illuminate\Http\Request;
+use App\Constants\Category as ConstantsCategory;
+use App\Models\Category;
 
 class BookEditController extends Controller
 {
@@ -17,9 +19,13 @@ class BookEditController extends Controller
 
         $bookId = $request->input('id');
         $bookData = Book::find($bookId);
+        $categories = Category::all();
+
         $data = [
-            'book' => $bookData
+            'book' => $bookData,
+            'categories' => $categories
         ];
+
         return view('books.edit', $data);
     }
 
@@ -34,6 +40,7 @@ class BookEditController extends Controller
             'isbn' => 'nullable | string',
             'description' => 'nullable | string',
             'thumbnail' => 'nullable | string',
+            'category_id' => 'nullable | integer',
         ]);
 
         $book = Book::find($validatedData['id']);
@@ -44,6 +51,7 @@ class BookEditController extends Controller
         $book->published_date = $validatedData['published_date'];
         $book->description = $validatedData['description'];
         $book->thumbnail = $validatedData['thumbnail'];
+        $book->category_id = $validatedData['category_id'] ?? ConstantsCategory::DEFAULT_VALUE;
 
         $book->save();
 

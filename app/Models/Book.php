@@ -23,6 +23,11 @@ class Book extends Model
         return $this->belongsTo(RentalStatus::class);
     }
 
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(category::class);
+    }
+
     public function isAvailable(): bool
     {
         return $this->rentalStatus?->code === 'available';
