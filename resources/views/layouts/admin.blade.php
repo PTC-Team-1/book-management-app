@@ -89,6 +89,11 @@
                         書籍削除
                     </a>
 
+                    <a href="{{ route('admin.books.rentals.index') }}"
+                       class="nav-link">
+                        書籍貸出申請
+                    </a>
+
                     <a href="/admin/users/create"
                        class="nav-link">
                         社員データ登録
