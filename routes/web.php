@@ -99,10 +99,10 @@ Route::middleware(['auth'])->group(function () {
 
             // ISBN用の書籍追加
             Route::post('/books/batch-store', [BookCreateController::class, 'storeBatch'])
-                ->name('admin.books.batch-store');
+                ->name('books.batch-store');
             //ISBNを使用してAPIからデータの取得
             Route::get('/books/isbn-lookup', [BookCreateController::class, 'lookupIsbn'])
-                ->name('admin.books.isbn-lookup');
+                ->name('books.isbn-lookup');
 
             Route::post('/books/store', [BookCreateController::class, 'store'])
                 ->name('books.store');

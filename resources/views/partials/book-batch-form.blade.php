@@ -31,10 +31,10 @@
     </div>
 
     <form
-        action="{{ route('admin.admin.books.batch-store') }}"
+        action="{{ route('admin.books.batch-store') }}"
         method="POST"
         id="batch-form"
-        data-lookup-url="{{ route('admin.admin.books.isbn-lookup') }}"
+        data-lookup-url="{{ route('admin.books.isbn-lookup') }}"
         data-restored-books="{{ json_encode(old('books', [])) }}"
     >
         @csrf
