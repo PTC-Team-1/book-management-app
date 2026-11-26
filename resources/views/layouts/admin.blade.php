@@ -84,11 +84,6 @@
                         書籍編集
                     </a>
 
-                    <a href="/admin/books/erase"
-                       class="nav-link">
-                        書籍削除
-                    </a>
-
                     <a href="{{ route('admin.books.rentals.index') }}"
                        class="nav-link">
                         書籍貸出申請
@@ -102,11 +97,6 @@
                     <a href="/admin/users/edit"
                        class="nav-link">
                         社員データ編集
-                    </a>
-
-                    <a href="/admin/users/erase"
-                       class="nav-link">
-                        社員データ削除
                     </a>
 
                     <a href="/admin/users"

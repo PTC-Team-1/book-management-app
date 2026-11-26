@@ -9,7 +9,7 @@
     <div class="mb-4">
         <h1 class="fw-bold mb-2">書籍編集</h1>
         <p class="text-secondary mb-0">
-            編集する書籍を検索し、登録情報を更新できます。
+            書籍IDを入力して、登録情報を更新できます。
         </p>
     </div>
 
@@ -37,7 +37,7 @@
                         <!-- 書籍名 -->
                         <div class="col-12">
                             <label for="title" class="form-label fw-semibold">
-                                書籍名 <span class="text-danger">*</span>
+                                書籍名 <span class="badge bg-danger ms-1">必須</span>
                             </label>
                             <input
                                 type="text"
@@ -152,7 +152,7 @@
                         <!-- 書籍画像 -->
                         <div class="col-12">
                             <label for="thumbnail" class="form-label fw-semibold">
-                                書籍画像
+                                書籍画像URL
                             </label>
 
                             @if ($book->thumbnail)
@@ -160,22 +160,22 @@
                                     <img
                                         src="{{ $book->thumbnail }}"
                                         alt="{{ $book->title }}"
-                                        class="img-thumbnail"
-                                        style="max-height: 180px;"
+                                        class="book-edit-thumbnail img-thumbnail"
                                     >
                                 </div>
                             @endif
 
                             <input
-                                type="file"
+                                type="url"
                                 class="form-control"
                                 id="thumbnail"
                                 name="thumbnail"
-                                accept="image/*"
+                                placeholder="https://example.com/image.jpg"
+                                value="{{ old('thumbnail', $book->thumbnail) }}"
                             >
 
                             <div class="form-text">
-                                新しい画像を選択すると画像を変更できます。
+                                画像ファイルのURLを入力してください。例：http://127.0.0.1:8000/images/2_.jpg
                             </div>
 
                             @error('thumbnail')
@@ -188,17 +188,29 @@
                     </div>
 
                     <!-- ボタン -->
-                    <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                    <div class="d-flex justify-content-between gap-2 mt-4 pt-3 border-top">
 
-                        <a href="{{ route('admin.books.edit') }}"
-                           class="btn btn-outline-secondary">
-                            キャンセル
-                        </a>
-
-                        <button type="submit" class="btn btn-primary">
-                            変更を保存する
+                        {{-- 2026年11月26日追加: 編集中の書籍を引き継いで削除確認画面へ進む。 --}}
+                        <button
+                            type="submit"
+                            class="btn btn-outline-danger"
+                            formaction="/admin/books/erase"
+                            formmethod="POST"
+                            formnovalidate
+                        >
+                            書籍の削除確認へ
                         </button>
 
+                        <div class="d-flex gap-2">
+                            <a href="{{ route('admin.books.edit') }}"
+                               class="btn btn-outline-secondary">
+                                キャンセル
+                            </a>
+
+                            <button type="submit" class="btn btn-primary">
+                                変更を保存する
+                            </button>
+                        </div>
                     </div>
 
                 </form>
@@ -212,31 +224,27 @@
         <div class="card border-0 shadow-sm">
 
             <div class="card-header bg-white border-bottom py-3">
-                <h5 class="fw-bold mb-0">編集する書籍を検索</h5>
+                <h5 class="fw-bold mb-0">編集する書籍のIDを入力</h5>
             </div>
 
             <div class="card-body p-4">
 
                 <p class="text-secondary mb-4">
-                    編集したい書籍のIDを入力してください。
+                    編集する書籍のIDを入力してください。
                 </p>
 
                 <form action="{{ route('admin.books.edit') }}" method="POST">
                     @csrf
 
                     <div class="mb-4">
-                        <label for="id" class="form-label fw-semibold">
-                            書籍ID
-                        </label>
-
+                        <label for="id" class="form-label fw-semibold">書籍ID</label>
                         <input
                             type="number"
                             class="form-control"
                             id="id"
                             name="id"
-                            placeholder="書籍IDを入力してください"
-                            value="{{ old('id') }}"
                             min="1"
+                            value="{{ old('id') }}"
                             required
                             autofocus
                         >
@@ -248,9 +256,15 @@
                         @enderror
                     </div>
 
-                    <div class="d-flex justify-content-end ">
+                    <div class="d-flex justify-content-end gap-2">
+
+                        <a href="/admin/books/create"
+                           class="btn btn-outline-secondary">
+                            キャンセル
+                        </a>
+
                         <button type="submit" class="btn btn-primary">
-                            書籍を検索する
+                            書籍を検索
                         </button>
 
                     </div>

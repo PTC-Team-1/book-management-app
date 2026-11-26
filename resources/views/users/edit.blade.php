@@ -1,3 +1,4 @@
+
 @extends('layouts.admin')
 @section('title', '社員データ編集ページ')
 
@@ -5,7 +6,7 @@
 
     <div class="mb-4">
         <h1 class="fw-bold mb-2">社員データ編集</h1>
-        <p class="text-secondary mb-0">社員情報の編集または社員IDによる検索を行います。</p>
+        <p class="text-secondary mb-0">社員IDを入力して、社員情報を編集できます。</p>
     </div>
 
     @if (@isset($user))
@@ -50,13 +51,24 @@
                         </select>
                     </div>
 
-                    <div class="d-flex justify-content-end gap-2 pt-3 border-top">
-                        <a href="{{ route('admin.users.edit') }}" class="btn btn-outline-secondary">
-                            キャンセル
-                        </a>
-                        <button type="submit" class="btn btn-primary">
-                            社員情報更新
+                    <div class="d-flex justify-content-between gap-2 pt-3 border-top">
+                        {{-- 2026年11月26日追加: 編集中の社員を引き継いで削除確認画面へ進む。 --}}
+                        <button
+                            type="submit"
+                            class="btn btn-outline-danger"
+                            formaction="/admin/users/erase"
+                            formmethod="POST"
+                            formnovalidate
+                        >
+                            社員の削除確認へ
                         </button>
+
+                        <div class="d-flex gap-2">
+                            <a href="/admin/users/edit" class="btn btn-outline-secondary">
+                                キャンセル
+                            </a>
+                            <input type="submit" class="btn btn-primary" value="社員情報更新">
+                        </div>
                     </div>
                 </form>
             </div>
@@ -66,7 +78,7 @@
 
         <div class="card border-0 shadow-sm">
             <div class="card-header bg-white py-3">
-                <h5 class="fw-bold mb-0">社員検索</h5>
+                <h5 class="fw-bold mb-0">編集する社員のIDを入力</h5>
             </div>
 
             <div class="card-body p-4">
@@ -83,14 +95,21 @@
                             class="form-control"
                             id="id"
                             name="id"
+                            min="1"
+                            value="{{ old('id') }}"
                             required
                             autofocus
-                            placeholder="社員IDを入力してください"
                         >
+
+                        @error('id')
+                            <div class="text-danger small mt-1">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
 
                     <div class="d-flex justify-content-end">
-                        <input type="submit" class="btn btn-primary" value="社員検索">
+                        <input type="submit" class="btn btn-primary" value="社員を検索">
                     </div>
                 </form>
             </div>
