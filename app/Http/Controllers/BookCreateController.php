@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Constants\RentalStatus;
+use App\Models\ActivityLog;
 use App\Models\Book;
+use App\Services\ActivityLogger;
 use App\Services\OpenBdLookupService;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
@@ -20,7 +22,7 @@ class BookCreateController extends Controller
         return view('books.create');
     }
 
-    public function store(Request $request)
+    public function store(Request $request, ActivityLogger $activityLogger)
     {
         $validatedData = $request->validate([
             'title' => 'required | string | min:1 | max:100',
@@ -43,6 +45,13 @@ class BookCreateController extends Controller
         $book->rental_status_id = RentalStatus::AVAILABLE;
 
         $book->save();
+
+        $activityLogger->record(
+            $request->user(),
+            ActivityLog::ACTION_CREATED,
+            ActivityLog::SUBJECT_BOOK,
+            $book->id,
+        );
 
         $data = [
             'book' => $validatedData,

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\Comment;
+use App\Services\ActivityLogger;
 use Illuminate\Http\Request;
 
 class CommentEditController extends Controller
@@ -19,7 +21,7 @@ class CommentEditController extends Controller
         return view('comments.edit', $data);
     }
 
-    public function update(Request $request)
+    public function update(Request $request, ActivityLogger $activityLogger)
     {
         $validatedData = $request->validate([
             'id' => ['required', 'exists:comments,id'],
@@ -34,6 +36,13 @@ class CommentEditController extends Controller
         $comment->rating = $validatedData['rating'];
 
         $comment->save();
+
+        $activityLogger->record(
+            $request->user(),
+            ActivityLog::ACTION_UPDATED,
+            ActivityLog::SUBJECT_COMMENT,
+            $comment->id,
+        );
 
         $data = [
             'comment' => $validatedData,

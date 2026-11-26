@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\User;
+use App\Services\ActivityLogger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -23,7 +25,7 @@ class UserEditController extends Controller
         return view('users.edit', $data);
     }
 
-    public function update(Request $request)
+    public function update(Request $request, ActivityLogger $activityLogger)
     {
         $validatedData = $request->validate([
             'id' => ['required', 'exists:users,id'],
@@ -38,6 +40,13 @@ class UserEditController extends Controller
         $user->role = $validatedData['role'];
 
         $user->save();
+
+        $activityLogger->record(
+            $request->user(),
+            ActivityLog::ACTION_UPDATED,
+            ActivityLog::SUBJECT_USER,
+            $user->id,
+        );
 
         $data = [
             'user' => $validatedData,

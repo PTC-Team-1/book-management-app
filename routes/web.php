@@ -1,6 +1,7 @@
 
 <?php
 
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\BookCreateController;
 use App\Http\Controllers\BookDeleteController;
 use App\Http\Controllers\BookDetailController;
@@ -150,5 +151,9 @@ Route::middleware(['auth'])->group(function () {
             // 貸出承認
             Route::post('/books/rentals/approve', [RentalController::class, 'approve'])
                 ->name('books.rentals.approve');
+
+            // 管理者の操作ログ一覧
+            Route::get('/activity-logs', [ActivityLogController::class, 'index'])
+                ->name('activity-logs.index');
         });
 });

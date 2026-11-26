@@ -113,6 +113,12 @@
                        class="nav-link">
                         社員検索
                     </a>
+                    
+                    {{-- 2026年11月25日追加: 管理者メニューに操作履歴を追加。 --}}
+                    <a href="{{ route('admin.activity-logs.index') }}"
+                       class="nav-link">
+                        操作履歴
+                    </a>
                 </nav>
             </div>
         </div>

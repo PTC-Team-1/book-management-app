@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\Comment;
+use App\Services\ActivityLogger;
 use Illuminate\Http\Request;
 
 class CommentDeleteController extends Controller
@@ -21,13 +23,20 @@ class CommentDeleteController extends Controller
         return view('comments.erase', $data);
     }
 
-    public function delete(Request $request) {
+    public function delete(Request $request, ActivityLogger $activityLogger) {
         $validatedData = $request->validate([
             'id' => 'required | exists:comments,id',
         ]);
 
         $comment = Comment::find($validatedData['id']);
         $comment->delete();
+
+        $activityLogger->record(
+            $request->user(),
+            ActivityLog::ACTION_DELETED,
+            ActivityLog::SUBJECT_COMMENT,
+            $comment->id,
+        );
         $data = [
             'comment' => $comment
         ];

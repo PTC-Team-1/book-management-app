@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\Book;
+use App\Services\ActivityLogger;
 use Illuminate\Http\Request;
 
 class BookEditController extends Controller
@@ -21,7 +23,7 @@ class BookEditController extends Controller
         return view('books.edit', $data);
     }
 
-    public function update(Request $request)
+    public function update(Request $request, ActivityLogger $activityLogger)
     {
         $validatedData = $request->validate([
             'id' => 'required | exists:books,id',
@@ -44,6 +46,13 @@ class BookEditController extends Controller
         $book->thumbnail = $validatedData['thumbnail'];
 
         $book->save();
+
+        $activityLogger->record(
+            $request->user(),
+            ActivityLog::ACTION_UPDATED,
+            ActivityLog::SUBJECT_BOOK,
+            $book->id,
+        );
 
         $data = [
             'book' => $validatedData,

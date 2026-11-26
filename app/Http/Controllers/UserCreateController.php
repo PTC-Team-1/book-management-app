@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\User;
+use App\Services\ActivityLogger;
 use Illuminate\Http\Request;
 
 class UserCreateController extends Controller
@@ -12,7 +14,7 @@ class UserCreateController extends Controller
         return view('users.create');
     }
 
-    public function store(Request $request)
+    public function store(Request $request, ActivityLogger $activityLogger)
     {
         $validatedData = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -28,6 +30,13 @@ class UserCreateController extends Controller
         $user->role = $validatedData['role'];
 
         $user->save();
+
+        $activityLogger->record(
+            $request->user(),
+            ActivityLog::ACTION_CREATED,
+            ActivityLog::SUBJECT_USER,
+            $user->id,
+        );
 
         $data = [
             'user' => $validatedData,
