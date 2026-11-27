@@ -36,9 +36,9 @@
                     <div class="col-12 col-md-4">
                         <div class="bg-body-secondary rounded d-flex justify-content-center align-items-center p-3">
 
-                            @if (!empty($book['thumbnail']))
+                            @if (!empty($book['cover_image_path']))
                                 <img
-                                    src="{{ $book['thumbnail'] }}"
+                                    src="{{ asset('storage/' . $book->cover_image_path) }}"
                                     alt="{{ $book['title'] }}"
                                     class="img-fluid object-fit-contain"
                                 >
@@ -105,7 +105,7 @@
                 <!-- 削除ボタン -->
                 <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
 
-                    <a href="{{ route('admin.books.delete.search') }}"
+                    <a href="{{ route('admin.books.edit') }}"
                        class="btn btn-outline-secondary">
                         キャンセル
                     </a>
