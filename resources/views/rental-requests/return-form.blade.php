@@ -7,40 +7,9 @@
     <div class="mb-4">
         <h1 class="fw-bold mb-2">書籍返却</h1>
         <p class="text-secondary mb-0">
-            1冊ずつの返却、またはISBNの連続読み取りで返却対象を確認できます。
+            ISBNの連続読み取りで返却対象を確認できます。
         </p>
     </div>
-
-    <ul class="nav nav-tabs mb-4" role="tablist">
-        <li class="nav-item" role="presentation">
-            <button
-                class="nav-link active"
-                id="return-batch-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#return-batch-pane"
-                type="button"
-                role="tab"
-                aria-controls="return-batch-pane"
-                aria-selected="true"
-            >
-                ISBN連続返却
-            </button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button
-                class="nav-link"
-                id="return-single-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#return-single-pane"
-                type="button"
-                role="tab"
-                aria-controls="return-single-pane"
-                aria-selected="false"
-            >
-                個別返却
-            </button>
-        </li>
-    </ul>
 
     <div class="tab-content">
         <div
@@ -49,13 +18,6 @@
             role="tabpanel"
             aria-labelledby="return-batch-tab"
         >
-            <div class="mb-3">
-                <h2 class="h4 fw-bold mb-2">ISBN連続返却</h2>
-                <p class="text-secondary mb-0">
-                    ISBNを最大10冊まで続けて読み取り、返却対象を確認してから一括返却できます。
-                </p>
-            </div>
-
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-body p-4">
                     <label for="return-batch-isbn" class="form-label fw-semibold">ISBNバーコード</label>
@@ -121,44 +83,6 @@
                     </div>
                 </div>
             </form>
-        </div>
-
-        <div
-            class="tab-pane fade"
-            id="return-single-pane"
-            role="tabpanel"
-            aria-labelledby="return-single-tab"
-        >
-            <div class="mb-3">
-                <h2 class="h4 fw-bold mb-2">個別返却</h2>
-                <p class="text-secondary mb-0">
-                    書籍の情報を入力します。
-                </p>
-            </div>
-
-            <div class="card border-0 shadow-sm">
-                <div class="card-body p-4">
-                    <div class="row g-4">
-                        <div class="col-12">
-                            <label for="return-book" class="form-label fw-semibold">
-                                書籍名<span class="required-mark" aria-hidden="true">*</span><span class="visually-hidden">必須</span>
-                            </label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="return-book"
-                                placeholder="書籍名を入力してください"
-                            >
-                        </div>
-                    <div class="d-flex justify-content-end mt-4 pt-3 border-top">
-                        <form action="{{ route('admin.books.rentals.return.store') }}" method="post">
-                            <button type="submit" class="btn btn-primary" disabled>
-                                返却する
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
