@@ -5,27 +5,35 @@
 
 @section('content')
 
-    <div class="container py-5">
+    <div class="container auth-container">
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-5">
 
                 <!-- ページタイトル -->
                 <div class="text-center mb-4">
-                    <h1 class="fw-bold mb-2">書籍管理アプリ</h1>
-                    <p class="text-secondary mb-0">
-                        ログインしてください
-                    </p>
+                    <div class="auth-brand-lockup">
+                        <img src="/images/syrms-emblem-hex.png" alt="" class="auth-logo">
+                        <img src="/images/syrms-wordmark-dark.png"
+                             alt="SYRMS CORPORATION"
+                             class="auth-wordmark">
+                    </div>
+                    <div class="auth-product-heading">
+                        <h1 class="fw-bold mb-2">書籍管理システム</h1>
+                        <p class="text-secondary mb-0">
+                            ログインしてください
+                        </p>
+                    </div>
                 </div>
 
                 <!-- ログインフォーム -->
-                <div class="card border-0 shadow-sm">
+                <div class="login-card card border-0 shadow-sm">
                     <div class="card-body p-4">
 
                         <h2 class="h4 fw-bold text-center mb-4">
                             ログイン
                         </h2>
 
-                        <form action="/login" method="POST">
+                        <form action="{{ route('login.store') }}" method="POST">
                             @csrf
 
                             <!-- メールアドレス -->
@@ -110,10 +118,6 @@
 
                     </div>
                 </div>
-
-                <p class="text-center text-secondary small mt-4">
-                    書籍管理アプリ
-                </p>
 
             </div>
         </div>
