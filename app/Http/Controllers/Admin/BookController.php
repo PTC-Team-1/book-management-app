@@ -71,55 +71,12 @@ class BookController extends Controller
         );
 
         $data = [
-            'book' => $validatedData,
+            'book' => $book,
         ];
 
         return view('books.store', $data);
     }
 
-    // public function lookupIsbn(Request $request, OpenBdLookupService $openBdLookupService): JsonResponse
-    // {
-    //     $rawIsbn = $request->query('isbn');
-    //     $isbn = is_string($rawIsbn)
-    //         ? strtoupper(preg_replace('/[\s-]+/', '', trim($rawIsbn)) ?? '')
-    //         : '';
-
-    //     $request->merge(['isbn' => $isbn]);
-    //     $validatedData = $request->validate([
-    //         'isbn' => ['required', 'regex:/\A(?:\d{13}|\d{9}[\dX])\z/'],
-    //     ], [
-    //         'isbn.required' => 'ISBNを読み取ってください。',
-    //         'isbn.regex' => 'ISBNを正しく読み取れませんでした。',
-    //     ]);
-
-    //     try {
-    //         $bookInfo = $openBdLookupService->lookup($validatedData['isbn']);
-    //     } catch (ConnectionException $exception) {
-    //         Log::warning('OpenBD API connection failed.', [
-    //             'exception' => $exception::class,
-    //         ]);
-
-    //         return response()->json([
-    //             'message' => 'OpenBDに接続できませんでした。時間をおいて再度お試しください。',
-    //         ], 503);
-    //     } catch (RequestException $exception) {
-    //         Log::warning('OpenBD API returned an unsuccessful response.', [
-    //             'status' => $exception->response->status(),
-    //         ]);
-
-    //         return response()->json([
-    //             'message' => 'OpenBDから書籍情報を取得できませんでした。',
-    //         ], 502);
-    //     }
-
-    //     if ($bookInfo === null) {
-    //         return response()->json([
-    //             'message' => 'OpenBDに該当する書籍情報が見つかりませんでした。手入力してください。',
-    //         ], 404);
-    //     }
-
-    //     return response()->json($bookInfo);
-    // }
     public function lookupIsbn(Request $request, OpenBdLookupService $openBdLookupService): JsonResponse
     {
         $rawIsbn = $request->query('isbn');
@@ -338,7 +295,7 @@ class BookController extends Controller
         );
 
         $data = [
-            'book' => $validatedData,
+            'book' => $book,
         ];
 
         return view('books.update', $data);

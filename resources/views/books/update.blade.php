@@ -34,16 +34,18 @@
 
                 <!-- 書籍画像 -->
                 <div class="col-12 col-md-4">
-                    <div class="ratio ratio-3x4 bg-body-secondary rounded overflow-hidden">
-                        @if (!empty($book['thumbnail']))
+                    <div class="bg-body-secondary rounded overflow-hidden d-flex justify-content-center align-items-center"
+                        style="aspect-ratio: 3 / 4; width: 100%;">
+                        @if (!empty($book->cover_image_path))
                             <img
-                                src="{{ $book['thumbnail'] }}"
-                                alt="{{ $book['title'] }}"
-                                class="w-100 h-100 object-fit-contain"
+                                src="{{ asset('storage/' . $book->cover_image_path) }}"
+                                alt="{{ $book->title }}"
+                                class="w-100 h-100"
+                                style="object-fit: contain;"
                             >
                         @else
-                            <div class="d-flex justify-content-center align-items-center text-secondary">
-                                画像は登録されていません
+                            <div class="book-thumbnail-placeholder d-flex justify-content-center align-items-center bg-light text-secondary w-100 h-100">
+                                サムネイルなし
                             </div>
                         @endif
                     </div>

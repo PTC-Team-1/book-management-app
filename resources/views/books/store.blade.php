@@ -29,13 +29,14 @@
             <div class="row g-4">
 
                 <!-- 書籍名 -->
+                <!-- 書籍名 -->
                 <div class="col-12">
                     <div class="border rounded p-3 h-100">
                         <div class="text-secondary small mb-2">
                             書籍名
                         </div>
                         <div class="fw-semibold">
-                            {{ $book['title'] }}
+                            {{ $book->title }}
                         </div>
                     </div>
                 </div>
@@ -47,7 +48,7 @@
                             著者名
                         </div>
                         <div class="fw-semibold">
-                            {{ $book['author'] ?? '未登録' }}
+                            {{ $book->author ?? '未登録' }}
                         </div>
                     </div>
                 </div>
@@ -59,7 +60,7 @@
                             出版社
                         </div>
                         <div class="fw-semibold">
-                            {{ $book['publisher'] ?? '未登録' }}
+                            {{ $book->publisher ?? '未登録' }}
                         </div>
                     </div>
                 </div>
@@ -71,7 +72,7 @@
                             ISBN
                         </div>
                         <div class="fw-semibold">
-                            {{ $book['isbn'] ?? '未登録' }}
+                            {{ $book->isbn ?? '未登録' }}
                         </div>
                     </div>
                 </div>
@@ -83,7 +84,7 @@
                             出版日
                         </div>
                         <div class="fw-semibold">
-                            {{ $book['published_date'] ?? '未登録' }}
+                            {{ $book->published_date ?? '未登録' }}
                         </div>
                     </div>
                 </div>
@@ -95,7 +96,7 @@
                             説明文
                         </div>
                         <div class="fw-semibold text-break"
-                             style="white-space: pre-wrap;">{{ $book['description'] ?? '未登録' }}</div>
+                             style="white-space: pre-wrap;">{{ $book->description ?? '未登録' }}</div>
                     </div>
                 </div>
 
@@ -105,11 +106,10 @@
                         <div class="text-secondary small mb-3">
                             書籍画像
                         </div>
-
-                        @if (!empty($book['thumbnail']))
+                        @if (!empty($book->cover_image_path))
                             <img
-                                src="{{ $book['thumbnail'] }}"
-                                alt="{{ $book['title'] }}"
+                                src="{{ asset('storage/' . $book->cover_image_path) }}"
+                                alt="{{ $book->title }}"
                                 class="img-thumbnail"
                                 style="max-width: 200px; max-height: 280px; object-fit: contain;"
                             >
@@ -121,8 +121,6 @@
 
                     </div>
                 </div>
-
-            </div>
 
             <!-- 戻るボタン -->
             <div class="d-flex justify-content-end mt-4 pt-3 border-top">
