@@ -77,9 +77,9 @@
                                         style="max-height: 100%; max-width: 100%; object-fit: contain;"
                                     >
                                 @else
-                                    <span class="text-secondary">
+                                    <div class="book-thumbnail-placeholder d-flex justify-content-center align-items-center bg-light text-secondary">
                                         サムネイルなし
-                                    </span>
+                                    </div>
                                 @endif
 
                             </div>
