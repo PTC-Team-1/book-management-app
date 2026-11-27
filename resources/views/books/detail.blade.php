@@ -69,7 +69,7 @@
                             @endif
                         </div>
 
-                        @if ($book->isAvailable() && $hasRentalRequst == false)
+                        @if ($canRequstBook)
                             <form action="/books/rental/request" method="post" class="d-inline-flex">
                                 @csrf
                                 <input type="hidden" name="book_id" value="{{ $book['id'] }}">
@@ -78,7 +78,7 @@
                                     貸出申請
                                 </button>
                             </form>
-                        @elseif ($hasRentalRequst)
+                        @else
                             <span class="badge bg-warning text-dark">
                                 貸出申請中
                             </span>

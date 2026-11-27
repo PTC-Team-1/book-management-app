@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Book extends Model
 {
@@ -28,8 +29,23 @@ class Book extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function rentalRequest(): HasOne
+    {
+        return $this->hasOne(RentalRequest::class);
+    }
+
     public function isAvailable(): bool
     {
         return $this->rentalStatus?->code === 'available';
+    }
+
+    public function canRequestBook(): bool
+    {
+        // 貸出状態
+        $isRentalAvailable = $this->isAvailable();
+        // 貸出申請状態
+        $hasRentalRequest = $this->rentalRequest()->exists();
+
+        return $isRentalAvailable && !$hasRentalRequest;
     }
 }

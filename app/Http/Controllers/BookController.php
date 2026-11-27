@@ -7,18 +7,14 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    public function show(Request $request, Book $book)
+    public function show(Book $book)
     {
-        $user = $request->user();
-
-        $hasRentalRequst = $user->bookRentalRequests()
-            ->where('book_id', $book->id)
-            ->first();
+        $canRequstBook = $book->canRequestBook();
 
         $data = [
             'book' => $book,
             'comments' => $book->comments()->with('user')->latest()->get(),
-            'hasRentalRequst' => $hasRentalRequst
+            'canRequstBook' => $canRequstBook
         ];
 
         return view('books.detail', $data);
