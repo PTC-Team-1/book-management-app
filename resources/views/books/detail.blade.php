@@ -3,25 +3,17 @@
 @section('title', '書籍詳細')
 
 @section('content')
-
-    <!-- パンくずリスト -->
-    <nav aria-label="breadcrumb" class="mb-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{{ route('home') }}" class="text-decoration-none">トップページ</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">
-                書籍詳細
-            </li>
-        </ol>
-    </nav>
+    {{-- 2026年11月27日追記: 詳細画面から共通のトップページ導線を利用する。 --}}
+    <x-home-return-link />
 
     <!-- ページタイトル -->
-    <div class="mb-4">
-        <h1 class="fw-bold mb-2">書籍詳細</h1>
-        <p class="text-secondary mb-0">
-            書籍の詳細情報を確認できます。
-        </p>
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-2 mb-4">
+        <div>
+            <h1 class="fw-bold mb-2">書籍詳細</h1>
+            <p class="text-secondary mb-0">
+                書籍の詳細情報を確認できます。
+            </p>
+        </div>
     </div>
 
     <!-- 書籍情報 -->
@@ -35,9 +27,9 @@
                     <div class="bg-body-secondary rounded d-flex align-items-center justify-content-center"
                          style="min-height: 300px;">
 
-                        @if (!empty($book['thumbnail']))
+                        @if (!empty($book['cover_image_path']))
                             <img
-                                src="{{ $book['thumbnail'] }}"
+                                src="{{ asset('storage/' . $book->cover_image_path) }}"
                                 alt="{{ $book['title'] }}"
                                 class="img-fluid rounded object-fit-contain p-3"
                                 style="max-height: 300px;"
@@ -55,8 +47,9 @@
                 <!-- 書籍基本情報 -->
                 <div class="col-12 col-md-8">
 
-                    <div class="d-flex justify-content-between align-items-center gap-3 mb-4">
-                        <div class="d-flex align-items-center flex-wrap gap-2">
+                    {{-- 2026年11月27日追記: 長い書名と貸出操作が横幅を奪い合わないよう、申請操作を別段に置く。 --}}
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center flex-wrap gap-2 mb-3">
                             <h2 class="fw-bold mb-0">
                                 {{ $book['title'] }}
                             </h2>
@@ -77,7 +70,7 @@
                         </div>
 
                         @if ($book->isAvailable() && $hasRentalRequst == false)
-                            <form action="/books/rental/request" method="post">
+                            <form action="/books/rental/request" method="post" class="d-inline-flex">
                                 @csrf
                                 <input type="hidden" name="book_id" value="{{ $book['id'] }}">
                                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
@@ -230,12 +223,5 @@
         @endforelse
 
     </section>
-
-    <!-- トップページへ戻る -->
-    <div class="mt-5">
-        <a href="/" class="btn btn-outline-secondary">
-            トップページへ戻る
-        </a>
-    </div>
 
 @endsection

@@ -4,13 +4,19 @@
 
 @section('content')
 
+    {{-- 2026年11月27日追記: 一覧への戻り導線をページ見出しに置き、本文カード内の操作と分ける。 --}}
     <!-- ページヘッダー -->
-    <div class="p-4 p-md-5 mb-4 rounded-3 bg-light border shadow-sm">
-        <span class="badge text-bg-primary mb-2">INFORMATION</span>
-        <h1 class="h3 fw-bold mb-2">お知らせ詳細</h1>
-        <p class="text-secondary mb-0">
-            お知らせの詳しい内容を確認できます。
-        </p>
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 p-4 p-md-5 mb-4 rounded-3 bg-light border shadow-sm">
+        <div>
+            <span class="badge text-bg-primary mb-2">INFORMATION</span>
+            <h1 class="h3 fw-bold mb-2">お知らせ詳細</h1>
+            <p class="text-secondary mb-0">
+                お知らせの詳しい内容を確認できます。
+            </p>
+        </div>
+        <a href="{{ route('notices.index') }}" class="btn btn-outline-secondary btn-sm flex-shrink-0">
+            ← 一覧に戻る
+        </a>
     </div>
 
     <!-- お知らせ本文カード -->
@@ -35,15 +41,9 @@
 
         </div>
 
-        <div class="card-footer bg-white border-top p-3 p-md-4">
-
-            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
-
-                <a href="{{ route('notices.index') }}" class="btn btn-outline-secondary btn-sm">
-                    一覧に戻る
-                </a>
-
-                @if (Auth::check() && Auth::user()->role === 'admin')
+        @if (Auth::check() && Auth::user()->role === 'admin')
+            <div class="card-footer bg-white border-top p-3 p-md-4">
+                <div class="d-flex justify-content-end">
                     <div class="d-flex align-items-center gap-2">
                         <a href="{{ route('admin.notices.edit', ['notice' => $notice->id]) }}"
                            class="btn btn-outline-primary btn-sm">
@@ -52,18 +52,16 @@
 
                         <form action="{{ route('admin.notices.delete', ['notice' => $notice->id]) }}"
                               method="POST"
-                              class="d-inline m-0"
+                              class="d-inline m-0">
                             @csrf
                             <button type="submit" class="btn btn-outline-danger btn-sm">
                                 削除
                             </button>
                         </form>
                     </div>
-                @endif
-
+                </div>
             </div>
-
-        </div>
+        @endif
 
     </article>
 

@@ -17,7 +17,7 @@
                     placeholder="スキャナーで読み取ってください"
                     autocomplete="off"
                 >
-                <button type="button" class="btn btn-outline-primary" id="add-isbn">
+                <button type="button" class="btn btn-primary" id="add-isbn">
                     ISBNを追加
                 </button>
             </div>
@@ -29,6 +29,14 @@
             <div id="scan-status" class="small mt-2" role="status" aria-live="polite"></div>
         </div>
     </div>
+
+    <template id="book-category-options">
+        {{-- 2026年11月27日追記: 一括登録でも各書籍のカテゴリを個別に選択できるようにする。 --}}
+        <option value="">カテゴリを選択してください</option>
+        @foreach ($categories as $category)
+            <option value="{{ $category->id }}">{{ $category->name }}</option>
+        @endforeach
+    </template>
 
     <form
         action="{{ route('admin.books.batch-store') }}"
@@ -53,14 +61,15 @@
                             <th scope="col">著者</th>
                             <th scope="col">出版社</th>
                             <th scope="col">出版日</th>
-                            <th scope="col">説明・画像</th>
+                            <th scope="col">カテゴリ</th>
+                            <th scope="col">詳細</th>
                             <th scope="col">状態</th>
                             <th scope="col">操作</th>
                         </tr>
                     </thead>
                     <tbody id="book-queue">
                         <tr id="empty-queue">
-                            <td colspan="8" class="text-center text-secondary p-4">
+                            <td colspan="9" class="text-center text-secondary p-4">
                                 ISBNを読み取ると、ここに書籍が追加されます。
                             </td>
                         </tr>
@@ -84,6 +93,7 @@
         const saveButton = document.getElementById('save-batch');
         const scanStatus = document.getElementById('scan-status');
         const batchForm = document.getElementById('batch-form');
+        const categoryOptions = document.getElementById('book-category-options');
         const lookupUrl = batchForm.dataset.lookupUrl;
         const restoredBooks = JSON.parse(batchForm.dataset.restoredBooks || '[]');
         const queue = Array.isArray(restoredBooks)
@@ -93,6 +103,7 @@
                 author: String(book.author || ''),
                 publisher: String(book.publisher || ''),
                 published_date: String(book.published_date || ''),
+                category_id: String(book.category_id || ''),
                 description: String(book.description || ''),
                 thumbnail: String(book.thumbnail || ''),
                 status: 'ready',
@@ -141,13 +152,27 @@
                 || queue.some((book) => book.status === 'pending' || book.status === 'loading');
         };
 
+        const addCategoryField = (cell, book, index) => {
+            const select = document.createElement('select');
+            select.className = 'form-select form-select-sm';
+            select.name = `books[${index}][category_id]`;
+            select.setAttribute('aria-label', `${index + 1}冊目 カテゴリ`);
+            select.appendChild(categoryOptions.content.cloneNode(true));
+            select.value = book.category_id || '';
+            select.disabled = queue.some((item) => item.status === 'pending' || item.status === 'loading');
+            select.addEventListener('change', () => {
+                book.category_id = select.value;
+            });
+            cell.appendChild(select);
+        };
+
         const renderQueue = () => {
             queueBody.replaceChildren();
 
             if (queue.length === 0) {
                 const row = document.createElement('tr');
                 const cell = document.createElement('td');
-                cell.colSpan = 8;
+                cell.colSpan = 9;
                 cell.className = 'text-center text-secondary p-4';
                 cell.textContent = 'ISBNを読み取ると、ここに書籍が追加されます。';
                 row.appendChild(cell);
@@ -173,10 +198,14 @@
                     row.appendChild(cell);
                 });
 
+                const categoryCell = document.createElement('td');
+                addCategoryField(categoryCell, book, index);
+                row.appendChild(categoryCell);
+
                 const detailsCell = document.createElement('td');
                 const details = document.createElement('details');
                 const summary = document.createElement('summary');
-                summary.textContent = '内容を確認・編集';
+                summary.textContent = '編集';
                 details.appendChild(summary);
                 addField(details, book, index, 'description', '説明文', 'text', true);
                 addField(details, book, index, 'thumbnail', '画像URL', 'url');
@@ -185,12 +214,15 @@
 
                 const statusCell = document.createElement('td');
                 statusCell.className = book.status === 'failed' ? 'text-danger small' : 'small';
+                if (book.status === 'failed' && book.error) {
+                    statusCell.title = book.error;
+                }
                 statusCell.textContent = book.status === 'ready'
                     ? '取得済み'
                     : book.status === 'loading'
                         ? '検索中'
                         : book.status === 'failed'
-                            ? book.error || '取得できませんでした。手入力してください。'
+                            ? '自動取得に失敗'
                             : '検索待ち';
                 row.appendChild(statusCell);
 
@@ -293,6 +325,7 @@
                 author: '',
                 publisher: '',
                 published_date: '',
+                category_id: '',
                 description: '',
                 thumbnail: '',
                 status: 'pending',

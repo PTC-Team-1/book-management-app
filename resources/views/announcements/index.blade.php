@@ -1,6 +1,7 @@
 {{-- 2026年11月26日追記: 管理者がお知らせを登録・一覧確認・削除する画面。 --}}
 @extends('layouts.admin')
 
+{{-- 2026年11月27日追記: 必須表示を共通の赤いアスタリスクに揃え、入力項目の視認性を統一する。 --}}
 @section('title', 'お知らせ管理')
 
 @section('content')
@@ -31,7 +32,7 @@
                 @csrf
                 <div class="mb-3">
                     <label for="title" class="form-label fw-semibold">
-                        タイトル <span class="badge bg-danger ms-1">必須</span>
+                        タイトル <span class="required-mark" aria-hidden="true">*</span><span class="visually-hidden">必須</span>
                     </label>
                     <input
                         id="title"
@@ -45,7 +46,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="body" class="form-label fw-semibold">
-                        本文 <span class="badge bg-danger ms-1">必須</span>
+                        本文 <span class="required-mark" aria-hidden="true">*</span><span class="visually-hidden">必須</span>
                     </label>
                     <textarea
                         id="body"

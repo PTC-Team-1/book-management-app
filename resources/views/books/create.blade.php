@@ -89,7 +89,7 @@
                     <!-- 書籍名 -->
                     <div class="col-12">
                         <label for="title" class="form-label fw-semibold">
-                            書籍名 <span class="text-danger">*</span>
+                            書籍名 <span class="required-mark" aria-hidden="true">*</span><span class="visually-hidden">必須</span>
                         </label>
                         <input
                             type="text"

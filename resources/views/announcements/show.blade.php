@@ -4,14 +4,7 @@
 @section('title', $announcement->title)
 
 @section('content')
-    <nav aria-label="breadcrumb" class="mb-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="/" class="text-decoration-none">トップページ</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">お知らせ詳細</li>
-        </ol>
-    </nav>
+    <x-home-return-link />
 
     <article class="card border-0 shadow-sm">
         <div class="card-body p-4 p-md-5">
@@ -32,8 +25,4 @@
             </div>
         </div>
     </article>
-
-    <div class="mt-4">
-        <a href="/" class="btn btn-outline-secondary">トップページへ戻る</a>
-    </div>
 @endsection

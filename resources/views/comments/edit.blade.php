@@ -5,6 +5,7 @@
 
 @section('content')
 
+    {{-- 2026年11月27日追記: 必須項目の表示を全フォームで共通の赤いアスタリスクに揃える。 --}}
     <!-- ページタイトル -->
     <div class="mb-4">
         <h1 class="fw-bold mb-2">コメント編集</h1>
@@ -63,7 +64,7 @@
                     <!-- 星評価 -->
                     <div class="col-12">
                         <label class="form-label fw-semibold">
-                            星評価 <span class="text-danger">*</span>
+                            星評価 <span class="required-mark" aria-hidden="true">*</span><span class="visually-hidden">必須</span>
                         </label>
 
                         <div class="d-flex gap-2">
@@ -99,7 +100,7 @@
                     <!-- コメント内容 -->
                     <div class="col-12">
                         <label for="content" class="form-label fw-semibold">
-                            コメント内容 <span class="text-danger">*</span>
+                            コメント内容 <span class="required-mark" aria-hidden="true">*</span><span class="visually-hidden">必須</span>
                         </label>
 
                         <textarea

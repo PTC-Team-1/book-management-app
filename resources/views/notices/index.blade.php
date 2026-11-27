@@ -3,6 +3,8 @@
 @section('title', 'お知らせ一覧')
 
 @section('content')
+    {{-- 2026年11月27日追記: お知らせ一覧から共通のトップページ導線を利用する。 --}}
+    <x-home-return-link />
 
     <!-- ページヘッダー -->
     <div class="p-4 p-md-5 mb-4 rounded-3 bg-light border shadow-sm">

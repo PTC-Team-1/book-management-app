@@ -20,7 +20,7 @@
             <div class="card-header bg-white border-bottom py-3">
                 <h5 class="fw-bold mb-0">書籍情報の編集</h5>
                 <small class="text-secondary">
-                    書籍ID：{{ $book->id }}
+                    書籍ID:{{ $book->id }}
                 </small>
             </div>
 
@@ -241,8 +241,6 @@
 
     @else
 
-        {{-- 2026年11月27日追記: ID入力に頼らず、最近の書籍やタイトル検索から編集対象を選べるようにする。 --}}
-        <!-- 書籍名検索 -->
         <div class="card border-0 shadow-sm">
             <div class="card-header bg-white border-bottom py-3">
                 <div class="d-flex justify-content-between align-items-center gap-3">
