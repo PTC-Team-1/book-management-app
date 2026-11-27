@@ -199,17 +199,22 @@ class BookController extends Controller
 
     public function edit(Request $request)
     {
-        if ($request->isMethod('get')) {
-            return view('books.edit');
+        if ($request->filled('id')) {
+            $bookId = $request->query('id');
+            $bookData = Book::find($bookId);
+            $categories = Category::all();
+
+            $data = [
+                'book' => $bookData,
+                'categories' => $categories
+            ];
+
+            return view('books.edit', $data);
         }
 
-        $bookId = $request->input('id');
-        $bookData = Book::find($bookId);
-        $categories = Category::all();
-
+        $books = Book::all();
         $data = [
-            'book' => $bookData,
-            'categories' => $categories
+            'books' => $books
         ];
 
         return view('books.edit', $data);

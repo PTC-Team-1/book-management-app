@@ -8,7 +8,7 @@
     <div class="mb-4">
         <h1 class="fw-bold mb-2">書籍編集</h1>
         <p class="text-secondary mb-0">
-            書籍IDを入力して、登録情報を更新できます。
+        書籍名で検索して、登録情報を更新できます。
         </p>
     </div>
 
@@ -26,7 +26,7 @@
 
             <div class="card-body p-4">
 
-                <form action="{{ route('admin.books.update') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.books.update') }}" method="POST">
                     @csrf
 
                     <input type="hidden" name="id" value="{{ $book->id }}">
@@ -36,7 +36,7 @@
                         <!-- 書籍名 -->
                         <div class="col-12">
                             <label for="title" class="form-label fw-semibold">
-                                書籍名 <span class="badge bg-danger ms-1">必須</span>
+                                書籍名 <span class="required-mark" aria-hidden="true">*</span><span class="visually-hidden">必須</span>
                             </label>
                             <input
                                 type="text"
@@ -173,14 +173,14 @@
 
                         <!-- 書籍画像 -->
                         <div class="col-12">
-                            <label for="cover_image" class="form-label fw-semibold">
-                                書籍画像
+                            <label for="thumbnail" class="form-label fw-semibold">
+                                書籍画像URL
                             </label>
 
-                            @if ($book->cover_image_path)
+                            @if ($book->thumbnail)
                                 <div class="mb-3">
                                     <img
-                                        src="{{ asset('storage/' . $book->cover_image_path) }}"
+                                        src="{{ $book->thumbnail }}"
                                         alt="{{ $book->title }}"
                                         class="book-edit-thumbnail img-thumbnail"
                                     >
@@ -188,19 +188,19 @@
                             @endif
 
                             <input
-                                type="file"
+                                type="url"
                                 class="form-control"
-                                id="cover_image"
-                                name="cover_image"
-                                accept="image/jpeg,image/png,image/webp"
+                                id="thumbnail"
+                                name="thumbnail"
+                                placeholder="https://example.com/image.jpg"
+                                value="{{ old('thumbnail', $book->thumbnail) }}"
                             >
 
                             <div class="form-text">
-                                JPEG、PNG、WebP形式の画像をアップロードできます。
-                                未選択の場合は現在の画像を維持します。
+                                画像ファイルのURLを入力してください。例:http://127.0.0.1:8000/images/2_.jpg
                             </div>
 
-                            @error('cover_image')
+                            @error('thumbnail')
                                 <div class="text-danger small mt-1">
                                     {{ $message }}
                                 </div>
@@ -241,59 +241,195 @@
 
     @else
 
-        <!-- 書籍検索フォーム -->
+        {{-- 2026年11月27日追記: ID入力に頼らず、最近の書籍やタイトル検索から編集対象を選べるようにする。 --}}
+        <!-- 書籍名検索 -->
         <div class="card border-0 shadow-sm">
-
             <div class="card-header bg-white border-bottom py-3">
-                <h5 class="fw-bold mb-0">編集する書籍のIDを入力</h5>
+                <div class="d-flex justify-content-between align-items-center gap-3">
+                    <h5 class="fw-bold mb-0">編集する書籍を選択</h5>
+                    <span class="badge bg-secondary" id="book-search-count">最新10件</span>
+                </div>
             </div>
 
             <div class="card-body p-4">
-
-                <p class="text-secondary mb-4">
-                    編集する書籍のIDを入力してください。
-                </p>
-
-                <form action="{{ route('admin.books.edit') }}" method="POST">
-                    @csrf
-
-                    <div class="mb-4">
-                        <label for="id" class="form-label fw-semibold">書籍ID</label>
-                        <input
-                            type="number"
-                            class="form-control"
-                            id="id"
-                            name="id"
-                            min="1"
-                            value="{{ old('id') }}"
-                            required
-                            autofocus
-                        >
-
-                        @error('id')
-                            <div class="text-danger small mt-1">
-                                {{ $message }}
+                <label for="book-title-search" class="form-label fw-semibold">書籍名</label>
+                <input
+                    type="search"
+                    class="form-control"
+                    id="book-title-search"
+                    placeholder="書籍名を入力してください"
+                    maxlength="255"
+                    autocomplete="off"
+                    autofocus
+                    {{-- data-search-url="{{ route('admin.books.edit.lookup') }}" --}}
+                >
+                <div class="form-text mb-3">
+                    最近登録された書籍を10件表示します。入力すると書籍名で絞り込めます。
+                </div>
+                <div id="book-search-status" class="small text-secondary mb-3" role="status" aria-live="polite">
+                    最近登録された書籍を表示しています。
+                </div>
+                <div
+                    class="list-group"
+                    id="book-search-results"
+                    data-delete-url="{{ route('admin.books.delete.search') }}"
+                    data-csrf-token="{{ csrf_token() }}"
+                >
+                    @forelse ($books as $candidate)
+                        <div class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-center gap-3">
+                                <a
+                                    href="{{ route('admin.books.edit', ['id' => $candidate->id]) }}"
+                                    class="text-decoration-none text-reset flex-grow-1"
+                                >
+                                    <span class="d-block fw-semibold">{{ $candidate->title }}</span>
+                                    <small class="text-secondary">
+                                        {{ $candidate->author ?: '著者未登録' }}
+                                        @if ($candidate->isbn)
+                                            ・ISBN {{ $candidate->isbn }}
+                                        @endif
+                                    </small>
+                                </a>
+                                <div class="d-flex flex-shrink-0 gap-2">
+                                    <a
+                                        href="{{ route('admin.books.edit', ['id' => $candidate->id]) }}"
+                                        class="btn btn-primary btn-sm"
+                                    >
+                                        編集
+                                    </a>
+                                    <form action="{{ route('admin.books.delete.search') }}" method="POST" class="m-0">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $candidate->id }}">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm">
+                                            削除
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
-                        @enderror
-                    </div>
-
-                    <div class="d-flex justify-content-end gap-2">
-
-                        <a href="/admin/books/create"
-                           class="btn btn-outline-secondary">
-                            キャンセル
-                        </a>
-
-                        <button type="submit" class="btn btn-primary">
-                            書籍を検索
-                        </button>
-
-                    </div>
-
-                </form>
-
+                        </div>
+                    @empty
+                        <div class="list-group-item text-center text-secondary py-4">
+                            登録されている書籍はありません。
+                        </div>
+                    @endforelse
+                </div>
             </div>
         </div>
+
+        <script>
+            (() => {
+                const searchInput = document.getElementById('book-title-search');
+                const results = document.getElementById('book-search-results');
+                const count = document.getElementById('book-search-count');
+                const status = document.getElementById('book-search-status');
+                let debounceTimer;
+                let activeRequest;
+
+                const renderResults = (books) => {
+                    results.replaceChildren();
+                    count.textContent = `${books.length} / 10件`;
+
+                    if (books.length === 0) {
+                        const emptyState = document.createElement('div');
+                        emptyState.className = 'list-group-item text-center text-secondary py-4';
+                        emptyState.textContent = '該当する書籍が見つかりませんでした。';
+                        results.appendChild(emptyState);
+                        return;
+                    }
+
+                    books.forEach((book) => {
+                        const item = document.createElement('div');
+                        const row = document.createElement('div');
+                        const detailsLink = document.createElement('a');
+                        const details = document.createElement('span');
+                        const title = document.createElement('span');
+                        const metadata = document.createElement('small');
+                        const actions = document.createElement('div');
+                        const editLink = document.createElement('a');
+                        const deleteForm = document.createElement('form');
+                        const csrfInput = document.createElement('input');
+                        const bookIdInput = document.createElement('input');
+                        const deleteButton = document.createElement('button');
+
+                        item.className = 'list-group-item';
+                        row.className = 'd-flex justify-content-between align-items-center gap-3';
+                        detailsLink.href = book.url;
+                        detailsLink.className = 'text-decoration-none text-reset flex-grow-1';
+                        title.className = 'd-block fw-semibold';
+                        title.textContent = book.title;
+                        metadata.className = 'text-secondary';
+                        metadata.textContent = [
+                            book.author || '著者未登録',
+                            book.isbn ? `ISBN ${book.isbn}` : '',
+                        ].filter(Boolean).join(' ・ ');
+                        actions.className = 'd-flex flex-shrink-0 gap-2';
+                        editLink.href = book.url;
+                        editLink.className = 'btn btn-primary btn-sm';
+                        editLink.textContent = '編集';
+                        deleteForm.action = results.dataset.deleteUrl;
+                        deleteForm.method = 'POST';
+                        deleteForm.className = 'm-0';
+                        csrfInput.type = 'hidden';
+                        csrfInput.name = '_token';
+                        csrfInput.value = results.dataset.csrfToken;
+                        bookIdInput.type = 'hidden';
+                        bookIdInput.name = 'id';
+                        bookIdInput.value = book.id;
+                        deleteButton.type = 'submit';
+                        deleteButton.className = 'btn btn-outline-danger btn-sm';
+                        deleteButton.textContent = '削除';
+
+                        details.append(title, metadata);
+                        detailsLink.appendChild(details);
+                        deleteForm.append(csrfInput, bookIdInput, deleteButton);
+                        actions.append(editLink, deleteForm);
+                        row.append(detailsLink, actions);
+                        item.appendChild(row);
+                        results.appendChild(item);
+                    });
+                };
+
+                searchInput.addEventListener('input', () => {
+                    clearTimeout(debounceTimer);
+                    activeRequest?.abort();
+
+                    const title = searchInput.value.trim();
+                    const controller = new AbortController();
+                    activeRequest = controller;
+                    status.textContent = '検索しています…';
+
+                    debounceTimer = setTimeout(async () => {
+                        try {
+                            const response = await fetch(
+                                `${searchInput.dataset.searchUrl}?title=${encodeURIComponent(title)}`,
+                                {
+                                    headers: { Accept: 'application/json' },
+                                    signal: controller.signal,
+                                }
+                            );
+
+                            if (!response.ok) {
+                                throw new Error('書籍候補を取得できませんでした。');
+                            }
+
+                            const books = await response.json();
+                            renderResults(books);
+                            status.textContent = title
+                                ? '書籍名で検索した結果を表示しています。'
+                                : '最近登録された書籍を表示しています。';
+                        } catch (error) {
+                            if (error instanceof Error && error.name === 'AbortError') {
+                                return;
+                            }
+
+                            status.textContent = error instanceof Error
+                                ? error.message
+                                : '書籍候補を取得できませんでした。';
+                        }
+                    }, 250);
+                });
+            })();
+        </script>
 
     @endif
 
