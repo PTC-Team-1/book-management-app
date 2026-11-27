@@ -13,14 +13,16 @@ use Illuminate\Support\Facades\Auth;
 
 class RentalController extends Controller
 {
-    public function show()
+
+    //書籍申請
+    public function create()
     {
         $rentalRequests = RentalRequest::all();
         $data = [
             'rentalRequests' => $rentalRequests
         ];
 
-        return view('rental-requests.show', $data);
+        return view('rental-requests.create', $data);
     }
 
     public function approve(Request $request, ActivityLogger $activityLogger)
@@ -52,7 +54,7 @@ class RentalController extends Controller
             $book->id,
         );
 
-        return redirect('/admin/books/rentals/request');
+        return view('rental-requests.complete');
     }
 
     public function request(Request $request)
@@ -76,6 +78,11 @@ class RentalController extends Controller
         return view('rental-requests.complete', $data);
     }
 
+    public function returnForm()
+    {
+        return view('rental-requests.return-form');
+    }
+
     public function return(Request $request, ActivityLogger $activityLogger)
     {
         $validatedData = $request->validate([
@@ -94,9 +101,8 @@ class RentalController extends Controller
             $book->id,
         );
 
-        // TODO: フロント側が完成後に追加する
-        // return redirect()
-        //     ->route('admin.books.rental.index')
-        //     ->with('status', '返却処理が完了しました')
+        return redirect()
+            ->route('admin.books.rentals.return.form')
+            ->with('status', '返却処理が完了しました');
     }
 }

@@ -14,6 +14,12 @@ body {
     font-family: 'Noto Sans JP', sans-serif;
 }
 
+/* 2026年11月27日追記: 必須項目の表示をフォーム間で統一する。 */
+.required-mark {
+    margin-left: .2rem;
+    color: #dc3545;
+}
+
 /* 共通のヘッダー */
 .app-header {
     background: linear-gradient(105deg, var(--brand-navy) 0%, #1e3a8a 62%, #075985 100%);
@@ -23,6 +29,44 @@ body {
 
 .header-main-row {
     min-height: 80px;
+}
+
+/* 2026年11月27日追記: アカウント関連操作の間隔と高さを共通化する。 */
+.header-account-controls {
+    display: flex;
+    align-items: center;
+    gap: .625rem;
+    flex-wrap: nowrap;
+}
+
+.header-user-label {
+    display: inline-flex;
+    min-height: 36px;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.header-notice-link {
+    display: inline-flex;
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 7px;
+}
+
+.header-notice-link:hover,
+.header-notice-link:focus-visible {
+    background: rgba(255, 255, 255, .12);
+}
+
+.header-logout-form {
+    margin: 0;
+}
+
+.header-logout-action {
+    min-width: 88px;
 }
 
 .header-nav {
@@ -37,12 +81,38 @@ body {
     align-items: center;
 }
 
+/* 2026年11月27日追記: 一般画面の検索とリクエスト導線をまとめ、狭い幅では縦に並べる。 */
+.general-navigation-controls {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-end;
+    gap: .75rem;
+}
+
+.general-navigation-controls > .header-action {
+    flex: 0 0 auto;
+}
+
+.header-search-form {
+    display: flex;
+    width: min(100%, 360px);
+    align-items: center;
+    gap: .5rem;
+    margin: 0;
+}
+
+.header-search-form .header-action {
+    flex: 0 0 auto;
+}
+
+/* 2026年11月27日追記: ヘッダーのエンブレムとロゴを一体のブランド表示として整える。 */
 .brand-mark {
     display: block;
-    width: 48px;
-    min-width: 48px;
-    height: 48px;
-    flex: 0 0 48px;
+    width: 59px;
+    min-width: 59px;
+    height: 59px;
+    flex: 0 0 59px;
     object-fit: contain;
     filter: drop-shadow(0 5px 8px rgba(2, 132, 199, .18));
 }
@@ -50,9 +120,8 @@ body {
 .brand-title {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 3px;
-    border-left: 1px solid rgba(255, 255, 255, .16);
+    align-items: center;
+    gap: .25rem;
     line-height: 1.05;
 }
 
@@ -66,11 +135,11 @@ body {
 
 .brand-section {
     display: block;
-    margin-top: 6px;
+    margin-top: 0;
     color: rgba(224, 242, 254, .76);
     font-size: .72rem;
     font-weight: 500;
-    letter-spacing: .02em;
+    letter-spacing: .04em;
 }
 
 .header-action {
@@ -86,8 +155,32 @@ body {
     white-space: nowrap;
 }
 
+/* 2026年11月27日追記: 管理者・一般ページへの切替を色分けして見つけやすくする。 */
 .header-page-action {
-    min-width: 120px;
+    width: 140px;
+    min-width: 140px;
+}
+
+.header-page-action--admin {
+    background-color: #fbbf24;
+    color: #172554;
+}
+
+.header-page-action--admin:hover,
+.header-page-action--admin:focus-visible {
+    background-color: #fcd34d;
+    color: #172554;
+}
+
+.header-page-action--general {
+    background-color: #bae6fd;
+    color: #075985;
+}
+
+.header-page-action--general:hover,
+.header-page-action--general:focus-visible {
+    background-color: #7dd3fc;
+    color: #075985;
 }
 
 /* 管理者メニュー */
@@ -110,10 +203,21 @@ body {
     white-space: nowrap;
 }
 
-.admin-navigation .nav-link:hover,
-.admin-navigation .nav-link.active {
+.admin-navigation .nav-link:hover {
     color: #fff;
     background: rgba(255, 255, 255, .12);
+}
+
+/* 2026年11月27日追記: 現在の管理画面をナビゲーション上で判別できるようにする。 */
+.admin-navigation .nav-link.active {
+    color: var(--brand-navy);
+    background: #fbbf24;
+    font-weight: 600;
+}
+
+.admin-navigation .nav-link.active:hover {
+    color: var(--brand-navy);
+    background: #fcd34d;
 }
 
 @media (min-width: 768px) {
@@ -132,6 +236,12 @@ body {
     border: 1px solid rgba(255, 255, 255, .18);
     color: #fff;
     border-radius: 7px;
+    transition: background-color .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+.header-search:hover:not(:focus) {
+    background: rgba(255, 255, 255, .16);
+    border-color: rgba(255, 255, 255, .38);
 }
 
 .header-search::placeholder {
@@ -145,10 +255,27 @@ body {
     box-shadow: 0 0 0 .2rem rgba(125, 211, 252, .18);
 }
 
+/* 2026年11月27日追記: 書籍カードの表紙と書名を詳細画面への導線として明確にする。 */
+.book-card-cover-link {
+    min-height: 200px;
+}
+
+.book-card-title-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.book-card-title-link:hover,
+.book-card-title-link:focus-visible {
+    color: var(--brand-blue);
+    text-decoration: underline;
+}
+
+/* 2026年11月27日追記: 白い企業ロゴが読みやすいよう、フッターをヘッダーに合わせる。 */
 /* 共通フッター */
 .app-footer {
-    border-top: 2px solid #1e3a8a;
-    background: #f8fafc;
+    border-top: 1px solid rgba(125, 211, 252, .32);
+    background: linear-gradient(105deg, #101b3d 0%, #18356c 62%, #06445b 100%);
 }
 
 .footer-wordmark-image {
@@ -160,7 +287,7 @@ body {
 
 .footer-product,
 .footer-copyright {
-    color: var(--brand-text-muted);
+    color: rgba(224, 242, 254, .78);
     font-size: .76rem;
     letter-spacing: 0;
 }
@@ -269,6 +396,58 @@ body {
     font-size: .92rem;
 }
 
+/* 2026年11月27日追記: 長いトップページをキーボードでも上部へ戻れるようにする。 */
+.home-scroll-top {
+    position: fixed;
+    right: 1.5rem;
+    bottom: 4.5rem;
+    z-index: 1030;
+    display: inline-flex;
+    width: 3rem;
+    height: 3rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, .18);
+    border-radius: 50%;
+    background: var(--brand-navy);
+    box-shadow: 0 .4rem 1rem rgba(15, 23, 42, .22);
+    color: #fff;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(.5rem);
+    transition: opacity .18s ease, transform .18s ease, visibility .18s ease, background-color .18s ease;
+}
+
+.home-scroll-top.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.home-scroll-top:hover,
+.home-scroll-top:focus-visible {
+    background: var(--brand-blue);
+    color: #fff;
+}
+
+.home-scroll-top:focus-visible {
+    outline: 3px solid var(--brand-sky);
+    outline-offset: 3px;
+}
+
+@media (max-width: 575.98px) {
+    .home-scroll-top {
+        right: 1rem;
+        bottom: 6rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-scroll-top {
+        transition: none;
+    }
+}
+
 /* 書籍画像と本文 */
 .book-thumbnail,
 .book-thumbnail-placeholder {
@@ -324,6 +503,21 @@ body {
         display: none;
     }
 
+    /* 2026年11月27日追記: モバイル幅でヘッダー操作が押し合わないよう縦配置にする。 */
+    .general-navigation-controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: .5rem;
+    }
+
+    .general-navigation-controls > .header-action {
+        align-self: flex-start;
+    }
+
+    .header-search-form {
+        width: 100%;
+    }
+
     .header-search {
         min-width: 0;
         width: 100%;
@@ -335,6 +529,19 @@ body {
 }
 
 @media (max-width: 575.98px) {
+    .header-account-controls {
+        gap: .375rem;
+    }
+
+    .header-page-action {
+        width: 120px;
+        min-width: 120px;
+    }
+
+    .header-logout-action {
+        min-width: 80px;
+    }
+
     .news-panel {
         grid-template-columns: 1fr;
         gap: 1.25rem;
@@ -400,6 +607,11 @@ main .form-select {
     transition: border-color .16s ease, box-shadow .16s ease;
 }
 
+/* 2026年11月27日追記: 社員検索ボタンの高さを入力欄に揃える。 */
+main .employee-search-form .btn {
+    min-height: 44px;
+}
+
 main textarea.form-control {
     min-height: 120px;
 }
@@ -428,6 +640,16 @@ main .btn-primary {
 main .btn-primary:hover {
     border-color: #1d4ed8;
     background-color: #1d4ed8;
+}
+
+/* 2026年11月27日追記: 未接続の却下ボタンを無効のままホバー可能にして状態を示す。 */
+main .rental-reject-button:disabled {
+    pointer-events: auto;
+    cursor: not-allowed;
+}
+
+main .rental-reject-button:disabled:hover {
+    filter: brightness(.88);
 }
 
 main .btn-outline-primary {
@@ -471,59 +693,238 @@ main .alert {
     border-radius: 12px;
 }
 
-.app-footer {
-    border-top-color: #dbe5f0;
-}
-
+/* 2026年11月27日追記: ブランドと認証フォームを左右に分け、企業向けのログイン画面に整える。 */
 /* ログイン画面 */
 .auth-page {
     min-height: 100vh;
     background:
-        radial-gradient(circle at 15% 15%, rgba(125, 211, 252, .20), transparent 30%),
+        radial-gradient(circle at 15% 15%, rgba(125, 211, 252, .22), transparent 30%),
         linear-gradient(145deg, #f8fafc 0%, #edf4fb 100%);
 }
 
 .auth-page main {
     display: grid;
     min-height: 100vh;
-    align-items: start;
+    align-items: center;
+    padding: 1rem 1.5rem 3rem;
 }
 
 .auth-container {
-    padding-top: clamp(2rem, 6vh, 3.5rem);
-    padding-bottom: 2rem;
+    padding: 0;
 }
 
-.auth-brand-lockup {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: .75rem;
+.auth-split-card {
+    display: grid;
+    width: min(100%, 980px);
+    min-height: 570px;
+    grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+    margin: 0 auto;
+    overflow: hidden;
+    border: 1px solid rgba(125, 211, 252, .22);
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 18px 38px rgba(23, 55, 110, .18);
 }
 
-.auth-logo {
-    width: 64px;
-    height: 64px;
-    flex: 0 0 64px;
-    object-fit: contain;
-    filter: drop-shadow(0 6px 12px rgba(37, 99, 235, .16));
-}
-
-.auth-wordmark {
-    display: block;
-    width: auto;
-    height: 34px;
-    max-width: calc(100% - 76px);
-    object-fit: contain;
+.auth-brand-panel {
+    position: relative;
+    display: grid;
+    min-height: 100%;
+    overflow: hidden;
+    padding: clamp(2rem, 4vw, 3.5rem);
+    place-items: center;
+    background: linear-gradient(118deg, #1d3b73 0%, #285c98 58%, #0f7a9e 100%);
+    color: #fff;
 }
 
 .auth-product-heading {
-    margin-top: 1.5rem;
+    position: relative;
+    z-index: 1;
+    width: min(100%, 290px);
+    text-align: center;
 }
 
-.login-card {
-    border-radius: 18px !important;
-    box-shadow: 0 18px 48px rgba(23, 37, 84, .10) !important;
+.auth-company-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    max-width: 100%;
+    margin: 0 auto 1.5rem;
+}
+
+.auth-company-symbol {
+    width: 57px;
+    height: 57px;
+    flex: 0 0 57px;
+    object-fit: contain;
+}
+
+.auth-company-logo {
+    display: block;
+    width: min(160px, 62%);
+    max-height: 44px;
+    margin-left: -3px;
+    object-fit: contain;
+}
+
+.auth-page main .auth-product-heading h1 {
+    color: #fff;
+    font-family: 'Zen Kaku Gothic New', 'Noto Sans JP', sans-serif;
+    margin: 0 0 .65rem;
+    font-size: clamp(1.35rem, 2.4vw, 1.7rem);
+    letter-spacing: .035em;
+    line-height: 1.45;
+    text-align: center;
+}
+
+.auth-login-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(2rem, 5vw, 4rem);
+    background: #fff;
+}
+
+.auth-login-content {
+    width: min(100%, 400px);
+}
+
+.auth-login-content h2 {
+    margin-bottom: 2rem !important;
+    color: var(--brand-navy);
+}
+
+.auth-page main .form-control {
+    min-height: 50px;
+    background-color: #fbfdff;
+}
+
+.auth-page main .form-control:focus {
+    background-color: #fff;
+}
+
+.password-input-wrap {
+    position: relative;
+}
+
+.auth-page main .password-input-wrap .form-control {
+    padding-right: 5.25rem;
+}
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: .65rem;
+    display: inline-flex;
+    min-width: 4.1rem;
+    align-items: center;
+    justify-content: center;
+    gap: .3rem;
+    padding: .35rem .4rem;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: #475569;
+    font-size: .78rem;
+    transform: translateY(-50%);
+}
+
+.password-toggle:hover {
+    background: #eff6ff;
+    color: var(--brand-blue);
+}
+
+.password-toggle:focus-visible {
+    outline: 2px solid var(--brand-blue);
+    outline-offset: 2px;
+}
+
+.password-toggle svg {
+    width: 17px;
+    height: 17px;
+}
+
+.password-icon-hide,
+.password-toggle.is-visible .password-icon-show {
+    display: none;
+}
+
+.password-toggle.is-visible .password-icon-hide {
+    display: block;
+}
+
+.auth-login-content .form-label {
+    color: #334155;
+    font-size: .875rem;
+}
+
+.auth-page main .btn-primary {
+    min-height: 50px;
+    box-shadow: 0 6px 14px rgba(37, 99, 235, .18);
+}
+
+.auth-page main .form-check-input {
+    cursor: pointer;
+}
+
+.auth-page main .form-check-label {
+    color: #475569;
+    cursor: pointer;
+}
+
+@media (max-width: 575.98px) {
+    .auth-page main {
+        padding: .75rem;
+    }
+
+    .auth-container {
+        padding: 0;
+    }
+
+    .auth-split-card {
+        grid-template-columns: minmax(0, 1fr);
+        min-height: auto;
+        border-radius: 18px;
+    }
+
+    .auth-brand-panel {
+        min-height: 190px;
+        padding: 1.5rem 1rem;
+        place-items: center;
+    }
+
+    .auth-product-heading {
+        width: auto;
+        text-align: center;
+    }
+
+    .auth-product-heading h1 {
+        text-align: center;
+    }
+
+    .auth-company-brand {
+        justify-content: center;
+        margin: 0 auto 1rem;
+    }
+
+    .auth-company-symbol {
+        width: 48px;
+        height: 48px;
+        flex-basis: 48px;
+    }
+
+    .auth-company-logo {
+        width: min(140px, 62%);
+    }
+
+    .auth-login-panel {
+        padding: 2rem 1.5rem;
+    }
+
+    .auth-login-content h2 {
+        margin-bottom: 1.5rem !important;
+    }
 }
 
 /* 2026年11月25日変更: 書籍リクエストのいいね操作に動きを付けるスタイルを追加。 */

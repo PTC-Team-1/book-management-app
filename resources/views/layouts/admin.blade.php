@@ -21,7 +21,6 @@
 
 <body class="bg-light text-dark min-vh-100 d-flex flex-column">
 
-    <!-- ヘッダー -->
     {{-- 2026年11月27日追記: ブランド表示と現在地表示を共通化し、管理画面内の移動先を判別しやすくする。 --}}
     <header class="app-header border-0 shadow-sm">
 
@@ -85,15 +84,15 @@
                         書籍編集
                     </a>
 
-                    <a href="{{ route('admin.books.rentals.index') }}"
-                       @class(['nav-link', 'active' => request()->routeIs('admin.books.rentals.*')])>
+                    <a href="{{ route('admin.books.rentals.request.create') }}"
+                       @class(['nav-link', 'active' => request()->routeIs('admin.books.rentals.request.create')])>
                         書籍貸出申請
                     </a>
 
-                    {{-- <a href="{{ route('admin.books.return') }}"
-                       @class(['nav-link', 'active' => request()->routeIs('admin.books.return')])>
+                    <a href="{{ route('admin.books.rentals.return.create') }}"
+                       @class(['nav-link', 'active' => request()->routeIs('admin.books.rentals.return.create')])>
                         書籍返却
-                    </a> --}}
+                    </a>
                     
                     <a href="{{ route('admin.book-requests.index') }}"
                        @class(['nav-link', 'active' => request()->routeIs('admin.book-requests.*')])>
