@@ -77,20 +77,93 @@ class BookController extends Controller
         return view('books.store', $data);
     }
 
+    // public function lookupIsbn(Request $request, OpenBdLookupService $openBdLookupService): JsonResponse
+    // {
+    //     $rawIsbn = $request->query('isbn');
+    //     $isbn = is_string($rawIsbn)
+    //         ? strtoupper(preg_replace('/[\s-]+/', '', trim($rawIsbn)) ?? '')
+    //         : '';
+
+    //     $request->merge(['isbn' => $isbn]);
+    //     $validatedData = $request->validate([
+    //         'isbn' => ['required', 'regex:/\A(?:\d{13}|\d{9}[\dX])\z/'],
+    //     ], [
+    //         'isbn.required' => 'ISBNを読み取ってください。',
+    //         'isbn.regex' => 'ISBNを正しく読み取れませんでした。',
+    //     ]);
+
+    //     try {
+    //         $bookInfo = $openBdLookupService->lookup($validatedData['isbn']);
+    //     } catch (ConnectionException $exception) {
+    //         Log::warning('OpenBD API connection failed.', [
+    //             'exception' => $exception::class,
+    //         ]);
+
+    //         return response()->json([
+    //             'message' => 'OpenBDに接続できませんでした。時間をおいて再度お試しください。',
+    //         ], 503);
+    //     } catch (RequestException $exception) {
+    //         Log::warning('OpenBD API returned an unsuccessful response.', [
+    //             'status' => $exception->response->status(),
+    //         ]);
+
+    //         return response()->json([
+    //             'message' => 'OpenBDから書籍情報を取得できませんでした。',
+    //         ], 502);
+    //     }
+
+    //     if ($bookInfo === null) {
+    //         return response()->json([
+    //             'message' => 'OpenBDに該当する書籍情報が見つかりませんでした。手入力してください。',
+    //         ], 404);
+    //     }
+
+    //     return response()->json($bookInfo);
+    // }
     public function lookupIsbn(Request $request, OpenBdLookupService $openBdLookupService): JsonResponse
     {
         $rawIsbn = $request->query('isbn');
         $isbn = is_string($rawIsbn)
             ? strtoupper(preg_replace('/[\s-]+/', '', trim($rawIsbn)) ?? '')
             : '';
+        $mode = $request->query('mode', 'create');
 
-        $request->merge(['isbn' => $isbn]);
+        $request->merge([
+            'isbn' => $isbn,
+            'mode' => $mode,
+        ]);
+
         $validatedData = $request->validate([
             'isbn' => ['required', 'regex:/\A(?:\d{13}|\d{9}[\dX])\z/'],
+            'mode' => ['nullable', 'in:create,return'],
         ], [
             'isbn.required' => 'ISBNを読み取ってください。',
             'isbn.regex' => 'ISBNを正しく読み取れませんでした。',
         ]);
+
+        if (($validatedData['mode'] ?? 'create') === 'return') {
+            $book = Book::query()
+                ->whereNotNull('isbn')
+                ->whereRaw("UPPER(REPLACE(REPLACE(isbn, '-', ''), ' ', '')) = ?", [$validatedData['isbn']])
+                ->first();
+
+            if (!$book) {
+                return response()->json([
+                    'message' => 'このISBNの書籍は登録されていません。',
+                ], 404);
+            }
+
+            if ((int) $book->rental_status_id !== RentalStatus::RENTED) {
+                return response()->json([
+                    'message' => 'この書籍は現在貸出中ではありません。',
+                ], 422);
+            }
+
+            return response()->json([
+                'id' => $book->id,
+                'title' => $book->title,
+            ]);
+        }
 
         try {
             $bookInfo = $openBdLookupService->lookup($validatedData['isbn']);
@@ -133,7 +206,6 @@ class BookController extends Controller
 
             $request->merge(['books' => $books]);
         }
-
         $validatedData = $request->validate([
             'books' => ['required', 'array', 'min:1', 'max:10'],
             'books.*' => ['required', 'array'],
@@ -143,7 +215,7 @@ class BookController extends Controller
             'books.*.publisher' => ['nullable', 'string', 'max:255'],
             'books.*.published_date' => ['nullable', 'date'],
             'books.*.description' => ['nullable', 'string'],
-            'books.*.thumbnail' => ['nullable', 'url', 'max:255'],
+            'books.*.cover_image' => ['nullable', 'url', 'max:255'],
             'category_id' => 'nullable | integer',
         ], [
             'books.required' => '登録する書籍を読み取ってください。',
@@ -176,9 +248,14 @@ class BookController extends Controller
                 $book->isbn = $bookData['isbn'];
                 $book->published_date = $bookData['published_date'] ?? null;
                 $book->description = $bookData['description'] ?? null;
-                $book->thumbnail = $bookData['thumbnail'] ?? null;
                 $book->rental_status_id = RentalStatus::AVAILABLE;
                 $book->category_id = $validatedData['category_id'] ?? ConstantsCategory::DEFAULT_VALUE;
+
+                if ($request->hasFile('cover_image')) {
+                    $path = $request->file('cover_image')->store('books', 'public');
+
+                    $book->cover_image_path = $path;
+                }
 
                 $book->save();
 

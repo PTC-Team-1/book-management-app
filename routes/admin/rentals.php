@@ -18,3 +18,7 @@ Route::get('/books/rentals/return', [RentalController::class, 'returnForm'])
 // 書籍返却アクション
 Route::post('/books/rentals/return', [RentalController::class, 'return'])
     ->name('books.rentals.return.store');
+
+// 一括書籍返却アクション
+Route::post('/books/rentals/return/batch-store', [RentalController::class, 'returnBatch'])
+    ->name('books.rentals.return.batch-store');
