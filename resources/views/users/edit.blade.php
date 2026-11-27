@@ -1,4 +1,3 @@
-
 @extends('layouts.admin')
 @section('title', '社員データ編集ページ')
 
@@ -6,14 +5,17 @@
 
     <div class="mb-4">
         <h1 class="fw-bold mb-2">社員データ編集</h1>
-        <p class="text-secondary mb-0">社員IDを入力して、社員情報を編集できます。</p>
+        <p class="text-secondary mb-0">社員IDを入力するか一覧から選択して、社員情報を編集できます。</p>
     </div>
 
-    @if (@isset($user))
+    @if (isset($user))
 
         <div class="card border-0 shadow-sm">
             <div class="card-header bg-white py-3">
                 <h5 class="fw-bold mb-0">社員情報編集</h5>
+                <small class="text-secondary">
+                    社員ID:{{ $user->id }}
+                </small>
             </div>
 
             <div class="card-body p-4">
@@ -28,7 +30,7 @@
                             class="form-control"
                             id="name"
                             name="name"
-                            value="{{ $user->name }}"
+                            value="{{ old('name', $user->name) }}"
                         >
                     </div>
 
@@ -39,15 +41,15 @@
                             class="form-control"
                             id="email"
                             name="email"
-                            value="{{ $user->email }}"
+                            value="{{ old('email', $user->email) }}"
                         >
                     </div>
 
                     <div class="mb-4">
                         <label for="role" class="form-label fw-semibold">権限</label>
                         <select class="form-select" name="role" id="role" required>
-                            <option value="general">一般社員</option>
-                            <option value="admin">管理者</option>
+                            <option value="general" @selected(old('role', $user->role) === 'general')>一般社員</option>
+                            <option value="admin" @selected(old('role', $user->role) === 'admin')>管理者</option>
                         </select>
                     </div>
 
@@ -64,7 +66,7 @@
                         </button>
 
                         <div class="d-flex gap-2">
-                            <a href="/admin/users/edit" class="btn btn-outline-secondary">
+                            <a href="{{ route('admin.users.edit') }}" class="btn btn-outline-secondary">
                                 キャンセル
                             </a>
                             <input type="submit" class="btn btn-primary" value="社員情報更新">
@@ -75,6 +77,12 @@
         </div>
 
     @else
+
+        @if (request()->filled('id'))
+            <div class="alert alert-warning" role="alert">
+                指定された社員ID（{{ request()->query('id') }}）の社員が見つかりませんでした。
+            </div>
+        @endif
 
         <div class="card border-0 shadow-sm">
             <div class="card-header bg-white py-3">
@@ -112,6 +120,61 @@
                         <input type="submit" class="btn btn-primary" value="社員を検索">
                     </div>
                 </form>
+            </div>
+        </div>
+
+        <!-- 社員一覧 -->
+        <div class="card border-0 shadow-sm mt-4">
+            <div class="card-header bg-white border-bottom py-3">
+                <div class="d-flex justify-content-between align-items-center gap-3">
+                    <h5 class="fw-bold mb-0">登録されている社員一覧</h5>
+                    <span class="badge bg-secondary">
+                        {{ isset($users) ? $users->count() . '件' : '0件' }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="card-body p-4">
+                <div class="list-group">
+                    @forelse ($users ?? [] as $candidate)
+                        <div class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-center gap-3">
+                                <a
+                                    href="{{ route('admin.users.edit', ['id' => $candidate->id]) }}"
+                                    class="text-decoration-none text-reset flex-grow-1"
+                                >
+                                    <span class="d-block fw-semibold">
+                                        ID: {{ $candidate->id }} ・ {{ $candidate->name }}
+                                    </span>
+                                    <small class="text-secondary">
+                                        {{ $candidate->email }}
+                                        ・権限: {{ ($candidate->role ?? '') === 'admin' ? '管理者' : '一般社員' }}
+                                    </small>
+                                </a>
+
+                                <div class="d-flex flex-shrink-0 gap-2">
+                                    <a
+                                        href="{{ route('admin.users.edit', ['id' => $candidate->id]) }}"
+                                        class="btn btn-primary btn-sm"
+                                    >
+                                        編集
+                                    </a>
+                                    <form action="/admin/users/erase" method="POST" class="m-0">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $candidate->id }}">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm">
+                                            削除
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="list-group-item text-center text-secondary py-4">
+                            登録されている社員はありません。
+                        </div>
+                    @endforelse
+                </div>
             </div>
         </div>
 

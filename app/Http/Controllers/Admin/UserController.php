@@ -73,15 +73,22 @@ class UserController extends Controller
 
     public function edit(Request $request)
     {
-        if ($request->isMethod('get')) {
-            return view('users.edit');
+        if ($request->filled('id')) {
+            $userId = $request->query('id');
+            $userData = User::find($userId);
+
+            $data = [
+                'user' => $userData,
+            ];
+
+            return view('users.edit', $data);
         }
 
-        $userId = $request->input('id');
-        $userData = User::find($userId);
+        $users = User::all();
         $data = [
-            'user' => $userData
+            'users' => $users
         ];
+
         return view('users.edit', $data);
     }
 
