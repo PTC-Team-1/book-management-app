@@ -12,5 +12,3 @@ Route::post('/users/update', [UserController::class, 'update'])->name('users.upd
 Route::get('/users/erase', [UserController::class, 'erase'])->name('users.delete.confirm');
 Route::post('/users/erase', [UserController::class, 'erase'])->name('users.delete.search');
 Route::post('/users/delete', [UserController::class, 'delete'])->name('users.destroy');
-Route::get('/users/search', [UserController::class, 'search'])->name('users.search');
-Route::post('/users/search', [UserController::class, 'search'])->name('users.search.submit');

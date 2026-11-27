@@ -22,6 +22,7 @@
 <body class="bg-light text-dark min-vh-100 d-flex flex-column">
 
     <!-- ヘッダー -->
+    {{-- 2026年11月27日追記: ブランド表示と現在地表示を共通化し、管理画面内の移動先を判別しやすくする。 --}}
     <header class="app-header border-0 shadow-sm">
 
         <!-- ロゴ・一般ページへのリンク・ログアウト -->
@@ -29,37 +30,37 @@
             <div class="header-main-row d-flex justify-content-between align-items-center py-3">
 
                 <a href="/admin/books/create"
-                   class="navbar-brand d-flex align-items-center gap-3 text-white mb-0">
+                   class="navbar-brand d-flex align-items-center gap-1 text-white mb-0">
                     <img src="/images/syrms-emblem-hex.png"
                          alt=""
                          class="brand-mark">
-                    <span class="brand-title ps-3">
+                    <span class="brand-title">
                         <img src="/images/syrms-wordmark.png"
                              alt="SYRMS CORPORATION"
                              class="brand-wordmark">
                         <span class="brand-section">書籍管理システム</span>
                     </span>
-                    <span class="badge bg-info text-dark">ADMIN</span>
+                    <span class="badge bg-info text-dark ms-2">ADMIN</span>
                 </a>
 
-                <div class="d-flex align-items-center gap-2">
+                <div class="header-account-controls">
 
                     <!-- ログインユーザー名 -->
-                    <span class="admin-user-name text-white small">
+                    <span class="admin-user-name header-user-label text-white small">
                         {{ Auth::user()->name }} さん
                     </span>
 
                     <!-- 一般ページへのリンク -->
                     <a href="/"
-                       class="btn btn-light btn-sm fw-semibold text-primary border-0 header-action header-page-action">
+                       class="btn btn-sm fw-semibold border-0 header-action header-page-action header-page-action--general">
                         一般ページへ
                     </a>
 
                     <!-- ログアウト -->
-                    <form action="/logout" method="POST">
+                    <form action="/logout" method="POST" class="header-logout-form">
                         @csrf
                         <button type="submit"
-                                class="btn btn-outline-light btn-sm header-action">
+                                class="btn btn-outline-light btn-sm header-action header-logout-action">
                             ログアウト
                         </button>
                     </form>
@@ -75,51 +76,51 @@
                 <nav class="admin-navigation nav nav-pills gap-1">
 
                     <a href="/admin/books/create"
-                       class="nav-link">
+                       @class(['nav-link', 'active' => request()->routeIs('admin.books.create')])>
                         書籍登録
                     </a>
 
                     <a href="/admin/books/edit"
-                       class="nav-link">
+                       @class(['nav-link', 'active' => request()->routeIs('admin.books.edit*', 'admin.books.update', 'admin.books.delete.*', 'admin.books.destroy')])>
                         書籍編集
                     </a>
 
                     <a href="{{ route('admin.books.rentals.index') }}"
-                       class="nav-link">
+                       @class(['nav-link', 'active' => request()->routeIs('admin.books.rentals.*')])>
                         書籍貸出申請
                     </a>
+
+                    {{-- <a href="{{ route('admin.books.return') }}"
+                       @class(['nav-link', 'active' => request()->routeIs('admin.books.return')])>
+                        書籍返却
+                    </a> --}}
                     
                     <a href="{{ route('admin.book-requests.index') }}"
-                       class="nav-link">
+                       @class(['nav-link', 'active' => request()->routeIs('admin.book-requests.*')])>
                         書籍リクエスト管理
                     </a>
 
                     <a href="/admin/users/create"
-                       class="nav-link">
+                       @class(['nav-link', 'active' => request()->routeIs('admin.users.create', 'admin.users.store')])>
                         社員データ登録
                     </a>
 
                     <a href="/admin/users/edit"
-                       class="nav-link">
+                       @class(['nav-link', 'active' => request()->routeIs('admin.users.edit*', 'admin.users.update', 'admin.users.delete.*', 'admin.users.destroy')])>
                         社員データ編集
                     </a>
 
                     <a href="/admin/users"
-                       class="nav-link">
+                       @class(['nav-link', 'active' => request()->routeIs('admin.users.index', 'admin.users.search*')])>
                         社員一覧
                     </a>
 
-                    <a href="/admin/users/search"
-                       class="nav-link">
-                        社員検索
-                    </a>
-                    
                     <a href="{{ route('admin.activity-logs.index') }}"
-                       class="nav-link">
+                       @class(['nav-link', 'active' => request()->routeIs('admin.activity-logs.*')])>
                         操作履歴
                     </a>
                      <a href="{{ route('admin.announcements.index') }}"
-                       class="nav-link">
+                       @class(['nav-link', 'active' => request()->routeIs('admin.announcements.*')])>
                         お知らせ管理
                     </a>
                 </nav>
@@ -135,9 +136,9 @@
 
     <!-- フッター -->
     <footer class="app-footer mt-auto">
-        <div class="container py-3 d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
+        <div class="container py-4 d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
             <div class="d-flex flex-wrap justify-content-center align-items-center gap-2">
-                <img src="/images/syrms-wordmark-dark.png"
+                <img src="/images/syrms-wordmark.png"
                      alt="SYRMS CORPORATION"
                      class="footer-wordmark-image">
                 <span class="footer-product">書籍管理システム</span>
