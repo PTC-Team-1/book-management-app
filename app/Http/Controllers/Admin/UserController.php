@@ -10,31 +10,6 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function index(Request $request)
-    {
-        if ($request->filled('name')) {
-            $query = User::query();
-            $name = $request->input('name');
-            $query->where('name', 'like', '%' . $name . '%');
-            $users = $query->get();
-
-            $data = [
-                'users' => $users,
-                'name' => null,
-            ];
-
-            return view('users.index', $data);
-        }
-
-        $users = User::all();
-        $data = [
-            'users' => $users,
-            'name' => null
-        ];
-
-        return view('users.index', $data);
-    }
-
     public function create()
     {
         return view('users.create');

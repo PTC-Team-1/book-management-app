@@ -109,11 +109,6 @@
                         社員データ編集
                     </a>
 
-                    <a href="/admin/users"
-                       @class(['nav-link', 'active' => request()->routeIs('admin.users.index', 'admin.users.search*')])>
-                        社員一覧
-                    </a>
-
                     <a href="{{ route('admin.activity-logs.index') }}"
                        @class(['nav-link', 'active' => request()->routeIs('admin.activity-logs.*')])>
                         操作履歴
