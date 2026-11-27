@@ -57,7 +57,7 @@
                 aria-controls="single-mode-pane"
                 aria-selected="{{ $showSingleTab ? 'true' : 'false' }}"
             >
-                書籍登録
+                個別登録
             </button>
         </li>
     </ul>
