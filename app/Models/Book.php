@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -47,5 +49,13 @@ class Book extends Model
         $hasRentalRequest = $this->rentalRequest()->exists();
 
         return $isRentalAvailable && !$hasRentalRequest;
+    }
+
+    public function scopeSearch(Builder $query, string $keyword): Builder
+    {
+        return $query->where(function (Builder $query) use ($keyword) {
+            $query->where('title', 'LIKE', "%{$keyword}%")
+                ->orWhere('author', 'LIKE', "%{$keyword}%");
+        });
     }
 }

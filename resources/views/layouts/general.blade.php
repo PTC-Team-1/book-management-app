@@ -102,10 +102,10 @@
 
                         <input
                             type="text"
-                            name="title"
+                            name="q"
                             class="form-control form-control-sm header-search"
                             placeholder="編集する書籍を検索"
-                            value="{{ request('title') }}"
+                            value="{{ request('q') }}"
                             aria-label="書籍名"
                         >
 

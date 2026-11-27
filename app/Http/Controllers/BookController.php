@@ -22,13 +22,15 @@ class BookController extends Controller
 
     public function search(Request $request)
     {
-        $title = $request->query('title');
-        // TODO: 書籍名以外でも検索できるようにする
-        $books = Book::where('title', 'LIKE', "%{$title}%")->get();
+        $validatedData = $request->validate([
+            'q' => ['required', 'string']
+        ]);
+
+        $books = Book::search($validatedData['q'])->latest()->get();
 
         $data = [
             'books' => $books,
-            'keyword' => $title
+            'keyword' => $validatedData['q']
         ];
 
         return view('books.search', $data);
