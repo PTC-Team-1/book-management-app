@@ -22,21 +22,21 @@
 
         <div class="row g-4">
 
-            @foreach ($books as $book)
+            @foreach ($books->sortByDesc('created_at') as $book)
                 <div class="col-12 col-md-6 col-lg-4">
 
                     <div class="card h-100 shadow-sm">
 
                         <div class="bg-white text-center p-3">
-                            @if (!empty($book['thumbnail']))
+                            @if (!empty($book->cover_image_path))
                                 <img
-                                    src="{{ $book['thumbnail'] }}"
-                                    alt="{{ $book['title'] }}"
+                                    src="{{ asset('storage/' . $book->cover_image_path) }}"
+                                    alt="{{ $book->title }}"
                                     class="img-fluid"
-                                    style="height: 200px; object-fit: contain;"
+                                    style="height: 200px; max-width: 100%; object-fit: contain;"
                                 >
                             @else
-                                <div class="d-flex justify-content-center align-items-center bg-light text-secondary"
+                                <div class="book-thumbnail-placeholder d-flex justify-content-center align-items-center bg-light text-secondary"
                                      style="height: 200px;">
                                     サムネイルなし
                                 </div>

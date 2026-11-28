@@ -17,27 +17,39 @@
     </div>
 
     <!-- 書籍情報 -->
-    <div class="card border-0 shadow-sm mb-5">
+    <div class="card border-0 shadow-sm mb-5 book-detail-card">
         <div class="card-body p-4">
 
             <div class="row g-4">
 
                 <!-- 書籍画像 -->
                 <div class="col-12 col-md-4">
-                    <div class="bg-body-secondary rounded d-flex align-items-center justify-content-center"
-                         style="min-height: 300px;">
+                    <div class="book-detail-image-frame rounded d-flex align-items-center justify-content-center">
 
                         @if (!empty($book['cover_image_path']))
                             <img
                                 src="{{ asset('storage/' . $book->cover_image_path) }}"
                                 alt="{{ $book['title'] }}"
-                                class="img-fluid rounded object-fit-contain p-3"
-                                style="max-height: 300px;"
+                                class="book-detail-image img-fluid rounded object-fit-contain p-3"
                             >
                         @else
-                            <div class="text-center text-secondary">
-                                <div class="fs-1 mb-2">書籍画像なし</div>
-                                <small>画像は登録されていません</small>
+                            <div class="book-detail-image-placeholder rounded d-flex flex-column align-items-center justify-content-center text-center p-4">
+                                <svg
+                                    class="book-detail-image-placeholder-icon mb-3"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.5"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    aria-hidden="true"
+                                    focusable="false"
+                                >
+                                    <path d="M12 6.5c-1.6-1.1-3.3-1.6-5.3-1.6H4v13.8h3c2 0 3.8.5 5 1.5 1.2-1 3-1.5 5-1.5h3V4.9h-2.7c-2 0-3.7.5-5.3 1.6Z"/>
+                                    <path d="M12 6.5v13.7"/>
+                                </svg>
+                                <span class="small fw-medium text-nowrap">書籍画像なし</span>
                             </div>
                         @endif
 
@@ -50,7 +62,7 @@
                     {{-- 2026年11月27日追記: 長い書名と貸出操作が横幅を奪い合わないよう、申請操作を別段に置く。 --}}
                     <div class="mb-4">
                         <div class="d-flex align-items-center flex-wrap gap-2 mb-3">
-                            <h2 class="fw-bold mb-0">
+                            <h2 class="book-detail-title fw-bold mb-0">
                                 {{ $book['title'] }}
                             </h2>
 
@@ -85,7 +97,7 @@
                         @endif
                     </div>
 
-                    <table class="table table-bordered align-middle mb-4">
+                    <table class="table table-bordered align-middle mb-4 book-detail-table">
                         <tbody>
                             <tr>
                                 <th class="table-light" style="width: 30%;">カテゴリ</th>
@@ -122,7 +134,7 @@
             <div class="mt-4">
                 <h5 class="fw-bold mb-3">書籍説明</h5>
 
-                <div class="bg-light rounded p-3">
+                <div class="book-detail-description">
                     <p class="mb-0 text-break">
                         {{ $book['description'] ?? '説明は登録されていません。' }}
                     </p>

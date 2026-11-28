@@ -139,18 +139,15 @@
                     @forelse ($users ?? [] as $candidate)
                         <div class="list-group-item">
                             <div class="d-flex justify-content-between align-items-center gap-3">
-                                <a
-                                    href="{{ route('admin.users.edit', ['id' => $candidate->id]) }}"
-                                    class="text-decoration-none text-reset flex-grow-1"
-                                >
+                                <div class="flex-grow-1">
                                     <span class="d-block fw-semibold">
-                                        ID: {{ $candidate->id }} ・ {{ $candidate->name }}
+                                        社員ID: {{ $candidate->id }}　{{ $candidate->name }}
                                     </span>
                                     <small class="text-secondary">
                                         {{ $candidate->email }}
                                         ・権限: {{ ($candidate->role ?? '') === 'admin' ? '管理者' : '一般社員' }}
                                     </small>
-                                </a>
+                                </div>
 
                                 <div class="d-flex flex-shrink-0 gap-2">
                                     <a

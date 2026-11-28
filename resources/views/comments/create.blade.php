@@ -1,5 +1,5 @@
 
-@extends('layouts.admin')
+@extends('layouts.general')
 
 @section('title', 'コメント作成')
 

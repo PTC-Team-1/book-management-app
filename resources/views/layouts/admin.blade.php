@@ -39,10 +39,11 @@
                              class="brand-wordmark">
                         <span class="brand-section">書籍管理システム</span>
                     </span>
-                    <span class="badge bg-info text-dark ms-2">ADMIN</span>
                 </a>
 
                 <div class="header-account-controls">
+
+                    <span class="badge header-admin-badge">ADMIN</span>
 
                     <!-- ログインユーザー名 -->
                     <span class="admin-user-name header-user-label text-white small">
@@ -72,7 +73,7 @@
         <!-- ナビゲーション -->
         <div class="header-nav">
             <div class="container py-2">
-                <nav class="admin-navigation nav nav-pills gap-1">
+                <nav class="admin-navigation nav nav-pills gap-2">
 
                     <a href="/admin/books/create"
                        @class(['nav-link', 'active' => request()->routeIs('admin.books.create')])>
