@@ -4,37 +4,26 @@
 
 @section('content')
 
-    <!-- パンくずリスト -->
-    <nav aria-label="breadcrumb" class="mb-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{{ route('home') }}" class="text-decoration-none">トップページ</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="{{ route('books.detail', $book->id) }}" class="text-decoration-none">書籍詳細</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">
-                貸出申請完了
-            </li>
-        </ol>
-    </nav>
+    <x-home-return-link />
 
     <!-- ページタイトル -->
     <div class="mb-4">
         <h1 class="fw-bold mb-2">貸出申請完了</h1>
         <p class="text-secondary mb-0">
-            貸出申請を受け付けました。
+            以下の書籍の貸出申請を受け付けました。
         </p>
     </div>
 
-    <!-- 申請完了メッセージ・対象書籍 -->
-    <div class="card border-0 shadow-sm mb-4">
+    <div class="alert alert-success mb-4" role="alert">
+        <strong>{{ $book['title'] }}</strong> の貸出申請が完了しました。
+    </div>
+
+    <!-- 申請した書籍 -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white py-3">
+            <h2 class="h5 fw-bold mb-0">申請した書籍</h2>
+        </div>
         <div class="card-body p-4">
-
-            <div class="alert alert-success mb-4" role="alert">
-                <strong>{{ $book['title'] }}</strong> の貸出申請が完了しました。
-            </div>
-
             <div class="row g-4 align-items-center">
 
                 <!-- 書籍画像 -->
@@ -42,9 +31,9 @@
                     <div class="bg-body-secondary rounded d-flex align-items-center justify-content-center"
                          style="min-height: 220px;">
 
-                        @if (!empty($book['thumbnail']))
+                        @if (!empty($book->cover_image_path))
                             <img
-                                src="{{ $book['thumbnail'] }}"
+                                src="{{ asset('storage/' . $book->cover_image_path) }}"
                                 alt="{{ $book['title'] }}"
                                 class="img-fluid rounded object-fit-contain p-3"
                                 style="max-height: 220px;"
@@ -104,17 +93,14 @@
                     </table>
 
                 </div>
-
             </div>
-
         </div>
-    </div>
 
-    <!-- アクションボタン -->
-    <div class="d-flex flex-wrap gap-3">
-        <a href="{{ route('books.detail', ['book' => $book->id]) }}" class="btn btn-primary">
-            書籍詳細へ戻る
-        </a>
+        <div class="card-footer bg-white border-top d-flex justify-content-end p-3">
+            <a href="{{ route('books.detail', ['book' => $book->id]) }}" class="btn btn-primary">
+                書籍詳細へ戻る
+            </a>
+        </div>
     </div>
 
 @endsection

@@ -31,7 +31,7 @@
                     <div class="col-12">
                         <label for="name" class="form-label fw-semibold">
                             社員名
-                            <span class="badge bg-danger ms-1">必須</span>
+                            <span class="required-mark" aria-hidden="true">*</span><span class="visually-hidden">必須</span>
                         </label>
 
                         <input
@@ -56,7 +56,7 @@
                     <div class="col-12">
                         <label for="email" class="form-label fw-semibold">
                             メールアドレス
-                            <span class="badge bg-danger ms-1">必須</span>
+                            <span class="required-mark" aria-hidden="true">*</span><span class="visually-hidden">必須</span>
                         </label>
 
                         <input
@@ -80,7 +80,7 @@
                     <div class="col-12 col-md-6">
                         <label for="password" class="form-label fw-semibold">
                             パスワード
-                            <span class="badge bg-danger ms-1">必須</span>
+                            <span class="required-mark" aria-hidden="true">*</span><span class="visually-hidden">必須</span>
                         </label>
 
                         <input
@@ -103,7 +103,7 @@
                     <div class="col-12 col-md-6">
                         <label for="password_confirmation" class="form-label fw-semibold">
                             パスワード（確認）
-                            <span class="badge bg-danger ms-1">必須</span>
+                            <span class="required-mark" aria-hidden="true">*</span><span class="visually-hidden">必須</span>
                         </label>
 
                         <input
@@ -120,7 +120,7 @@
                     <div class="col-12">
                         <label for="role" class="form-label fw-semibold">
                             権限
-                            <span class="badge bg-danger ms-1">必須</span>
+                            <span class="required-mark" aria-hidden="true">*</span><span class="visually-hidden">必須</span>
                         </label>
 
                         <select

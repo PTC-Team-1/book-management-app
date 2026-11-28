@@ -4,18 +4,6 @@
 
 @section('content')
 
-    <!-- パンくずリスト -->
-    <nav aria-label="breadcrumb" class="mb-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{{ route('home') }}" class="text-decoration-none">トップページ</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">
-                貸出申請一覧
-            </li>
-        </ol>
-    </nav>
-
     <!-- ページタイトル -->
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
         <div>
@@ -49,14 +37,14 @@
 
             @if ($rentalRequests->isNotEmpty())
                 <div class="table-responsive">
-                    <table class="table table-bordered align-middle mb-0">
+                    <table class="table table-bordered align-middle mb-0 rental-request-table">
                         <thead class="table-light">
                             <tr>
                                 <th style="width: 28%;">書籍名</th>
                                 <th style="width: 18%;">申請者</th>
                                 <th style="width: 14%;">貸出状況</th>
                                 <th style="width: 18%;">申請日時</th>
-                                <th style="width: 22%;">操作</th>
+                                <th class="col-actions">操作</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -89,15 +77,22 @@
                                         {{ $rentalRequest->created_at->format('Y/m/d H:i') }}
                                     </td>
 
-                                    <td>
-                                        <div class="d-flex align-items-center flex-wrap gap-2">
+                                    <td class="col-actions">
+                                        <div class="d-flex align-items-center justify-content-center gap-2">
                                             <form action="{{ route('admin.books.rentals.approve') }}" method="post" class="d-inline">
                                                 @csrf
                                                 <input type="hidden" name="rental_request_id" value="{{ $rentalRequest->id }}">
-                                                <button type="submit" class="btn btn-primary btn-sm">
-                                                    許可する
+                                                <button type="submit" class="btn btn-success btn-sm">
+                                                    許可
                                                 </button>
                                             </form>
+                                            <button type="button"
+                                                    class="btn btn-danger btn-sm"
+                                                    aria-label="却下（未実装）"
+                                                    title="却下機能は未実装です"
+                                                    disabled>
+                                                却下
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -117,13 +112,6 @@
             @endif
 
         </div>
-    </div>
-
-    <!-- トップページへ戻る -->
-    <div class="mt-5">
-        <a href="{{ route('home') }}" class="btn btn-outline-secondary">
-            トップページへ戻る
-        </a>
     </div>
 
 @endsection

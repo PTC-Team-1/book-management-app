@@ -1,5 +1,5 @@
 
-@extends('layouts.admin')
+@extends('layouts.general')
 
 @section('title', 'コメント編集結果')
 
@@ -67,11 +67,11 @@
                     </div>
                 </div>
 
-                <!-- 投稿ユーザーID -->
+                <!-- 社員ID -->
                 <div class="col-12 col-md-6">
                     <div class="border rounded p-3 h-100">
                         <div class="text-secondary small mb-2">
-                            投稿ユーザーID
+                            社員ID
                         </div>
 
                         <div class="fw-semibold">

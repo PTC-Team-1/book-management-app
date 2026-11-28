@@ -276,10 +276,7 @@
                     @forelse ($books as $candidate)
                         <div class="list-group-item">
                             <div class="d-flex justify-content-between align-items-center gap-3">
-                                <a
-                                    href="{{ route('admin.books.edit', ['id' => $candidate->id]) }}"
-                                    class="text-decoration-none text-reset flex-grow-1"
-                                >
+                                <div class="flex-grow-1">
                                     <span class="d-block fw-semibold">{{ $candidate->title }}</span>
                                     <small class="text-secondary">
                                         {{ $candidate->author ?: '著者未登録' }}
@@ -287,7 +284,7 @@
                                             ・ISBN {{ $candidate->isbn }}
                                         @endif
                                     </small>
-                                </a>
+                                </div>
                                 <div class="d-flex flex-shrink-0 gap-2">
                                     <a
                                         href="{{ route('admin.books.edit', ['id' => $candidate->id]) }}"
@@ -338,8 +335,7 @@
                     books.forEach((book) => {
                         const item = document.createElement('div');
                         const row = document.createElement('div');
-                        const detailsLink = document.createElement('a');
-                        const details = document.createElement('span');
+                        const details = document.createElement('div');
                         const title = document.createElement('span');
                         const metadata = document.createElement('small');
                         const actions = document.createElement('div');
@@ -351,8 +347,7 @@
 
                         item.className = 'list-group-item';
                         row.className = 'd-flex justify-content-between align-items-center gap-3';
-                        detailsLink.href = book.url;
-                        detailsLink.className = 'text-decoration-none text-reset flex-grow-1';
+                        details.className = 'flex-grow-1';
                         title.className = 'd-block fw-semibold';
                         title.textContent = book.title;
                         metadata.className = 'text-secondary';
@@ -378,10 +373,9 @@
                         deleteButton.textContent = '削除';
 
                         details.append(title, metadata);
-                        detailsLink.appendChild(details);
                         deleteForm.append(csrfInput, bookIdInput, deleteButton);
                         actions.append(editLink, deleteForm);
-                        row.append(detailsLink, actions);
+                        row.append(details, actions);
                         item.appendChild(row);
                         results.appendChild(item);
                     });

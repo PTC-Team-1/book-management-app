@@ -1,5 +1,5 @@
 
-@extends('layouts.admin')
+@extends('layouts.general')
 
 @section('title', 'コメント削除')
 
@@ -44,10 +44,10 @@
                     >
                 </div>
 
-                <!-- ユーザーID -->
+                <!-- 社員ID -->
                 <div class="col-12 col-md-6">
                     <label class="form-label fw-semibold">
-                        ユーザーID
+                        社員ID
                     </label>
                     <input
                         type="text"

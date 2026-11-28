@@ -1,11 +1,3 @@
-{{-- 2026年11月25日追加: ISBNを連続読み取りして書籍を一括登録するフォーム。 --}}
-<div class="mb-3">
-    <h2 class="h4 fw-bold mb-2">ISBN連続登録</h2>
-    <p class="text-secondary mb-0">
-        ISBNを最大10冊まで続けて読み取り、内容を確認してから一括登録できます。
-    </p>
-</div>
-
 <div class="card border-0 shadow-sm mb-4">
     <div class="card-body p-4">
         <label for="batch-isbn" class="form-label fw-semibold">ISBNバーコード</label>
@@ -14,7 +6,7 @@
                 type="text"
                 class="form-control"
                 id="batch-isbn"
-                placeholder="スキャナーで読み取ってください"
+                placeholder="バーコードリーダーで読み取ってください"
                 autocomplete="off"
             >
             <button type="button" class="btn btn-primary" id="add-isbn">
@@ -53,7 +45,7 @@
         </div>
 
         <div class="table-responsive">
-            <table class="table table-bordered align-middle mb-0">
+            <table class="table table-bordered align-middle mb-0 book-batch-table">
                 <thead class="table-light">
                     <tr>
                         <th scope="col">ISBN</th>
