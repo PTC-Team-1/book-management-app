@@ -3,6 +3,8 @@
 @section('title', '書籍リクエスト')
 
 @section('content')
+    <x-home-return-link />
+
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-2 mb-4">
         <div>
             <h1 class="h3 fw-bold mb-2">書籍リクエスト</h1>
@@ -33,7 +35,7 @@
                 <div class="row g-4">
                     <div class="col-12 col-md-6">
                         <label for="title" class="form-label fw-semibold">
-                            書名 <span class="badge bg-danger ms-1">必須</span>
+                            書名 <span class="required-mark" aria-hidden="true">*</span><span class="visually-hidden">必須</span>
                         </label>
                         <input id="title" name="title" type="text" class="form-control"
                             value="{{ old('title') }}" maxlength="255" placeholder="書名を入力してください" required>
@@ -50,7 +52,7 @@
                     </div>
                     <div class="col-12">
                         <label for="reason" class="form-label fw-semibold">
-                            リクエスト理由 <span class="badge bg-danger ms-1">必須</span>
+                            リクエスト理由 <span class="required-mark" aria-hidden="true">*</span><span class="visually-hidden">必須</span>
                         </label>
                         <textarea id="reason" name="reason" class="form-control" rows="4"
                             maxlength="2000" required>{{ old('reason') }}</textarea>

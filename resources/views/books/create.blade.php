@@ -12,7 +12,7 @@
     <div class="mb-4">
         <h1 class="fw-bold mb-2">書籍登録</h1>
         <p class="text-secondary mb-0">
-            1冊ずつの登録、またはISBNの連続読み取りによる一括登録ができます。
+            個別登録、またはISBNを最大10冊まで連続で読み取り、内容を確認してから一括登録できます。登録方法は下のタブで切り替えられます。
         </p>
     </div>
     @if (session('status'))
@@ -31,7 +31,7 @@
             </ul>
         </div>
     @endif
-    <ul class="nav nav-tabs mb-4" role="tablist">
+    <ul class="book-registration-tabs nav nav-tabs mb-4" role="tablist">
         <li class="nav-item" role="presentation">
             <button
                 class="nav-link {{ $showSingleTab ? '' : 'active' }}"
@@ -42,6 +42,7 @@
                 role="tab"
                 aria-controls="batch-mode-pane"
                 aria-selected="{{ $showSingleTab ? 'false' : 'true' }}"
+                title="登録方法を切り替え"
             >
                 ISBN連続登録
             </button>
@@ -56,6 +57,7 @@
                 role="tab"
                 aria-controls="single-mode-pane"
                 aria-selected="{{ $showSingleTab ? 'true' : 'false' }}"
+                title="登録方法を切り替え"
             >
                 個別登録
             </button>
@@ -216,6 +218,9 @@
                 </div>
 
                 <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                    <a href="{{ route('admin.books.create') }}" class="btn btn-outline-secondary">
+                        キャンセル
+                    </a>
                     <button type="submit" class="btn btn-primary">
                         書籍を登録する
                     </button>

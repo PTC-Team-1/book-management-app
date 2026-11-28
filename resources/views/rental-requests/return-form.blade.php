@@ -26,7 +26,7 @@
                             type="text"
                             class="form-control"
                             id="return-batch-isbn"
-                            placeholder="スキャナーで読み取ってください"
+                            placeholder="バーコードリーダーで読み取ってください"
                             autocomplete="off"
                         >
                         <button type="button" class="btn btn-primary" id="add-return-isbn">

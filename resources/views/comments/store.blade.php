@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.general')
 
 @section('title', 'コメント登録完了')
 

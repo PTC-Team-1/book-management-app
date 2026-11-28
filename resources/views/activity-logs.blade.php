@@ -56,7 +56,7 @@
                                     <td>
                                         {{ $activityLog->actor_name }}
                                         <span class="text-secondary small d-block">
-                                            ユーザーID: {{ $activityLog->actor_user_id ?? '不明' }}
+                                            社員ID: {{ $activityLog->actor_user_id ?? '不明' }}
                                         </span>
                                     </td>
                                     <td>

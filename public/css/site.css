@@ -20,6 +20,30 @@ body {
     color: #dc3545;
 }
 
+.book-registration-tabs .nav-link {
+    transition:
+        color 0.15s ease,
+        background-color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.book-registration-tabs .nav-link:not(.active):hover {
+    border-color: #bfdbfe;
+    background-color: #eff6ff;
+    color: var(--brand-navy);
+}
+
+.book-registration-tabs .nav-link:focus-visible {
+    outline: 2px solid var(--brand-sky);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .book-registration-tabs .nav-link {
+        transition: none;
+    }
+}
+
 /* 共通のヘッダー */
 .app-header {
     background: linear-gradient(
@@ -178,27 +202,23 @@ body {
 }
 
 .header-page-action--general {
-    background-color: #bae6fd;
-    color: #075985;
+    background-color: #fff;
+    color: #172554;
 }
 
 .header-page-action--general:hover,
 .header-page-action--general:focus-visible {
-    background-color: #7dd3fc;
-    color: #075985;
+    background-color: #e2e8f0;
+    color: #172554;
 }
 
-/* 管理者メニュー */
 .admin-navigation {
+    display: flex;
     width: 100%;
     min-width: 0;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scrollbar-width: none;
-}
-
-.admin-navigation::-webkit-scrollbar {
-    display: none;
+    justify-content: center;
+    flex-wrap: wrap;
+    overflow: visible;
 }
 
 .admin-navigation .nav-link {
@@ -220,17 +240,14 @@ body {
     font-weight: 600;
 }
 
+.header-admin-badge {
+    background-color: #fbbf24;
+    color: var(--brand-navy);
+}
+
 .admin-navigation .nav-link.active:hover {
     color: var(--brand-navy);
     background: #fcd34d;
-}
-
-@media (min-width: 768px) {
-    /* 2026年11月25日変更: PCで管理メニュー末尾のお知らせが見切れないように折り返すため。 */
-    .admin-navigation {
-        flex-wrap: wrap;
-        overflow-x: visible;
-    }
 }
 
 /* 一般ページの検索欄とユーザー表示 */
@@ -352,12 +369,6 @@ body {
     line-height: 1;
 }
 
-.news-description {
-    margin: 0.8rem 0 0;
-    color: rgba(224, 242, 254, 0.78);
-    font-size: 0.86rem;
-}
-
 /* 2026年11月25日変更: 行同士の余白を抑え、文章の内側に余白を持たせるため。 */
 .news-item {
     display: grid;
@@ -406,7 +417,6 @@ body {
     font-size: 0.92rem;
 }
 
-/* 2026年11月27日追記: 長いトップページをキーボードでも上部へ戻れるようにする。 */
 .home-scroll-top {
     position: fixed;
     right: 1.5rem;
@@ -472,12 +482,37 @@ body {
     object-fit: contain;
 }
 
+.home-book-thumbnail-placeholder {
+    border: 1px dashed #cbd5e1;
+    background: linear-gradient(145deg, #f8fafc 0%, #eef2f6 100%);
+    color: #64748b;
+}
+
+.home-book-thumbnail-placeholder-icon {
+    width: 32px;
+    height: 32px;
+    color: #475569;
+}
+
 .book-detail-image-frame {
     min-height: 300px;
 }
 
 .book-detail-image {
     max-height: 300px;
+}
+
+.book-detail-image-placeholder {
+    width: 100%;
+    min-height: 300px;
+    border: 1px dashed #cbd5e1;
+    background-color: #f1f5f9;
+    color: #64748b;
+}
+
+.book-detail-image-placeholder-icon {
+    width: 48px;
+    height: 48px;
 }
 
 .book-edit-thumbnail {
@@ -573,9 +608,14 @@ body {
 
 /* 共通の配色と画面パーツ */
 :root {
-    --page-background: #f4f7fb;
+    --page-background: #f3f6fb;
     --card-border: #e3eaf3;
     --card-shadow: 0 12px 32px rgba(15, 23, 42, 0.07);
+}
+
+.home-page-content {
+    max-width: 1240px;
+    margin: 0 auto;
 }
 
 body.bg-light {
@@ -607,6 +647,70 @@ main .card.shadow-sm {
 
 main .card-header {
     border-bottom-color: var(--card-border);
+}
+
+.rental-request-table th.col-actions,
+.rental-request-table td.col-actions {
+    width: 1%;
+    white-space: nowrap;
+}
+
+.rental-request-table th,
+.rental-request-table td {
+    text-align: center;
+}
+
+.rental-request-table th:first-child,
+.rental-request-table td:first-child {
+    text-align: left;
+}
+
+.book-request-admin-table {
+    min-width: 760px;
+    table-layout: fixed;
+}
+
+.book-request-admin-table th:last-child,
+.book-request-admin-table td:last-child {
+    width: 320px;
+}
+
+.book-request-heading-row,
+.book-request-footer,
+.book-request-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.85rem;
+}
+
+.book-request-heading-row {
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.book-request-requester {
+    font-weight: 500;
+}
+
+.book-request-meta,
+.book-request-footer {
+    color: #64748b;
+}
+
+.book-request-reason {
+    margin-top: 0.4rem;
+    color: #475569;
+    overflow-wrap: anywhere;
+}
+
+.book-request-admin-actions {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.book-request-save-button {
+    justify-self: end;
 }
 
 main .form-label {
@@ -723,6 +827,33 @@ main .table th {
 
 main .table-light {
     --bs-table-bg: #f3f6fa;
+}
+
+.book-batch-table {
+    min-width: 1510px;
+    table-layout: fixed;
+}
+
+.book-batch-table th:nth-child(1) { width: 160px; }
+.book-batch-table th:nth-child(2) { width: 220px; }
+.book-batch-table th:nth-child(3) { width: 190px; }
+.book-batch-table th:nth-child(4) { width: 190px; }
+.book-batch-table th:nth-child(5) { width: 150px; }
+.book-batch-table th:nth-child(6) { width: 250px; }
+.book-batch-table th:nth-child(7) { width: 100px; }
+.book-batch-table th:nth-child(8) { width: 150px; }
+.book-batch-table th:nth-child(9) { width: 100px; }
+
+.book-batch-table th:nth-child(n + 7),
+.book-batch-table td:nth-child(n + 7),
+.book-batch-table details summary,
+.book-batch-table .btn {
+    white-space: nowrap;
+}
+
+.book-batch-table td .form-control,
+.book-batch-table td .form-select {
+    min-width: 0;
 }
 
 main .breadcrumb {
@@ -1018,5 +1149,201 @@ main .alert {
     .book-request-like-icon.is-animating,
     .book-request-like-count.is-animating {
         animation: none;
+    }
+}
+
+/* Editorial catalog styling */
+.catalog-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.4rem clamp(1.25rem, 3vw, 2rem);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    background: linear-gradient(110deg, #fff 0%, #f8fbff 62%, #eef6ff 100%);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+}
+
+.catalog-heading h1 {
+    color: var(--brand-navy);
+}
+
+.catalog-count {
+    display: flex;
+    min-width: 136px;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 0.65rem 0.9rem;
+    border: 1px solid rgba(37, 99, 235, 0.12);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.82);
+}
+
+.catalog-count-label {
+    color: #64748b;
+    font-size: 0.72rem;
+}
+
+.catalog-count-value {
+    display: flex;
+    align-items: baseline;
+    gap: 0.3rem;
+    color: var(--brand-navy);
+}
+
+.catalog-count-value strong {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.5rem;
+    line-height: 1.2;
+}
+
+main .book-catalog-card {
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+}
+
+.book-catalog-cover-stage {
+    position: relative;
+    padding: 0.85rem;
+    border-bottom: 1px solid var(--card-border);
+    background:
+        radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.72) 48%, transparent 76%),
+        linear-gradient(145deg, #eff6ff 0%, #eaf2fb 100%);
+}
+
+.book-catalog-category {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1;
+    max-width: calc(100% - 2rem);
+    overflow: hidden;
+    padding: 0.35rem 0.7rem;
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+    color: var(--brand-navy);
+    font-size: 0.72rem;
+    font-weight: 600;
+    pointer-events: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.book-card-cover-link {
+    height: 220px;
+    min-height: 220px;
+}
+
+.book-catalog-cover-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 10px rgba(15, 23, 42, 0.16));
+    transition: transform 0.2s ease;
+}
+
+.book-card-cover-link:hover .book-catalog-cover-image,
+.book-card-cover-link:focus-visible .book-catalog-cover-image {
+    transform: scale(1.025);
+}
+
+.home-book-thumbnail-placeholder {
+    border-radius: 12px !important;
+    background: linear-gradient(145deg, #f8fafc 0%, #eef2f6 100%);
+}
+
+.book-catalog-card-body {
+    padding: 1.2rem;
+}
+
+.book-catalog-card-title {
+    font-size: 1.125rem;
+    line-height: 1.45;
+}
+
+.book-catalog-byline {
+    color: #64748b;
+    font-size: 0.82rem;
+    overflow-wrap: anywhere;
+}
+
+.book-catalog-description {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    color: #64748b;
+    line-height: 1.55;
+}
+
+.book-catalog-card-footer {
+    padding: 0 1.2rem 1.2rem;
+}
+
+main .book-detail-card {
+    border-radius: 20px;
+}
+
+.book-detail-image-frame {
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+    background: linear-gradient(145deg, #f8fbff 0%, #eef4fb 100%);
+}
+
+.book-detail-title {
+    max-width: 34ch;
+    color: var(--brand-navy);
+    font-size: clamp(1.45rem, 2.4vw, 2rem);
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+.book-detail-table {
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+}
+
+.book-detail-description {
+    padding: 1.2rem;
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 100%);
+    color: #334155;
+}
+
+@media (max-width: 575.98px) {
+    .catalog-heading {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .catalog-count {
+        min-width: 0;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .book-card-cover-link {
+        height: 210px;
+        min-height: 210px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .book-catalog-cover-image {
+        transition: none;
+    }
+
+    .book-card-cover-link:hover .book-catalog-cover-image,
+    .book-card-cover-link:focus-visible .book-catalog-cover-image {
+        transform: none;
     }
 }

@@ -27,11 +27,11 @@
             <div class="header-main-row d-flex justify-content-between align-items-center py-3">
 
                 <a href="/"
-                   class="navbar-brand d-flex align-items-center gap-3 fw-bold fs-5 mb-0">
+                   class="navbar-brand d-flex align-items-center gap-1 fw-bold fs-5 mb-0">
                     <img src="/images/syrms-emblem-hex.png"
                          alt=""
                          class="brand-mark">
-                    <span class="brand-title ps-3">
+                    <span class="brand-title">
                         <img src="/images/syrms-wordmark.png"
                              alt="SYRMS CORPORATION"
                              class="brand-wordmark">
@@ -39,11 +39,11 @@
                     </span>
                 </a>
 
-                <div class="d-flex align-items-center gap-2">
+                <div class="header-account-controls">
 
                     <!-- お知らせ -->
                     <a href="/books/notices"
-                       class="text-white text-decoration-none position-relative px-1"
+                       class="text-white text-decoration-none position-relative px-1 header-notice-link"
                        title="お知らせ">
                         <!-- ベルのSVG -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
@@ -58,22 +58,22 @@
 
                     <!-- ログインユーザー名 -->
                     <div class="d-none d-md-flex align-items-center">
-                        <span class="small text-white">{{ Auth::user()->name }} さん</span>
+                        <span class="small text-white header-user-label">{{ Auth::user()->name }} さん</span>
                     </div>
 
                     @if (Auth::user()->role === 'admin')
                         <!-- 管理者ページ -->
                         <a href="/admin/books/create"
-                           class="btn btn-light btn-sm fw-semibold text-primary border-0 header-action header-page-action">
+                           class="btn btn-sm fw-semibold border-0 header-action header-page-action header-page-action--admin">
                             管理者ページへ
                         </a>
                     @endif
 
                     <!-- ログアウト -->
-                    <form action="/logout" method="POST">
+                    <form action="/logout" method="POST" class="header-logout-form">
                         @csrf
                         <button type="submit"
-                                class="btn btn-outline-light btn-sm header-action">
+                                class="btn btn-outline-light btn-sm header-action header-logout-action">
                             ログアウト
                         </button>
                     </form>
@@ -86,7 +86,7 @@
         <!-- ナビゲーション -->
         <div class="header-nav">
             <div class="container py-2">
-                <div class="d-flex w-100 flex-column flex-md-row justify-content-md-end align-items-md-center gap-2">
+                <div class="general-navigation-controls">
 
                     <nav class="nav nav-underline">
                          <a href="{{ route('book-requests.index') }}"
@@ -98,13 +98,13 @@
                     <!-- 書籍編集用検索バー -->
                     <form action="/books/search"
                           method="GET"
-                          class="d-flex gap-2 flex-grow-1 flex-md-grow-0">
+                          class="header-search-form">
 
                         <input
                             type="text"
                             name="title"
                             class="form-control form-control-sm header-search"
-                            placeholder="編集する書籍を検索"
+                            placeholder="書籍を検索"
                             value="{{ request('title') }}"
                             aria-label="書籍名"
                         >
@@ -131,7 +131,7 @@
     <footer class="app-footer mt-auto">
         <div class="container py-3 d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
             <div class="d-flex flex-wrap justify-content-center align-items-center gap-2">
-                <img src="/images/syrms-wordmark-dark.png"
+                <img src="/images/syrms-wordmark.png"
                      alt="SYRMS CORPORATION"
                      class="footer-wordmark-image">
                 <span class="footer-product">書籍管理システム</span>
@@ -142,9 +142,49 @@
         </div>
     </footer>
 
+    <button type="button"
+            class="home-scroll-top"
+            aria-label="ページ上部へ戻る"
+            title="ページ上部へ戻る">
+        <svg xmlns="http://www.w3.org/2000/svg"
+             width="20"
+             height="20"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             aria-hidden="true"
+             focusable="false">
+            <path d="M12 19V5M5 12l7-7 7 7"/>
+        </svg>
+    </button>
+
     <!-- Bootstrap 5 JS -->
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js">
+    </script>
+    <script>
+        (() => {
+            const button = document.querySelector('.home-scroll-top');
+            if (!button) return;
+
+            const updateVisibility = () => {
+                button.classList.toggle('is-visible', window.scrollY > 320);
+            };
+
+            window.addEventListener('scroll', updateVisibility, { passive: true });
+            updateVisibility();
+
+            button.addEventListener('click', () => {
+                const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                window.scrollTo({
+                    top: 0,
+                    behavior: reduceMotion ? 'auto' : 'smooth'
+                });
+            });
+        })();
     </script>
 
 </body>

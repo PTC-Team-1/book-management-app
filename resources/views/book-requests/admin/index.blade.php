@@ -32,11 +32,10 @@
                 <p class="text-secondary text-center p-4 mb-0">リクエストはまだありません。</p>
             @else
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover align-middle mb-0">
+                    <table class="table table-bordered table-hover align-middle mb-0 book-request-admin-table">
                         <thead class="table-light">
                             <tr>
                                 <th scope="col">申請内容</th>
-                                <th scope="col">申請者</th>
                                 <th scope="col">対応状況・コメント</th>
                             </tr>
                         </thead>
@@ -44,24 +43,37 @@
                             @foreach ($bookRequests as $bookRequest)
                                 <tr>
                                     <td>
-                                        <h3 class="h6 fw-bold">{{ $bookRequest->title }}</h3>
-                                        <dl class="small mb-1">
-                                            <dt class="d-inline">著者:</dt>
-                                            <dd class="d-inline">{{ $bookRequest->author ?: '未入力' }}</dd><br>
-                                            <dt class="d-inline">ISBN:</dt>
-                                            <dd class="d-inline">{{ $bookRequest->isbn ?: '未入力' }}</dd><br>
-                                            <dt class="d-inline">理由:</dt>
-                                            <dd class="d-inline">{{ $bookRequest->reason }}</dd>
-                                        </dl>
-                                        <small class="text-secondary">
-                                            {{ $bookRequest->created_at->copy()->setTimezone('Asia/Tokyo')->format('Y年m月d日 H:i') }}
-                                        </small>
-                                        <div class="small text-primary mt-1">いいね: {{ $bookRequest->likes_count }}人</div>
+                                        <div class="book-request-heading-row">
+                                            <h3 class="h6 fw-bold mb-0">{{ $bookRequest->title }}</h3>
+                                            <span class="badge rounded-pill bg-light text-secondary border book-request-requester">
+                                                申請者: {{ $bookRequest->user->name }}
+                                            </span>
+                                        </div>
+                                        @if ($bookRequest->author || $bookRequest->isbn)
+                                            <div class="book-request-meta small">
+                                                @if ($bookRequest->author)
+                                                    <span><strong>著者:</strong> {{ $bookRequest->author }}</span>
+                                                @endif
+                                                @if ($bookRequest->isbn)
+                                                    <span><strong>ISBN:</strong> {{ $bookRequest->isbn }}</span>
+                                                @endif
+                                            </div>
+                                        @endif
+                                        @if ($bookRequest->reason)
+                                            <p class="book-request-reason small mb-2">
+                                                <strong>理由:</strong> {{ $bookRequest->reason }}
+                                            </p>
+                                        @endif
+                                        <div class="book-request-footer small">
+                                            <time datetime="{{ $bookRequest->created_at->toIso8601String() }}">
+                                                {{ $bookRequest->created_at->copy()->setTimezone('Asia/Tokyo')->format('Y年m月d日 H:i') }}
+                                            </time>
+                                            <span class="text-primary">いいね: {{ $bookRequest->likes_count }}人</span>
+                                        </div>
                                     </td>
-                                    <td>{{ $bookRequest->user->name }}</td>
                                     <td>
                                         <form action="{{ route('admin.book-requests.update', $bookRequest) }}"
-                                            method="POST" class="d-grid gap-2">
+                                            method="POST" class="book-request-admin-actions">
                                             @csrf
                                             @method('PATCH')
                                             <label class="visually-hidden" for="status-{{ $bookRequest->id }}">
@@ -80,7 +92,7 @@
                                             <textarea id="admin-note-{{ $bookRequest->id }}" name="admin_note"
                                                 class="form-control form-control-sm" rows="2" maxlength="2000"
                                                 placeholder="申請者へのコメント">{{ $bookRequest->admin_note }}</textarea>
-                                            <button type="submit" class="btn btn-primary btn-sm">状況を保存</button>
+                                            <button type="submit" class="btn btn-primary btn-sm book-request-save-button">状況を保存</button>
                                         </form>
                                     </td>
                                 </tr>
